@@ -85,6 +85,22 @@ def getSrp(URI, symmId, srpId, userId, password):
     responseObj = jsonGet(target_url, user, password)
     return responseObj['srp'][0]
 
+################
+## get a list of Thin Pools on a given Symmetrix
+################
+def getThinPoolList(URI, symmId, userId, password):
+    target_url = "%s/univmax/restapi/provisioning/symmetrix/%s/thinpool" % (URI, symmId)
+    responseObj = jsonGet(target_url, user, password)
+    return responseObj['thinpool']
+
+################
+## get the details of a particular Thin Pool
+################
+def getThinPool(URI, symmId, tpId, userId, password):
+    target_url = "%s/univmax/restapi/provisioning/symmetrix/%s/thinpool/%s" % (URI, symmId, tpId)
+    responseObj = jsonGet(target_url, user, password)
+    return responseObj['thinpool'][0]
+
 
 #################################
 
@@ -97,7 +113,7 @@ def getSrp(URI, symmId, srpId, userId, password):
 #          }
 
 # TODO: Really need to bring these fields in from the command line rather than hard coding them
-URI = "https://192.168.250.250:8443"
+URI = "https://localhost:8443"
 user = "smc"
 password = "smc"
 
@@ -112,14 +128,30 @@ symmList = list()
 for symmId in symmIdList:
     symmetrix = getSymm(URI, symmId, user, password)
 
-    # for this symmetrix, go ahead and build a list of SRP's
-    srpList = list()
-    for srpId in getSrpList(URI, symmId, user, password):
-        srp = getSrp(URI, symmId, srpId, user, password)
-        srpList.append(srp)
+    # examine first two chars of ucode
+    if symmetrix['ucode'].split()[0][:2] == '59':
+	# VMAX3 with SRP and SLO based Provisioning
 
-    # add a dict entry for the SRP list data structure we just created
-    symmetrix['srps'] = srpList
+	# for this symmetrix, go ahead and build a list of SRP's
+	srpList = list()
+	for srpId in getSrpList(URI, symmId, user, password):
+	    srp = getSrp(URI, symmId, srpId, user, password)
+	    srpList.append(srp)
+
+	# add a dict entry for the SRP list data structure we just created
+	symmetrix['srp'] = srpList
+
+    else:
+	# this is an older Symmetrix with virtual provisioning
+
+	# for this symmetrix, go ahead and build a list of Thin Pools
+	tpList = list()
+	for tpId in getThinPoolList(URI, symmId, user, password):
+	    tp = getThinPool(URI, symmId, tpId, user, password)
+	    tpList.append(tp)
+
+	# add a dict entry for the SRP list data structure we just created
+	symmetrix['thinpool'] = tpList
 
     # finally add this symmetrix dict data structure to the list of arrays
     symmList.append(symmetrix)
