@@ -19,7 +19,7 @@ def jsonGet(targetUrl, userId, password):
     except:
         print "Exception"
         print r.text
-    print json.dumps(responseObj, sort_keys=False, indent=2)
+    #print json.dumps(responseObj, sort_keys=False, indent=2)
     return responseObj
 
 ################
@@ -46,10 +46,46 @@ def jsonPush(targetUrl, requestObj, userId, password):
     return responseObj
 
 
+#####
+## get symmetrix list
+#####
+def getSymms(URI, userId, password):
+    target_url = "%s/univmax/restapi/system/symmetrix" % (URI)
+    responseObj = jsonGet(target_url, user, password)
+    return responseObj["symmetrixId"]
+   
+#####
+## get symmetrix details
+## returns Symmetrix dict
+## {'symmetrixId': '',
+##	'local': '',
+##	'model': '',
+##	'device_count': '',
+##	'ucode': ''}
+##	
+#####
+def getSymm(URI, symmId, userId, password):
+    target_url = "%s/univmax/restapi/system/symmetrix/%s" % (URI, symmId)
+    responseObj = jsonGet(target_url, user, password)
+    return responseObj['symmetrix'][0]
+
+def getSrpList(URI, symmId, userId, password):
+    target_url = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/srp" % (URI, symmId)
+    responseObj = jsonGet(target_url, user, password)
+    return responseObj['srpId']
+
+def getSrp(URI, symmId, srpId, userId, password):
+    target_url = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/srp/%s" % (URI, symmId, srpId)
+    responseObj = jsonGet(target_url, user, password)
+    return responseObj['srp'][0]
+
+
+#################################
+URI = "https://192.168.250.250:8443"
 #target_url = "https://10.5.132.58:8443/univmax/restapi/performance/Array/metrics"
 #target_url = "https://192.168.250.250:8443/univmax/restapi/system/version"
-#target_url = "https://192.168.250.250:8443/univmax/restapi/system/symmetrix"
-target_url = "https://192.168.250.250:8443/univmax/restapi/sloprovisioning/symmetrix/000197400230/storagegroup/LP01"
+target_url = "https://192.168.250.250:8443/univmax/restapi/system/symmetrix"
+#target_url = "https://192.168.250.250:8443/univmax/restapi/sloprovisioning/symmetrix/000197400230/storagegroup/LP01"
 
 requestObj = {'arrayParam':
             {'endDate': int(time.time()*1000), #End time to specify is now.
@@ -61,7 +97,22 @@ requestObj = {'arrayParam':
 
 user = "smc"
 password = "smc"
-jsonGet(target_url, user, password)
+symmIdList = getSymms(URI, user, password)
+
+symmList = list()
+for symmId in symmIdList:
+    symmetrix = getSymm(URI, symmId, user, password)
+
+    srpList = list()
+    for srpId in getSrpList(URI, symmId, user, password):
+        srp = getSrp(URI, symmId, srpId, user, password)
+        srpList.append(srp)
+
+    symmetrix['srps'] = srpList
+    symmList.append(symmetrix)
+
+print json.dumps(symmList, sort_keys=False, indent=2)
+    
 
 
 #make sure we actually get a value back.
