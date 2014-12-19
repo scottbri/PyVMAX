@@ -25,7 +25,7 @@ def jsonGet(targetUrl, userId, password):
 ################
 ## make the json POST call to the public api
 ################
-def jsonGet(targetUrl, requestObj, userId, password):
+def jsonPush(targetUrl, requestObj, userId, password):
     # set the headers for how we want the response
     headers = {'content-type': 'application/json','accept':'application/json'}
 
