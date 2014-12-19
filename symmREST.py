@@ -49,9 +49,9 @@ def jsonPost(targetUrl, requestObj, userId, password):
 ## get the version of Unisphere (the API)
 ################
 def getVersion(URI, userId, password):
-    target_url = "%s/univmax/restapi/version" % (URI)
+    target_url = "%s/univmax/restapi/system/version" % (URI)
     responseObj = jsonGet(target_url, user, password)
-    return responseObj
+    return responseObj['version']
 
 ################
 ## get a list of symmetrix serial #'s known by Unisphere
@@ -100,8 +100,9 @@ def getSrp(URI, symmId, srpId, userId, password):
 URI = "https://192.168.250.250:8443"
 user = "smc"
 password = "smc"
+
+# TODO: Do something based on the version of Unisphere
 unisphereVersion = getVersion(URI, user, password)
-print json.dumps(unisphereVersion, sort_keys=False, indent=2)
 
 # discover the known symmetrix serial #'s
 symmIdList = getSymms(URI, user, password)
