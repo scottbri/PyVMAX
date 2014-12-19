@@ -61,7 +61,7 @@ requestObj = {'arrayParam':
 
 user = "smc"
 password = "smc"
-jsonGet(target_url, user, password):
+jsonGet(target_url, user, password)
 
 
 #make sure we actually get a value back.
