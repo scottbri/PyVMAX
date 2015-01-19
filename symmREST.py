@@ -114,6 +114,33 @@ def getSrp(URL, symmId, srpId, userId, password):
     return responseObj['srp'][0]
 
 ################
+## get a list of Storage Groups on a given SLO Symmetrix
+################
+def getSgList(URL, symmId, userId, password):
+    target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/storagegroup" % (URL, symmId)
+    responseObj = jsonGet(target_uri, user, password)
+    if not responseObj.get("success", True):
+        print responseObj.get("message", "API failed to return expected result")
+	prettyPrint(responseObj)
+        return None
+    prettyPrint(responseObj)
+    return responseObj['storageGroupId']
+
+################
+## get the details of a particular SLO managed Storage Group
+################
+def getSg(URL, symmId, sgId, userId, password):
+    #sgId = "ESX01_SQL"
+    target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/storagegroup/%s" % (URL, symmId, sgId)
+    responseObj = jsonGet(target_uri, user, password)
+    if not responseObj.get("success", True):
+        print responseObj.get("message", "API failed to return expected result")
+	prettyPrint(responseObj)
+        return None
+    prettyPrint(responseObj)
+    return responseObj['storageGroup'][0]
+
+################
 ## get a list of Thin Pools on a given Symmetrix
 ################
 def getThinPoolList(URL, symmId, userId, password):
@@ -173,6 +200,15 @@ for symmId in symmIdList:
 
         # add a dict entry for the SRP list data structure we just created
         symmetrix['srp'] = srpList
+
+        # for this symmetrix, go ahead and build a list of Storage Groups
+        sgList = list()
+        for sgId in getSgList(URL, symmId, user, password):
+            sg = getSg(URL, symmId, sgId, user, password)
+            sgList.append(sg)
+
+        # add a dict entry for the Storage Group list data structure we just created
+        symmetrix['storageGroup'] = sgList
 
     else:
         # this is an older Symmetrix with virtual provisioning
