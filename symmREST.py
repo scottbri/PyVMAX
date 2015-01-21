@@ -23,8 +23,8 @@ def jsonGet(targetUrl, userId, password):
     # this test is specific to the contents of the Unisphere API
     if not responseObj.get("success", True):
         print responseObj.get("message", "API failed to return expected result")
-        prettyPrint(responseObj)
-        return None
+        jsonPrint(responseObj)
+        return dict()
 
     return responseObj
 
@@ -48,14 +48,14 @@ def jsonPost(targetUrl, requestObj, userId, password):
     except:
         print "Exception"
         print r.text
-    #prettyPrint(responseObj)
+    #jsonPrint(responseObj)
     return responseObj
 
 
 ################
 ## print a json object nicely
 ################
-def prettyPrint(jsonObj):
+def jsonPrint(jsonObj):
 	print json.dumps(jsonObj, sort_keys=False, indent=2)
 
 
@@ -69,7 +69,7 @@ def getVersion(URL, userId, password):
     if responseKey in responseObj:
         return responseObj[responseKey]
     else:
-        return None
+        return dict()
 
 ################
 ## get a list of symmetrix serial #'s known by Unisphere
@@ -81,7 +81,7 @@ def getSymms(URL, userId, password):
     if responseKey in responseObj:
         return responseObj[responseKey]
     else:
-        return None
+        return dict()
 
 ################
 ## This call queries for a specific Authorized Symmetrix Object that is compatible with slo provisioning using its ID
@@ -93,7 +93,7 @@ def getSymm(URL, symmId, userId, password):
     if responseKey in responseObj:
         return responseObj[responseKey][0]
     else:
-        return None
+        return dict()
 
 ################
 ## get a list of Storage Resource Pools on a given Symmetrix
@@ -105,7 +105,7 @@ def getSrpList(URL, symmId, userId, password):
     if responseKey in responseObj:
         return responseObj[responseKey]
     else:
-        return None
+        return dict()
 
 ################
 ## get the details of a particular SRP
@@ -117,7 +117,7 @@ def getSrp(URL, symmId, srpId, userId, password):
     if responseKey in responseObj:
         return responseObj[responseKey][0]
     else:
-        return None
+        return dict()
 
 ################
 ## get a list of Storage Groups on a given SLO Symmetrix
@@ -129,7 +129,7 @@ def getSgList(URL, symmId, userId, password):
     if responseKey in responseObj:
         return responseObj[responseKey]
     else:
-        return None
+        return dict()
 
 ################
 ## get the details of a particular SLO managed Storage Group
@@ -141,7 +141,7 @@ def getSg(URL, symmId, sgId, userId, password):
     if responseKey in responseObj:
         return responseObj[responseKey][0]
     else:
-        return None
+        return dict()
 
 ################
 ## get a list of Thin Pools on a given Symmetrix
@@ -153,7 +153,7 @@ def getThinPoolList(URL, symmId, userId, password):
     if responseKey in responseObj:
         return responseObj[responseKey]
     else:
-        return None
+        return dict()
 
 ################
 ## get the details of a particular Thin Pool
@@ -165,7 +165,7 @@ def getThinPool(URL, symmId, tpId, userId, password):
     if responseKey in responseObj:
         return responseObj[responseKey][0]
     else:
-        return None
+        return dict()
 
 
 #################################
@@ -229,7 +229,7 @@ for symmId in symmIdList:
     symmList.append(symmetrix)
 
 # do something useful with all this data, like print it out ;-)
-prettyPrint(symmList)
+jsonPrint(symmList)
 
 
 ##### END ####
