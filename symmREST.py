@@ -19,7 +19,13 @@ def jsonGet(targetUrl, userId, password):
     except:
         print "Exception"
         print r.text
-    #print json.dumps(responseObj, sort_keys=False, indent=2)
+
+    # this test is specific to the contents of the Unisphere API
+    if not responseObj.get("success", True):
+        print responseObj.get("message", "API failed to return expected result")
+        prettyPrint(responseObj)
+        return None
+
     return responseObj
 
 ################
@@ -42,99 +48,132 @@ def jsonPost(targetUrl, requestObj, userId, password):
     except:
         print "Exception"
         print r.text
-    #print json.dumps(responseObj, sort_keys=False, indent=2)
+    #prettyPrint(responseObj)
     return responseObj
+
+
+################
+## print a json object nicely
+################
+def prettyPrint(jsonObj):
+	print json.dumps(jsonObj, sort_keys=False, indent=2)
+
 
 ################
 ## get the version of Unisphere (the API)
 ################
 def getVersion(URL, userId, password):
     target_uri = "%s/univmax/restapi/system/version" % (URL)
+    responseKey = 'version'
     responseObj = jsonGet(target_uri, user, password)
-    if not responseObj.get("success", True)
-        print responseObj.get("message", "API failed to return expected result")
-        print json.dumps(responseObj, sort_keys=False, indent=2)
+    if responseKey in responseObj:
+        return responseObj[responseKey]
+    else:
         return None
-    return responseObj['version']
 
 ################
 ## get a list of symmetrix serial #'s known by Unisphere
 ################
 def getSymms(URL, userId, password):
     target_uri = "%s/univmax/restapi/system/symmetrix" % (URL)
+    responseKey = 'symmetrixId'
     responseObj = jsonGet(target_uri, user, password)
-    if not responseObj.get("success", True)
-        print responseObj.get("message", "API failed to return expected result")
-        print json.dumps(responseObj, sort_keys=False, indent=2)
+    if responseKey in responseObj:
+        return responseObj[responseKey]
+    else:
         return None
-    return responseObj['symmetrixId']
 
 ################
 ## This call queries for a specific Authorized Symmetrix Object that is compatible with slo provisioning using its ID
 ################
 def getSymm(URL, symmId, userId, password):
     target_uri = "%s/univmax/restapi/system/symmetrix/%s" % (URL, symmId)
+    responseKey = 'symmetrix'
     responseObj = jsonGet(target_uri, user, password)
-    if not responseObj.get("success", True)
-        print responseObj.get("message", "API failed to return expected result")
-        print json.dumps(responseObj, sort_keys=False, indent=2)
+    if responseKey in responseObj:
+        return responseObj[responseKey][0]
+    else:
         return None
-    return responseObj['symmetrix']
 
 ################
 ## get a list of Storage Resource Pools on a given Symmetrix
 ################
 def getSrpList(URL, symmId, userId, password):
     target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/srp" % (URL, symmId)
+    responseKey = 'srpId'
     responseObj = jsonGet(target_uri, user, password)
-    if not responseObj.get("success", True)
-        print responseObj.get("message", "API failed to return expected result")
-        print json.dumps(responseObj, sort_keys=False, indent=2)
+    if responseKey in responseObj:
+        return responseObj[responseKey]
+    else:
         return None
-    return responseObj['srpId']
 
 ################
 ## get the details of a particular SRP
 ################
 def getSrp(URL, symmId, srpId, userId, password):
     target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/srp/%s" % (URL, symmId, srpId)
+    responseKey = 'srp'
     responseObj = jsonGet(target_uri, user, password)
-    if not responseObj.get("success", True)
-        print responseObj.get("message", "API failed to return expected result")
-        print json.dumps(responseObj, sort_keys=False, indent=2)
+    if responseKey in responseObj:
+        return responseObj[responseKey][0]
+    else:
         return None
-    return responseObj['srp'][0]
+
+################
+## get a list of Storage Groups on a given SLO Symmetrix
+################
+def getSgList(URL, symmId, userId, password):
+    target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/storagegroup" % (URL, symmId)
+    responseKey = 'storageGroupId'
+    responseObj = jsonGet(target_uri, user, password)
+    if responseKey in responseObj:
+        return responseObj[responseKey]
+    else:
+        return None
+
+################
+## get the details of a particular SLO managed Storage Group
+################
+def getSg(URL, symmId, sgId, userId, password):
+    target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/storagegroup/%s" % (URL, symmId, sgId)
+    responseKey = 'storageGroup'
+    responseObj = jsonGet(target_uri, user, password)
+    if responseKey in responseObj:
+        return responseObj[responseKey][0]
+    else:
+        return None
 
 ################
 ## get a list of Thin Pools on a given Symmetrix
 ################
 def getThinPoolList(URL, symmId, userId, password):
     target_uri = "%s/univmax/restapi/provisioning/symmetrix/%s/thinpool" % (URL, symmId)
+    responseKey = 'poolId'
     responseObj = jsonGet(target_uri, user, password)
-    if not responseObj.get("success", True)
-        print responseObj.get("message", "API failed to return expected result")
-        print json.dumps(responseObj, sort_keys=False, indent=2)
+    if responseKey in responseObj:
+        return responseObj[responseKey]
+    else:
         return None
-    return responseObj['poolId']
 
 ################
 ## get the details of a particular Thin Pool
 ################
 def getThinPool(URL, symmId, tpId, userId, password):
     target_uri = "%s/univmax/restapi/provisioning/symmetrix/%s/thinpool/%s" % (URL, symmId, tpId)
+    responseKey = 'poolId'
     responseObj = jsonGet(target_uri, user, password)
-    if not responseObj.get("success", True)
-        print responseObj.get("message", "API failed to return expected result")
-        print json.dumps(responseObj, sort_keys=False, indent=2)
+    if responseKey in responseObj:
+        return responseObj[responseKey][0]
+    else:
         return None
-    return responseObj['thinPool'][0]
 
 
 #################################
 
 
 # TODO: Really need to bring these fields in from the command line rather than hard coding them
-URL = "https://localhost:8443"
+#URL = "https://localhost:8443"
+URL = "https://192.168.250.250:8443"
 user = "smc"
 password = "smc"
 
@@ -153,7 +192,7 @@ for symmId in symmIdList:
     # now gather more details and add them to the array dict
 
     # examine first two chars of ucode
-    if symmetrix['ucode'].split()[0][:2] == '59':
+    if symmetrix['ucode'][:2] == '59':
 	    # VMAX3 with SRP and SLO based Provisioning
 
         # for this symmetrix, go ahead and build a list of SRP's
@@ -164,6 +203,15 @@ for symmId in symmIdList:
 
         # add a dict entry for the SRP list data structure we just created
         symmetrix['srp'] = srpList
+
+        # for this symmetrix, go ahead and build a list of Storage Groups
+        sgList = list()
+        for sgId in getSgList(URL, symmId, user, password):
+            sg = getSg(URL, symmId, sgId, user, password)
+            sgList.append(sg)
+
+        # add a dict entry for the Storage Group list data structure we just created
+        symmetrix['storageGroup'] = sgList
 
     else:
         # this is an older Symmetrix with virtual provisioning
@@ -181,7 +229,7 @@ for symmId in symmIdList:
     symmList.append(symmetrix)
 
 # do something useful with all this data, like print it out ;-)
-print json.dumps(symmList, sort_keys=False, indent=2)
+prettyPrint(symmList)
 
 
 ##### END ####
