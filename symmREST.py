@@ -1,11 +1,14 @@
 #!/usr/bin/python
 
 import requests, json, pprint, time, socket, argparse
-import symmREST-API
+import symmRestApi
 
 # Disable warnings from untrusted server certificates
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
-requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+try:
+    from requests.packages.urllib3.exceptions import InsecureRequestWarning
+    requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+except Exception:
+    print("Ignore messages related to insecure SSL certificates")
 
 ################
 ## make the json GET call to the public api
