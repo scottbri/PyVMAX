@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import requests, json, pprint, time, socket, argparse
+import symmREST-API
 
 # Disable warnings from untrusted server certificates
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
@@ -61,115 +62,6 @@ def jsonPost(targetUrl, requestObj, userId, password):
 ################
 def jsonPrint(jsonObj):
 	print(json.dumps(jsonObj, sort_keys=False, indent=2))
-
-
-################
-## get the version of Unisphere (the API)
-################
-def getVersion(URL, userId, password):
-    target_uri = "%s/univmax/restapi/system/version" % (URL)
-    responseKey = 'version'
-    responseObj = jsonGet(target_uri, user, password)
-    if responseKey in responseObj:
-        return responseObj[responseKey]
-    else:
-        return dict()
-
-################
-## get a list of symmetrix serial #'s known by Unisphere
-################
-def getSymms(URL, userId, password):
-    target_uri = "%s/univmax/restapi/system/symmetrix" % (URL)
-    responseKey = 'symmetrixId'
-    responseObj = jsonGet(target_uri, user, password)
-    if responseKey in responseObj:
-        return responseObj[responseKey]
-    else:
-        return dict()
-
-################
-## This call queries for a specific Authorized Symmetrix Object that is compatible with slo provisioning using its ID
-################
-def getSymm(URL, symmId, userId, password):
-    target_uri = "%s/univmax/restapi/system/symmetrix/%s" % (URL, symmId)
-    responseKey = 'symmetrix'
-    responseObj = jsonGet(target_uri, user, password)
-    if responseKey in responseObj:
-        return responseObj[responseKey][0]
-    else:
-        return dict()
-
-################
-## get a list of Storage Resource Pools on a given Symmetrix
-################
-def getSrpList(URL, symmId, userId, password):
-    target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/srp" % (URL, symmId)
-    responseKey = 'srpId'
-    responseObj = jsonGet(target_uri, user, password)
-    if responseKey in responseObj:
-        return responseObj[responseKey]
-    else:
-        return dict()
-
-################
-## get the details of a particular SRP
-################
-def getSrp(URL, symmId, srpId, userId, password):
-    target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/srp/%s" % (URL, symmId, srpId)
-    responseKey = 'srp'
-    responseObj = jsonGet(target_uri, user, password)
-    if responseKey in responseObj:
-        return responseObj[responseKey][0]
-    else:
-        return dict()
-
-################
-## get a list of Storage Groups on a given SLO Symmetrix
-################
-def getSgList(URL, symmId, userId, password):
-    target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/storagegroup" % (URL, symmId)
-    responseKey = 'storageGroupId'
-    responseObj = jsonGet(target_uri, user, password)
-    if responseKey in responseObj:
-        return responseObj[responseKey]
-    else:
-        return dict()
-
-################
-## get the details of a particular SLO managed Storage Group
-################
-def getSg(URL, symmId, sgId, userId, password):
-    target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/storagegroup/%s" % (URL, symmId, sgId)
-    responseKey = 'storageGroup'
-    responseObj = jsonGet(target_uri, user, password)
-    if responseKey in responseObj:
-        return responseObj[responseKey][0]
-    else:
-        return dict()
-
-################
-## get a list of Thin Pools on a given Symmetrix
-################
-def getThinPoolList(URL, symmId, userId, password):
-    target_uri = "%s/univmax/restapi/provisioning/symmetrix/%s/thinpool" % (URL, symmId)
-    responseKey = 'poolId'
-    responseObj = jsonGet(target_uri, user, password)
-    if responseKey in responseObj:
-        return responseObj[responseKey]
-    else:
-        return dict()
-
-################
-## get the details of a particular Thin Pool
-################
-def getThinPool(URL, symmId, tpId, userId, password):
-    target_uri = "%s/univmax/restapi/provisioning/symmetrix/%s/thinpool/%s" % (URL, symmId, tpId)
-    responseKey = 'poolId'
-    responseObj = jsonGet(target_uri, user, password)
-    if responseKey in responseObj:
-        return responseObj[responseKey][0]
-    else:
-        return dict()
 
 
 #################################
