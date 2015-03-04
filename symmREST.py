@@ -1,74 +1,9 @@
 #!/usr/bin/python
 
-import requests, json, pprint, time, socket, argparse
-import symmRestApi
-
-# Disable warnings from untrusted server certificates
-try:
-    from requests.packages.urllib3.exceptions import InsecureRequestWarning
-    requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
-except Exception:
-    print("Ignore messages related to insecure SSL certificates")
-
-################
-## make the json GET call to the public api
-################
-def jsonGet(targetUrl, userId, password):
-    # set the headers for how we want the response
-    headers = {'content-type': 'application/json','accept':'application/json'}
-
-    #make the actual request, specifying the URL, the JSON from above, standard basic auth, the headers and not to verify the SSL cert.
-    #r = requests.post(target_uri, requestJSON, auth=('smc', 'smc'), headers=headers, verify=False)
-    r = requests.get(targetUrl, auth=(userId, password), headers=headers, verify=False)
-
-    #take the raw response text and deserialize it into a python object.
-    try:
-        responseObj = json.loads(r.text)
-    except:
-        print("Exception")
-        print(r.text)
-
-    # this test is specific to the contents of the Unisphere API
-    if not responseObj.get("success", True):
-        print(responseObj.get("message", "API failed to return expected result"))
-        jsonPrint(responseObj)
-        return dict()
-
-    return responseObj
-
-################
-## make the json POST call to the public api
-################
-def jsonPost(targetUrl, requestObj, userId, password):
-    # set the headers for how we want the response
-    headers = {'content-type': 'application/json','accept':'application/json'}
-
-   #turn this into a JSON string
-    requestJSON = json.dumps(requestObj, sort_keys=True, indent=4)
-    #print(requestJSON)
-
-    #make the actual request, specifying the URL, the JSON from above, standard basic auth, the headers and not to verify the SSL cert.
-    r = requests.post(targetUrl, requestJSON, auth=(userId, password), headers=headers, verify=False)
-
-    #take the raw response text and deserialize it into a python object.
-    try:
-        responseObj = json.loads(r.text)
-    except:
-        print("Exception")
-        print(r.text)
-    #jsonPrint(responseObj)
-    return responseObj
-
-
-################
-## print a json object nicely
-################
-def jsonPrint(jsonObj):
-	print(json.dumps(jsonObj, sort_keys=False, indent=2))
-
+import argparse
+import symmRestApi as api
 
 #################################
-
 
 ### Define and Parse CLI arguments
 parser = argparse.ArgumentParser(description='Example implementation of a Python REST client for EMC Unisphere for VMAX.')
@@ -84,16 +19,16 @@ password = args.passwd
 
 
 # TODO: Do something based on the version of Unisphere
-unisphereVersion = getVersion(URL, user, password)
+unisphereVersion = api.getVersion(URL, user, password)
 
 # discover the known symmetrix serial #'s
-symmIdList = getSymms(URL, user, password)
+symmIdList = api.getSymms(URL, user, password)
 
 # going to build a list of dicts, each one a symmetrix
 symmList = list()
 for symmId in symmIdList:
     # get the array details
-    symmetrix = getSymm(URL, symmId, user, password)
+    symmetrix = api.getSymm(URL, symmId, user, password)
 
     # now gather more details and add them to the array dict
 
@@ -103,8 +38,8 @@ for symmId in symmIdList:
 
         # for this symmetrix, go ahead and build a list of SRP's
         srpList = list()
-        for srpId in getSrpList(URL, symmId, user, password):
-            srp = getSrp(URL, symmId, srpId, user, password)
+        for srpId in api.getSrpList(URL, symmId, user, password):
+            srp = api.getSrp(URL, symmId, srpId, user, password)
             srpList.append(srp)
 
         # add a dict entry for the SRP list data structure we just created
@@ -112,8 +47,8 @@ for symmId in symmIdList:
 
         # for this symmetrix, go ahead and build a list of Storage Groups
         sgList = list()
-        for sgId in getSgList(URL, symmId, user, password):
-            sg = getSg(URL, symmId, sgId, user, password)
+        for sgId in api.getSgList(URL, symmId, user, password):
+            sg = api.getSg(URL, symmId, sgId, user, password)
             sgList.append(sg)
 
         # add a dict entry for the Storage Group list data structure we just created
@@ -124,8 +59,8 @@ for symmId in symmIdList:
 
         # for this symmetrix, go ahead and build a list of Thin Pools
         tpList = list()
-        for tpId in getThinPoolList(URL, symmId, user, password):
-            tp = getThinPool(URL, symmId, tpId, user, password)
+        for tpId in api.getThinPoolList(URL, symmId, user, password):
+            tp = api.getThinPool(URL, symmId, tpId, user, password)
             tpList.append(tp)
 
         # add a dict entry for the SRP list data structure we just created
@@ -135,7 +70,7 @@ for symmId in symmIdList:
     symmList.append(symmetrix)
 
 # do something useful with all this data, like print it out ;-)
-jsonPrint(symmList)
+api.jsonPrint(symmList)
 
 
 ##### END ####
