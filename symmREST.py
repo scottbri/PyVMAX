@@ -1,6 +1,10 @@
 #!/usr/bin/python
 
-import requests, json, pprint, time, socket
+import requests, json, pprint, time, socket, argparse
+
+# Disable warnings from untrusted server certificates
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 ################
 ## make the json GET call to the public api
@@ -17,12 +21,12 @@ def jsonGet(targetUrl, userId, password):
     try:
         responseObj = json.loads(r.text)
     except:
-        print "Exception"
-        print r.text
+        print("Exception")
+        print(r.text)
 
     # this test is specific to the contents of the Unisphere API
     if not responseObj.get("success", True):
-        print responseObj.get("message", "API failed to return expected result")
+        print(responseObj.get("message", "API failed to return expected result"))
         jsonPrint(responseObj)
         return dict()
 
@@ -37,7 +41,7 @@ def jsonPost(targetUrl, requestObj, userId, password):
 
    #turn this into a JSON string
     requestJSON = json.dumps(requestObj, sort_keys=True, indent=4)
-    #print requestJSON
+    #print(requestJSON)
 
     #make the actual request, specifying the URL, the JSON from above, standard basic auth, the headers and not to verify the SSL cert.
     r = requests.post(targetUrl, requestJSON, auth=(userId, password), headers=headers, verify=False)
@@ -46,8 +50,8 @@ def jsonPost(targetUrl, requestObj, userId, password):
     try:
         responseObj = json.loads(r.text)
     except:
-        print "Exception"
-        print r.text
+        print("Exception")
+        print(r.text)
     #jsonPrint(responseObj)
     return responseObj
 
@@ -56,7 +60,7 @@ def jsonPost(targetUrl, requestObj, userId, password):
 ## print a json object nicely
 ################
 def jsonPrint(jsonObj):
-	print json.dumps(jsonObj, sort_keys=False, indent=2)
+	print(json.dumps(jsonObj, sort_keys=False, indent=2))
 
 
 ################
@@ -171,11 +175,18 @@ def getThinPool(URL, symmId, tpId, userId, password):
 #################################
 
 
-# TODO: Really need to bring these fields in from the command line rather than hard coding them
-#URL = "https://localhost:8443"
-URL = "https://192.168.250.250:8443"
-user = "smc"
-password = "smc"
+### Define and Parse CLI arguments
+parser = argparse.ArgumentParser(description='Example implementation of a Python REST client for EMC Unisphere for VMAX.')
+rflags = parser.add_argument_group('Required arguments')
+rflags.add_argument('-url',         required=True, help='Base Unisphere URL. e.g. https://10.0.0.1:8443')
+rflags.add_argument('-user',        required=True, help='Unisphere username. e.g. smc')
+rflags.add_argument('-passwd',      required=True, help='Unisphere password. e.g. smc')
+args = parser.parse_args()
+
+URL = args.url
+user = args.user
+password = args.passwd
+
 
 # TODO: Do something based on the version of Unisphere
 unisphereVersion = getVersion(URL, user, password)
