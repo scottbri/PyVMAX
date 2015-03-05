@@ -4,3 +4,4 @@ gitpush.sh
 deploy.bat
 application.wadl
 __pycache__
+*.pyc
