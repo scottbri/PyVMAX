@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import argparse
-import symmRestApi as api
+from symmRestApi import Restful
 
 #################################
 
@@ -17,18 +17,19 @@ URL = args.url
 user = args.user
 password = args.passwd
 
+api = Restful(URL,user,password)
 
 # TODO: Do something based on the version of Unisphere
-unisphereVersion = api.getVersion(URL, user, password)
+unisphereVersion = api.getVersion(URL)
 
 # discover the known symmetrix serial #'s
-symmIdList = api.getSymms(URL, user, password)
+symmIdList = api.getSymms(URL)
 
 # going to build a list of dicts, each one a symmetrix
 symmList = list()
 for symmId in symmIdList:
     # get the array details
-    symmetrix = api.getSymm(URL, symmId, user, password)
+    symmetrix = api.getSymm(URL, symmId)
 
     # now gather more details and add them to the array dict
 
@@ -38,8 +39,8 @@ for symmId in symmIdList:
 
         # for this symmetrix, go ahead and build a list of SRP's
         srpList = list()
-        for srpId in api.getSrpList(URL, symmId, user, password):
-            srp = api.getSrp(URL, symmId, srpId, user, password)
+        for srpId in api.getSrps(URL, symmId):
+            srp = api.getSrp(URL, symmId, srpId)
             srpList.append(srp)
 
         # add a dict entry for the SRP list data structure we just created
@@ -47,8 +48,8 @@ for symmId in symmIdList:
 
         # for this symmetrix, go ahead and build a list of Storage Groups
         sgList = list()
-        for sgId in api.getSgList(URL, symmId, user, password):
-            sg = api.getSg(URL, symmId, sgId, user, password)
+        for sgId in api.getSgList(URL, symmId):
+            sg = api.getSg(URL, symmId, sgId)
             sgList.append(sg)
 
         # add a dict entry for the Storage Group list data structure we just created
@@ -59,8 +60,8 @@ for symmId in symmIdList:
 
         # for this symmetrix, go ahead and build a list of Thin Pools
         tpList = list()
-        for tpId in api.getThinPoolList(URL, symmId, user, password):
-            tp = api.getThinPool(URL, symmId, tpId, user, password)
+        for tpId in api.getThinPoolList(URL, symmId):
+            tp = api.getThinPool(URL, symmId, tpId)
             tpList.append(tp)
 
         # add a dict entry for the SRP list data structure we just created
