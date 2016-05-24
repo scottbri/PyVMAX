@@ -1,7 +1,7 @@
 PyMAX REST API for EMC VMAX
 ===========================
 
-Example implementation of a python REST client for EMC Unisphere for VMAX3
+Example implementation of a python REST client for EMC Unisphere for VMAX
 
 Includes a Restful class that simplifies the consumption of EMC VMAX REST API.  The package also implements an example python client of the Unisphere REST API as a demonstration of functionality.
 
