@@ -20,58 +20,59 @@ password = args.passwd
 api = Restful(URL,user,password)
 
 def test_getVersion(URL):
-	assert api.getVersion(URL)
+	assert isinstance(api.getVersion(URL), dict)
 
 # discover the known symmetrix serial #'s
-symmIdList = api.getSymms(URL)
-
-# going to build a list of dicts, each one a symmetrix
-symmList = list()
-for symmId in symmIdList:
-    # get the array details
-    symmetrix = api.getSymm(URL, symmId)
-
-    # now gather more details and add them to the array dict
-
-    # examine first two chars of ucode
-    if symmetrix['ucode'][:2] == '59':
-	    # VMAX3 with SRP and SLO based Provisioning
-
-        # for this symmetrix, go ahead and build a list of SRP's
-        srpList = list()
-        for srpId in api.getSrps(URL, symmId):
-            srp = api.getSrp(URL, symmId, srpId)
-            srpList.append(srp)
-
-        # add a dict entry for the SRP list data structure we just created
-        symmetrix['srp'] = srpList
-
-        # for this symmetrix, go ahead and build a list of Storage Groups
-        sgList = list()
-        for sgId in api.getSgList(URL, symmId):
-            sg = api.getSg(URL, symmId, sgId)
-            sgList.append(sg)
-
-        # add a dict entry for the Storage Group list data structure we just created
-        symmetrix['storageGroup'] = sgList
-
-    else:
-        # this is an older Symmetrix with virtual provisioning
-
-        # for this symmetrix, go ahead and build a list of Thin Pools
-        tpList = list()
-        for tpId in api.getThinPoolList(URL, symmId):
-            tp = api.getThinPool(URL, symmId, tpId)
-            tpList.append(tp)
-
-        # add a dict entry for the SRP list data structure we just created
-        symmetrix['thinpool'] = tpList
-
-    # finally add this symmetrix dict data structure to the list of arrays
-    symmList.append(symmetrix)
-
-# do something useful with all this data, like print it out ;-)
-api.jsonPrint(symmList)
+def test_getSymms(URL):
+    assert isinstance(api.getSymms(URL), (list))
+#
+## going to build a list of dicts, each one a symmetrix
+#symmList = list()
+#for symmId in symmIdList:
+#    # get the array details
+#    symmetrix = api.getSymm(URL, symmId)
+#
+#    # now gather more details and add them to the array dict
+#
+#    # examine first two chars of ucode
+#    if symmetrix['ucode'][:2] == '59':
+#	    # VMAX3 with SRP and SLO based Provisioning
+#
+#        # for this symmetrix, go ahead and build a list of SRP's
+#        srpList = list()
+#        for srpId in api.getSrps(URL, symmId):
+#            srp = api.getSrp(URL, symmId, srpId)
+#            srpList.append(srp)
+#
+#        # add a dict entry for the SRP list data structure we just created
+#        symmetrix['srp'] = srpList
+#
+#        # for this symmetrix, go ahead and build a list of Storage Groups
+#        sgList = list()
+#        for sgId in api.getSgList(URL, symmId):
+#            sg = api.getSg(URL, symmId, sgId)
+#            sgList.append(sg)
+#
+#        # add a dict entry for the Storage Group list data structure we just created
+#        symmetrix['storageGroup'] = sgList
+#
+#    else:
+#        # this is an older Symmetrix with virtual provisioning
+#
+#        # for this symmetrix, go ahead and build a list of Thin Pools
+#        tpList = list()
+#        for tpId in api.getThinPoolList(URL, symmId):
+#            tp = api.getThinPool(URL, symmId, tpId)
+#            tpList.append(tp)
+#
+#        # add a dict entry for the SRP list data structure we just created
+#        symmetrix['thinpool'] = tpList
+#
+#    # finally add this symmetrix dict data structure to the list of arrays
+#    symmList.append(symmetrix)
+#
+## do something useful with all this data, like print it out ;-)
+#api.jsonPrint(symmList)
 
 
 ##### END ####
