@@ -44,6 +44,6 @@ TODO
 * fully implement the reporting API
 * implement all available CRUD API calls
 * implement additional functional examples:
-..*duplicate some reporting that happens now for performance and configuration analysis
-..*incorporate FAST Pool subscription reports per http://www.scottbrightwell.org/2013/11/21/some-emc-vmax-storage-reporting-formulas/
-..*example performance outputs to csv format 
+  * duplicate some reporting that happens now for performance and configuration analysis
+  * incorporate FAST Pool subscription reports per http://www.scottbrightwell.org/2013/11/21/some-emc-vmax-storage-reporting-formulas/
+  * example performance outputs to csv format 
