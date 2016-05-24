@@ -3,7 +3,14 @@ unisphere-rest-client
 
 Example implementation of a python REST client for EMC Unisphere for VMAX3
 
-Right now, code is totally for demonstration purposes only and assumes querying a VMAX3 array
+Includes a Restful class that simplifies the consumption of EMC VMAX REST API.  The package also implements an example python client of the Unisphere REST API as a demonstration of functionality.
+
+INSTALLATION
+===========
+Download the python files and copy them into your working directory.  Requires the 'requests' JSON parsing package.
+```
+pip install requests
+```
 
 USAGE
 =====
@@ -26,10 +33,17 @@ for example:  https://192.168.1.1:8443
 
 USER and PASSWD are your unisphere credentials used to login to the GUI
 
+In your own code simply import the class as follows:
+```
+from symmRestApi import Restful
+```
+Requires the 'requests' JSON parsing package 
 
 TODO
 ====
-* add support for Unisphere <8.0.1
-* investigate additional query options, replication, capacity, performance, etc.
-* duplicate some reporting that happens now for performance and configuration analysis
-* incorporate FAST Pool subscription reports per http://www.scottbrightwell.org/2013/11/21/some-emc-vmax-storage-reporting-formulas/
+* fully implement the reporting API
+* implement all available CRUD API calls
+* implement additional functional examples:
+..*duplicate some reporting that happens now for performance and configuration analysis
+..*incorporate FAST Pool subscription reports per http://www.scottbrightwell.org/2013/11/21/some-emc-vmax-storage-reporting-formulas/
+..*example performance outputs to csv format 

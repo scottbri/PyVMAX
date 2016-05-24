@@ -25,7 +25,6 @@ class Restful:
         headers = {'content-type': 'application/json','accept':'application/json'}
 
 
-
     ################
     ## make the json GET call to the public api
     ################
@@ -88,20 +87,19 @@ class Restful:
 
 
     #################################################################
-    ## Functions to implement Unisphere REST API for VMAX3
+    ## Functions to implement Unisphere REST API
     #################################################################
 
     ######################################
-    ## SYSTEM Resource group
+    ## ADMINISTRATION Resource group
     ######################################
 
-
     ################
-    ## get a list of All Alert ids across all symmetrix arrays
+    ## get a list of all applications registered with the server
     ################
-    def getAlerts(self, URL):
-        target_uri = "%s/univmax/restapi/system/alert" % (URL)
-        responseKey = 'alertId'
+    def getApps(self, URL):
+        target_uri = "%s/univmax/restapi/common/Application/list" % (URL)
+        responseKey = 'applicationInfo'
         responseObj = self.jsonGet(target_uri)
         if responseKey in responseObj:
             return responseObj[responseKey]
@@ -109,124 +107,72 @@ class Restful:
             return dict()
 
     ################
-    ## queries for a specified Alert
+    ## get a list of sharding info
     ################
-    def getAlert(self, URL, resourceId):
-        target_uri = "%s/univmax/restapi/system/alert/%s" % (URL, resourceId)
-        responseKey = 'alert'
+    def getApps(self, URL):
+        target_uri = "%s/univmax/restapi/common/Sharding/info" % (URL)
+        responseKey = 'shardEntry'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+    ######################################
+    ## COMMON Resource group
+    ######################################
+
+    ######################################
+    ## MANAGEMENT Resource group
+    ######################################
+
+    ################
+    ## get a dump of unisphere server runtime stats
+    ################
+    def getUsageStats(self, URL):
+        target_uri = "%s/univmax/restapi/management/RuntimeUsage/read" % (URL)
+        responseKey = 'runtimeGenericResources'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+    ######################################
+    ## PERFORMANCE Resource group
+    ######################################
+
+    ######################################
+    ## PROVISIONING Resource group
+    ######################################
+
+    ################
+    ## get a list of Thin Pools on a given Symmetrix
+    ################
+    def getThinPoolList(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/provisioning/symmetrix/%s/thinpool" % (URL, resourceId)
+        responseKey = 'poolId'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+    ################
+    ## get the details of a particular Thin Pool
+    ################
+    def getThinPool(self, URL, symmId, tpId):
+        target_uri = "%s/univmax/restapi/provisioning/symmetrix/%s/thinpool/%s" % (URL, symmId, tpId)
+        responseKey = 'poolId'
         responseObj = self.jsonGet(target_uri)
         if responseKey in responseObj:
             return responseObj[responseKey][0]
         else:
             return dict()
 
-    ################
-    ## queries for a list of Job ids across all symmetrix arrays
-    ################
-    def getJobs(self, URL):
-        target_uri = "%s/univmax/restapi/system/job" % (URL)
-        responseKey = 'jobId'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey]
-        else:
-            return dict()
-
-    ################
-    ## queries for a specified job
-    ################
-    def getJob(self, URL, resourceId):
-        target_uri = "%s/univmax/restapi/system/job/%s" % (URL, resourceId)
-        responseKey = 'job'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey][0]
-        else:
-            return dict()
-
-    ################
-    ## get a list of symmetrix serial #'s known by Unisphere
-    ################
-    def getSymms(self, URL):
-        target_uri = "%s/univmax/restapi/system/symmetrix" % (URL)
-        responseKey = 'symmetrixId'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey]
-        else:
-            return dict()
-
-    ################
-    ## This call queries for a specific Authorized Symmetrix Object that is compatible with slo provisioning using its ID
-    ################
-    def getSymm(self, URL, resourceId):
-        target_uri = "%s/univmax/restapi/system/symmetrix/%s" % (URL, resourceId)
-        responseKey = 'symmetrix'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey][0]
-        else:
-            return dict()
-
-    ################
-    ## get a list of All Alert ids for a specific array id
-    ################
-    def getSymmAlerts(self, URL, resourceId):
-        target_uri = "%s/univmax/restapi/system/symmetrix/%s/alert" % (URL, resourceId)
-        responseKey = 'alert'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey]
-        else:
-            return dict()
-
-    ################
-    ## queries for a specified Alert on a specified array
-    ################
-    def getSymmAlert(self, URL, symId, alertId):
-        target_uri = "%s/univmax/restapi/system/symmetrix/%s/alert/%s" % (URL, symId, alertId)
-        responseKey = 'alert'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey][0]
-        else:
-            return dict()
-
-    ################
-    ## queries for a list of Job ids on a specified array
-    ################
-    def getSymmJobs(self, URL, resourceId):
-        target_uri = "%s/univmax/restapi/system/symmetrix/%s/job" % (URL, resourceId)
-        responseKey = 'jobId'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey]
-        else:
-            return dict()
-
-    ################
-    ## queries for a specified job on a specified array
-    ################
-    def getSymmJob(self, URL, symId, jobId):
-        target_uri = "%s/univmax/restapi/system/symmetrix/%s/job/%s" % (URL, symId, jobId)
-        responseKey = 'job'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey][0]
-        else:
-            return dict()
-
-    ################
-    ## get the version of Unisphere (the API)
-    ################
-    def getVersion(self, URL):
-        target_uri = "%s/univmax/restapi/system/version" % (URL)
-        responseKey = 'version'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey]
-        else:
-            return dict()
+    ######################################
+    ## REPLICATION Resource group
+    ######################################
 
 
     ######################################
@@ -455,12 +401,17 @@ class Restful:
         else:
             return dict()
 
+
+    ######################################
+    ## SYSTEM Resource group
+    ######################################
+
     ################
-    ## get a list of Thin Pools on a given Symmetrix
+    ## get a list of All Alert ids across all symmetrix arrays
     ################
-    def getThinPoolList(self, URL, resourceId):
-        target_uri = "%s/univmax/restapi/provisioning/symmetrix/%s/thinpool" % (URL, resourceId)
-        responseKey = 'poolId'
+    def getAlerts(self, URL):
+        target_uri = "%s/univmax/restapi/system/alert" % (URL)
+        responseKey = 'alertId'
         responseObj = self.jsonGet(target_uri)
         if responseKey in responseObj:
             return responseObj[responseKey]
@@ -468,13 +419,126 @@ class Restful:
             return dict()
 
     ################
-    ## get the details of a particular Thin Pool
+    ## queries for a specified Alert
     ################
-    def getThinPool(self, URL, symmId, tpId):
-        target_uri = "%s/univmax/restapi/provisioning/symmetrix/%s/thinpool/%s" % (URL, symmId, tpId)
-        responseKey = 'poolId'
+    def getAlert(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/system/alert/%s" % (URL, resourceId)
+        responseKey = 'alert'
         responseObj = self.jsonGet(target_uri)
         if responseKey in responseObj:
             return responseObj[responseKey][0]
         else:
             return dict()
+
+    ################
+    ## queries for a list of Job ids across all symmetrix arrays
+    ################
+    def getJobs(self, URL):
+        target_uri = "%s/univmax/restapi/system/job" % (URL)
+        responseKey = 'jobId'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+    ################
+    ## queries for a specified job
+    ################
+    def getJob(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/system/job/%s" % (URL, resourceId)
+        responseKey = 'job'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey][0]
+        else:
+            return dict()
+
+    ################
+    ## get a list of symmetrix serial #'s known by Unisphere
+    ################
+    def getSymms(self, URL):
+        target_uri = "%s/univmax/restapi/system/symmetrix" % (URL)
+        responseKey = 'symmetrixId'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+    ################
+    ## This call queries for a specific Authorized Symmetrix Object that is compatible with slo provisioning using its ID
+    ################
+    def getSymm(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/system/symmetrix/%s" % (URL, resourceId)
+        responseKey = 'symmetrix'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey][0]
+        else:
+            return dict()
+
+    ################
+    ## get a list of All Alert ids for a specific array id
+    ################
+    def getSymmAlerts(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/system/symmetrix/%s/alert" % (URL, resourceId)
+        responseKey = 'alert'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+    ################
+    ## queries for a specified Alert on a specified array
+    ################
+    def getSymmAlert(self, URL, symId, alertId):
+        target_uri = "%s/univmax/restapi/system/symmetrix/%s/alert/%s" % (URL, symId, alertId)
+        responseKey = 'alert'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey][0]
+        else:
+            return dict()
+
+    ################
+    ## queries for a list of Job ids on a specified array
+    ################
+    def getSymmJobs(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/system/symmetrix/%s/job" % (URL, resourceId)
+        responseKey = 'jobId'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+    ################
+    ## queries for a specified job on a specified array
+    ################
+    def getSymmJob(self, URL, symId, jobId):
+        target_uri = "%s/univmax/restapi/system/symmetrix/%s/job/%s" % (URL, symId, jobId)
+        responseKey = 'job'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey][0]
+        else:
+            return dict()
+
+    ################
+    ## get the version of Unisphere (the API)
+    ################
+    def getVersion(self, URL):
+        target_uri = "%s/univmax/restapi/system/version" % (URL)
+        responseKey = 'version'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+    ######################################
+    ## WORKLOAD Resource group
+    ######################################
+
