@@ -42,6 +42,7 @@ Requires the 'requests' JSON parsing package
 TODO
 ====
 * fully implement the reporting API
+  * rationalize function names between provisioning and SLO arrays
 * implement all available CRUD API calls
 * implement additional functional examples:
   * duplicate some reporting that happens now for performance and configuration analysis

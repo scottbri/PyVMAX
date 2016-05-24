@@ -109,7 +109,7 @@ class Restful:
     ################
     ## get a list of sharding info
     ################
-    def getApps(self, URL):
+    def getShards(self, URL):
         target_uri = "%s/univmax/restapi/common/Sharding/info" % (URL)
         responseKey = 'shardEntry'
         responseObj = self.jsonGet(target_uri)
@@ -145,6 +145,30 @@ class Restful:
     ######################################
     ## PROVISIONING Resource group
     ######################################
+
+    ################
+    ## queries for a list of Authorized Symmetrix Ids compatible with provisioning
+    ################
+    def getProvisionableSymms(self, URL):
+        target_uri = "%s/univmax/restapi/provisioning/symmetrix" % (URL)
+        responseKey = 'symmetrixId'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+    ################
+    ## queries for a specific Authorized Symmetrix using its ID and compatible with provisioning
+    ################
+    def getProvisionableSymm(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/provisioning/symmetrix/%s" % (URL, resourceId)
+        responseKey = 'symmetrix'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey][0]
+        else:
+            return dict()
 
     ################
     ## get a list of Thin Pools on a given Symmetrix
