@@ -91,6 +91,34 @@ class Restful:
     ## Functions to implement Unisphere REST API for VMAX3
     #################################################################
 
+    ######################################
+    ## SYSTEM Resource group
+    ######################################
+
+
+    ################
+    ## get a list of All Alert ids across all symmetrix arrays
+    ################
+    def getAlerts(self, URL):
+        target_uri = "%s/univmax/restapi/system/alert" % (URL)
+        responseKey = 'alertId'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+    ################
+    ## queries for a specified Alert
+    ################
+    def getAlert(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/system/alert/%s" % (URL, resourceId)
+        responseKey = 'symmetrix'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey][0]
+        else:
+            return dict()
 
     ################
     ## get the version of Unisphere (the API)
@@ -119,8 +147,8 @@ class Restful:
     ################
     ## This call queries for a specific Authorized Symmetrix Object that is compatible with slo provisioning using its ID
     ################
-    def getSymm(self, URL, symmId):
-        target_uri = "%s/univmax/restapi/system/symmetrix/%s" % (URL, symmId)
+    def getSymm(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/system/symmetrix/%s" % (URL, resourceId)
         responseKey = 'symmetrix'
         responseObj = self.jsonGet(target_uri)
         if responseKey in responseObj:
@@ -138,8 +166,8 @@ class Restful:
         else:
             return dict()
 
-    def getSloSymm(self, URL, symmId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s" % (URL, symmId)
+    def getSloSymm(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s" % (URL, resourceId)
         responseKey = 'symmetrix'
         responseObj = self.jsonGet(target_uri)
         if responseKey in responseObj:
@@ -147,8 +175,8 @@ class Restful:
         else:
             return dict()
 
-    def getSloDirectors(self, URL, symmId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/director" % (URL, symmId)
+    def getSloDirectors(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/director" % (URL, resourceId)
         responseKey = 'directorId'
         responseObj = self.jsonGet(target_uri)
         if responseKey in responseObj:
@@ -156,8 +184,8 @@ class Restful:
         else:
             return dict()
 
-    def getSloDirector(self, URL, symmId, directorId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/director/%s" % (URL, symmId, directorId)
+    def getSloDirector(self, URL, symmId, resourceId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/director/%s" % (URL, symmId, resourceId)
         responseKey = 'director'
         responseObj = self.jsonGet(target_uri)
         if responseKey in responseObj:
@@ -165,8 +193,8 @@ class Restful:
         else:
             return dict()
 
-    def getSloPorts(self, URL, symmId, directorId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/director/%s/port" % (URL, symmId, directorId)
+    def getSloPorts(self, URL, symmId, resourceId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/director/%s/port" % (URL, symmId, resourceId)
         responseKey = 'symmetrixPortKey'
         responseObj = self.jsonGet(target_uri)
         if responseKey in responseObj:
@@ -183,8 +211,8 @@ class Restful:
         else:
             return dict()
 
-    def getSloHosts(self, URL, symmId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/host" % (URL, symmId)
+    def getSloHosts(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/host" % (URL, resourceId)
         responseKey = 'hostId'
         responseObj = self.jsonGet(target_uri)
         if responseKey in responseObj:
@@ -201,8 +229,8 @@ class Restful:
         else:
             return dict()
 
-    def getSloHostgrps(self, URL, symmId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/hostgroup" % (URL, symmId)
+    def getSloHostgrps(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/hostgroup" % (URL, resourceId)
         responseKey = 'hostGroupId'
         responseObj = self.jsonGet(target_uri)
         if responseKey in responseObj:
@@ -219,8 +247,8 @@ class Restful:
         else:
             return dict()
 
-    def getSloInitiators(self, URL, symmId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/initiator" % (URL, symmId)
+    def getSloInitiators(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/initiator" % (URL, resourceId)
         responseKey = 'initiatorId'
         responseObj = self.jsonGet(target_uri)
         if responseKey in responseObj:
@@ -237,8 +265,8 @@ class Restful:
         else:
             return dict()
 
-    def getSloMaskingviews(self, URL, symmId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/maskingview" % (URL, symmId)
+    def getSloMaskingviews(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/maskingview" % (URL, resourceId)
         responseKey = 'maskingViewId'
         responseObj = self.jsonGet(target_uri)
         if responseKey in responseObj:
@@ -264,8 +292,8 @@ class Restful:
         else:
             return dict()
 
-    def getSloPorts(self, URL, symmId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/port" % (URL, symmId)
+    def getSloPorts(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/port" % (URL, resourceId)
         responseKey = 'symmetrixPortKey'
         responseObj = self.jsonGet(target_uri)
         if responseKey in responseObj:
@@ -273,8 +301,8 @@ class Restful:
         else:
             return dict()
 
-    def getSloPortgrps(self, URL, symmId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/portgroup" % (URL, symmId)
+    def getSloPortgrps(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/portgroup" % (URL, resourceId)
         responseKey = 'portGroupId'
         responseObj = self.jsonGet(target_uri)
         if responseKey in responseObj:
@@ -291,8 +319,8 @@ class Restful:
         else:
             return dict()
 
-    def getSlos(self, URL, symmId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/slo" % (URL, symmId)
+    def getSlos(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/slo" % (URL, resourceId)
         responseKey = 'sloId'
         responseObj = self.jsonGet(target_uri)
         if responseKey in responseObj:
@@ -309,8 +337,8 @@ class Restful:
         else:
             return dict()
 
-    def getSrps(self, URL, symmId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/srp" % (URL, symmId)
+    def getSrps(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/srp" % (URL, resourceId)
         responseKey = 'srpId'
         responseObj = self.jsonGet(target_uri)
         if responseKey in responseObj:
@@ -330,8 +358,8 @@ class Restful:
     ################
     ## get a list of Storage Groups on a given SLO Symmetrix
     ################
-    def getSgList(self, URL, symmId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/storagegroup" % (URL, symmId)
+    def getSgList(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/storagegroup" % (URL, resourceId)
         responseKey = 'storageGroupId'
         responseObj = self.jsonGet(target_uri)
         if responseKey in responseObj:
@@ -354,8 +382,8 @@ class Restful:
     ################
     ## get a list of Thin Pools on a given Symmetrix
     ################
-    def getThinPoolList(self, URL, symmId):
-        target_uri = "%s/univmax/restapi/provisioning/symmetrix/%s/thinpool" % (URL, symmId)
+    def getThinPoolList(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/provisioning/symmetrix/%s/thinpool" % (URL, resourceId)
         responseKey = 'poolId'
         responseObj = self.jsonGet(target_uri)
         if responseKey in responseObj:
