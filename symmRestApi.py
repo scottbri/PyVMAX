@@ -113,7 +113,7 @@ class Restful:
     ################
     def getAlert(self, URL, resourceId):
         target_uri = "%s/univmax/restapi/system/alert/%s" % (URL, resourceId)
-        responseKey = 'symmetrix'
+        responseKey = 'alert'
         responseObj = self.jsonGet(target_uri)
         if responseKey in responseObj:
             return responseObj[responseKey][0]
@@ -121,14 +121,26 @@ class Restful:
             return dict()
 
     ################
-    ## get the version of Unisphere (the API)
+    ## queries for a list of Job ids across all symmetrix arrays
     ################
-    def getVersion(self, URL):
-        target_uri = "%s/univmax/restapi/system/version" % (URL)
-        responseKey = 'version'
+    def getJobs(self, URL):
+        target_uri = "%s/univmax/restapi/system/job" % (URL)
+        responseKey = 'jobId'
         responseObj = self.jsonGet(target_uri)
         if responseKey in responseObj:
             return responseObj[responseKey]
+        else:
+            return dict()
+
+    ################
+    ## queries for a specified job
+    ################
+    def getJob(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/system/job/%s" % (URL, resourceId)
+        responseKey = 'job'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey][0]
         else:
             return dict()
 
@@ -156,6 +168,70 @@ class Restful:
         else:
             return dict()
 
+    ################
+    ## get a list of All Alert ids for a specific array id
+    ################
+    def getSymmAlerts(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/system/symmetrix/%s/alert" % (URL, resourceId)
+        responseKey = 'alert'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+    ################
+    ## queries for a specified Alert on a specified array
+    ################
+    def getSymmAlert(self, URL, symId, alertId):
+        target_uri = "%s/univmax/restapi/system/symmetrix/%s/alert/%s" % (URL, symId, alertId)
+        responseKey = 'alert'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey][0]
+        else:
+            return dict()
+
+    ################
+    ## queries for a list of Job ids on a specified array
+    ################
+    def getSymmJobs(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/system/symmetrix/%s/job" % (URL, resourceId)
+        responseKey = 'jobId'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+    ################
+    ## queries for a specified job on a specified array
+    ################
+    def getSymmJob(self, URL, symId, jobId):
+        target_uri = "%s/univmax/restapi/system/symmetrix/%s/job/%s" % (URL, symId, jobId)
+        responseKey = 'job'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey][0]
+        else:
+            return dict()
+
+    ################
+    ## get the version of Unisphere (the API)
+    ################
+    def getVersion(self, URL):
+        target_uri = "%s/univmax/restapi/system/version" % (URL)
+        responseKey = 'version'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+
+    ######################################
+    ## SLO PROVISIONING Resource group
+    ######################################
 
     def getSloSymms(self, URL):
         target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix" % (URL)
