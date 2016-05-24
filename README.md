@@ -1,5 +1,5 @@
-unisphere-rest-client
-=====================
+PyMAX REST API for EMC VMAX
+===========================
 
 Example implementation of a python REST client for EMC Unisphere for VMAX3
 
