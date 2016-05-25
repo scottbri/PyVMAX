@@ -20,7 +20,7 @@ password = args.passwd
 api = Restful(URL,user,password)
 
 # TODO: Do something based on the version of Unisphere
-unisphereVersion = api.getVersion(URL)
+unisphereVersion = api.getVersion(URL)['version']
 
 # discover the known symmetrix serial #'s
 symmIdList = api.getSymms(URL)

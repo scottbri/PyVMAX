@@ -558,7 +558,7 @@ class Restful:
         responseKey = 'version'
         responseObj = self.jsonGet(target_uri)
         if responseKey in responseObj:
-            return responseObj[responseKey]
+            return responseObj
         else:
             return dict()
 

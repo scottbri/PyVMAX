@@ -1,7 +1,3 @@
-vi.exe
-gitpush.bat
-gitpush.sh
-deploy.bat
-application.wadl
+.cache
 __pycache__
 *.pyc

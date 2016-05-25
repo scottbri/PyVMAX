@@ -1,97 +1,471 @@
 #!/usr/bin/python
 
-import argparse, pytest
+import pytest
 from symmRestApi import Restful
 
 #################################
 
-### Define and Parse CLI arguments
-parser = argparse.ArgumentParser(description='Example implementation of a Python REST client for EMC Unisphere for VMAX.')
-rflags = parser.add_argument_group('Required arguments')
-rflags.add_argument('-url',         required=True, help='Base Unisphere URL. e.g. https://10.0.0.1:8443')
-rflags.add_argument('-user',        required=True, help='Unisphere username. e.g. smc')
-rflags.add_argument('-passwd',      required=True, help='Unisphere password. e.g. smc')
-args = parser.parse_args()
+def test_getVersion(variables):
+	api = Restful(variables['URL'],variables['user'],variables['pass'])
+	assert isinstance(api.getVersion(variables['URL']), dict)
 
-URL = args.url
-user = args.user
-password = args.passwd
+def test_getSymms(variables):
+	api = Restful(variables['URL'],variables['user'],variables['pass'])
+	assert isinstance(api.getSymms(variables['URL']), list)
 
-api = Restful(URL,user,password)
+def test_getApps(variables):
+	api = Restful(variables['URL'],variables['user'],variables['pass'])
+	assert isinstance(api.getApps(variables['URL']), list)
+	
+def test_getShards(variables):
+	api = Restful(variables['URL'],variables['user'],variables['pass'])
+	assert isinstance(api.getShards(variables['URL']), list)
 
-def test_getVersion(URL):
-	assert isinstance(api.getVersion(URL), dict)
+'''    ######################################
+    ## COMMON Resource group
+    ######################################
 
-# discover the known symmetrix serial #'s
-def test_getSymms(URL):
-    assert isinstance(api.getSymms(URL), (list))
-#
-## going to build a list of dicts, each one a symmetrix
-#symmList = list()
-#for symmId in symmIdList:
-#    # get the array details
-#    symmetrix = api.getSymm(URL, symmId)
-#
-#    # now gather more details and add them to the array dict
-#
-#    # examine first two chars of ucode
-#    if symmetrix['ucode'][:2] == '59':
-#	    # VMAX3 with SRP and SLO based Provisioning
-#
-#        # for this symmetrix, go ahead and build a list of SRP's
-#        srpList = list()
-#        for srpId in api.getSrps(URL, symmId):
-#            srp = api.getSrp(URL, symmId, srpId)
-#            srpList.append(srp)
-#
-#        # add a dict entry for the SRP list data structure we just created
-#        symmetrix['srp'] = srpList
-#
-#        # for this symmetrix, go ahead and build a list of Storage Groups
-#        sgList = list()
-#        for sgId in api.getSgList(URL, symmId):
-#            sg = api.getSg(URL, symmId, sgId)
-#            sgList.append(sg)
-#
-#        # add a dict entry for the Storage Group list data structure we just created
-#        symmetrix['storageGroup'] = sgList
-#
-#    else:
-#        # this is an older Symmetrix with virtual provisioning
-#
-#        # for this symmetrix, go ahead and build a list of Thin Pools
-#        tpList = list()
-#        for tpId in api.getThinPoolList(URL, symmId):
-#            tp = api.getThinPool(URL, symmId, tpId)
-#            tpList.append(tp)
-#
-#        # add a dict entry for the SRP list data structure we just created
-#        symmetrix['thinpool'] = tpList
-#
-#    # finally add this symmetrix dict data structure to the list of arrays
-#    symmList.append(symmetrix)
-#
-## do something useful with all this data, like print it out ;-)
-#api.jsonPrint(symmList)
+    ######################################
+    ## MANAGEMENT Resource group
+    ######################################
+
+    ################
+    ## get a dump of unisphere server runtime stats
+    ################
+    def getUsageStats(self, URL):
+        target_uri = "%s/univmax/restapi/management/RuntimeUsage/read" % (URL)
+        responseKey = 'runtimeGenericResources'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+    ######################################
+    ## PERFORMANCE Resource group
+    ######################################
+
+    ######################################
+    ## PROVISIONING Resource group
+    ######################################
+
+    ################
+    ## queries for a list of Authorized Symmetrix Ids compatible with provisioning
+    ################
+    def getProvisionableSymms(self, URL):
+        target_uri = "%s/univmax/restapi/provisioning/symmetrix" % (URL)
+        responseKey = 'symmetrixId'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+    ################
+    ## queries for a specific Authorized Symmetrix using its ID and compatible with provisioning
+    ################
+    def getProvisionableSymm(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/provisioning/symmetrix/%s" % (URL, resourceId)
+        responseKey = 'symmetrix'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey][0]
+        else:
+            return dict()
+
+    ################
+    ## get a list of Thin Pools on a given Symmetrix
+    ################
+    def getThinPoolList(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/provisioning/symmetrix/%s/thinpool" % (URL, resourceId)
+        responseKey = 'poolId'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+    ################
+    ## get the details of a particular Thin Pool
+    ################
+    def getThinPool(self, URL, symmId, tpId):
+        target_uri = "%s/univmax/restapi/provisioning/symmetrix/%s/thinpool/%s" % (URL, symmId, tpId)
+        responseKey = 'poolId'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey][0]
+        else:
+            return dict()
+
+    ######################################
+    ## REPLICATION Resource group
+    ######################################
 
 
-##### END ####
-# stuff I want to save
+    ######################################
+    ## SLO PROVISIONING Resource group
+    ######################################
+
+    def getSloSymms(self, URL):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix" % (URL)
+        responseKey = 'symmetrixId'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+    def getSloSymm(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s" % (URL, resourceId)
+        responseKey = 'symmetrix'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey][0]
+        else:
+            return dict()
+
+    def getSloDirectors(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/director" % (URL, resourceId)
+        responseKey = 'directorId'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+    def getSloDirector(self, URL, symmId, resourceId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/director/%s" % (URL, symmId, resourceId)
+        responseKey = 'director'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey][0]
+        else:
+            return dict()
+
+    def getSloPorts(self, URL, symmId, resourceId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/director/%s/port" % (URL, symmId, resourceId)
+        responseKey = 'symmetrixPortKey'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+    def getSloPort(self, URL, symmId, directorId, portId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/director/%s/port/%s" % (URL, symmId, directorId, portId)
+        responseKey = 'symmetrixPort'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey][0]
+        else:
+            return dict()
+
+    def getSloHosts(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/host" % (URL, resourceId)
+        responseKey = 'hostId'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+    def getSloHost(self, URL, symmId, hostId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/host/%s" % (URL, symmId, hostId)
+        responseKey = 'host'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey][0]
+        else:
+            return dict()
+
+    def getSloHostgrps(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/hostgroup" % (URL, resourceId)
+        responseKey = 'hostGroupId'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+    def getSloHostgrp(self, URL, symmId, grpId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/hostgroup/%s" % (URL, symmId, grpId)
+        responseKey = 'hostGroup'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey][0]
+        else:
+            return dict()
+
+    def getSloInitiators(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/initiator" % (URL, resourceId)
+        responseKey = 'initiatorId'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+    def getSloInitator(self, URL, symmId, initiatorId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/initiator/%s" % (URL, symmId, initatorId)
+        responseKey = 'initiator'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey][0]
+        else:
+            return dict()
+
+    def getSloMaskingviews(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/maskingview" % (URL, resourceId)
+        responseKey = 'maskingViewId'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+    def getSloMaskingview(self, URL, symmId, mvId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/maskingview/%s" % (URL, symmId, mvId)
+        responseKey = 'maskingView'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey][0]
+        else:
+            return dict()
+
+    def getSloMvConnections(self, URL, symmId, mvId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/maskingview/%s/connections" % (URL, symmId, mvId)
+        responseKey = 'maskingViewConnection'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+    def getSloPorts(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/port" % (URL, resourceId)
+        responseKey = 'symmetrixPortKey'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+    def getSloPortgrps(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/portgroup" % (URL, resourceId)
+        responseKey = 'portGroupId'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+    def getSloPortgrp(self, URL, symmId, pgId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/portgroup/%s" % (URL, symmId, pgId)
+        responseKey = 'portGroup'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey][0]
+        else:
+            return dict()
+
+    def getSlos(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/slo" % (URL, resourceId)
+        responseKey = 'sloId'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+    def getSlo(self, URL, symmId, sloId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/slo/%s" % (URL, symmId, sloId)
+        responseKey = 'slo'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey][0]
+        else:
+            return dict()
+
+    def getSrps(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/srp" % (URL, resourceId)
+        responseKey = 'srpId'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+    def getSrp(self, URL, symmId, srpId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/srp/%s" % (URL, symmId, srpId)
+        responseKey = 'srp'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey][0]
+        else:
+            return dict()
+
+    ################
+    ## get a list of Storage Groups on a given SLO Symmetrix
+    ################
+    def getSgList(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/storagegroup" % (URL, resourceId)
+        responseKey = 'storageGroupId'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+    ################
+    ## get the details of a particular SLO managed Storage Group
+    ################
+    def getSg(self, URL, symmId, sgId):
+        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/storagegroup/%s" % (URL, symmId, sgId)
+        responseKey = 'storageGroup'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey][0]
+        else:
+            return dict()
 
 
-#requestObj = {'arrayParam':
-#            {'endDate': int(time.time()*1000), #End time to specify is now.
-#             'startDate': int(time.time()*1000)-(3600*1000), #start time is 60 minutes before that
-#             'metrics': ['IO_RATE'], #array of what metrics we want
-#             'symmetrixId': '000194900728' #symmetrix ID (full 12 digits)
-#            }
-#          }
+    ######################################
+    ## SYSTEM Resource group
+    ######################################
 
-#make sure we actually get a value back.
-##data = None
-#if len(responseObj["iterator"]["resultList"]["result"]) > 0:
-#    data = float(responseObj["iterator"]["resultList"]["result"][0]['IO_RATE'])
-#    line = 'Symmetrix.System.IO_RATE %d %d' % (data, int(time.time()))
-#    print line
-#else:
-#    print "Short response"
+    ################
+    ## get a list of All Alert ids across all symmetrix arrays
+    ################
+    def getAlerts(self, URL):
+        target_uri = "%s/univmax/restapi/system/alert" % (URL)
+        responseKey = 'alertId'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+    ################
+    ## queries for a specified Alert
+    ################
+    def getAlert(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/system/alert/%s" % (URL, resourceId)
+        responseKey = 'alert'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey][0]
+        else:
+            return dict()
+
+    ################
+    ## queries for a list of Job ids across all symmetrix arrays
+    ################
+    def getJobs(self, URL):
+        target_uri = "%s/univmax/restapi/system/job" % (URL)
+        responseKey = 'jobId'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+    ################
+    ## queries for a specified job
+    ################
+    def getJob(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/system/job/%s" % (URL, resourceId)
+        responseKey = 'job'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey][0]
+        else:
+            return dict()
+
+    ################
+    ## get a list of symmetrix serial #'s known by Unisphere
+    ################
+    def getSymms(self, URL):
+        target_uri = "%s/univmax/restapi/system/symmetrix" % (URL)
+        responseKey = 'symmetrixId'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+    ################
+    ## This call queries for a specific Authorized Symmetrix Object that is compatible with slo provisioning using its ID
+    ################
+    def getSymm(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/system/symmetrix/%s" % (URL, resourceId)
+        responseKey = 'symmetrix'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey][0]
+        else:
+            return dict()
+
+    ################
+    ## get a list of All Alert ids for a specific array id
+    ################
+    def getSymmAlerts(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/system/symmetrix/%s/alert" % (URL, resourceId)
+        responseKey = 'alert'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+    ################
+    ## queries for a specified Alert on a specified array
+    ################
+    def getSymmAlert(self, URL, symId, alertId):
+        target_uri = "%s/univmax/restapi/system/symmetrix/%s/alert/%s" % (URL, symId, alertId)
+        responseKey = 'alert'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey][0]
+        else:
+            return dict()
+
+    ################
+    ## queries for a list of Job ids on a specified array
+    ################
+    def getSymmJobs(self, URL, resourceId):
+        target_uri = "%s/univmax/restapi/system/symmetrix/%s/job" % (URL, resourceId)
+        responseKey = 'jobId'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey]
+        else:
+            return dict()
+
+    ################
+    ## queries for a specified job on a specified array
+    ################
+    def getSymmJob(self, URL, symId, jobId):
+        target_uri = "%s/univmax/restapi/system/symmetrix/%s/job/%s" % (URL, symId, jobId)
+        responseKey = 'job'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj[responseKey][0]
+        else:
+            return dict()
+
+    ################
+    ## get the version of Unisphere (the API)
+    ################
+    def getVersion(self, URL):
+        target_uri = "%s/univmax/restapi/system/version" % (URL)
+        responseKey = 'version'
+        responseObj = self.jsonGet(target_uri)
+        if responseKey in responseObj:
+            return responseObj
+        else:
+            return dict()
+
+    ######################################
+    ## WORKLOAD Resource group
+    ######################################
+'''
