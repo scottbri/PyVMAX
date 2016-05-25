@@ -3,469 +3,141 @@
 import pytest
 from symmRestApi import Restful
 
-#################################
+######################################
+## COMMON Resource group
+######################################
 
-def test_getVersion(variables):
-	api = Restful(variables['URL'],variables['user'],variables['pass'])
-	assert isinstance(api.getVersion(variables['URL']), dict)
+######################################
+## MANAGEMENT Resource group
+######################################
 
-def test_getSymms(variables):
-	api = Restful(variables['URL'],variables['user'],variables['pass'])
-	assert isinstance(api.getSymms(variables['URL']), list)
+def test_management(variables):
+    # in the following, 'resource_id' or similar string is a valid type string but
+    # will never be successfully found by the api
+    api = Restful(variables['URL'], variables['user'], variables['pass'])
 
-def test_getApps(variables):
-	api = Restful(variables['URL'],variables['user'],variables['pass'])
-	assert isinstance(api.getApps(variables['URL']), list)
-	
-def test_getShards(variables):
-	api = Restful(variables['URL'],variables['user'],variables['pass'])
-	assert isinstance(api.getShards(variables['URL']), list)
+    assert isinstance(api.get_usage_stats(variables['URL']), list)
 
-'''    ######################################
-    ## COMMON Resource group
-    ######################################
+######################################
+## PERFORMANCE Resource group
+######################################
 
-    ######################################
-    ## MANAGEMENT Resource group
-    ######################################
+######################################
+## SLOPROVISIONING and PROVISIONING Resource groups
+######################################
 
-    ################
-    ## get a dump of unisphere server runtime stats
-    ################
-    def getUsageStats(self, URL):
-        target_uri = "%s/univmax/restapi/management/RuntimeUsage/read" % (URL)
-        responseKey = 'runtimeGenericResources'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey]
-        else:
-            return dict()
+def test_provisioning(variables):
+    # in the following, 'resource_id' or similar string is a valid type string but
+    # will never be successfully found by the api
+    api = Restful(variables['URL'], variables['user'], variables['pass'])
 
-    ######################################
-    ## PERFORMANCE Resource group
-    ######################################
+    assert isinstance(api.get_arrays(variables['URL']), 'SLO', list)
+    assert isinstance(api.get_array_directors(variables['URL'], 'SLO', 'array_id'), list)
+    assert isinstance(api.get_array_director(variables['URL'], 'SLO', 'array_id', 'director_id'), dict)
+    assert isinstance(api.get_array_director_ports(variables['URL'], 'SLO', 'array_id', 'director_id'), list)
+    assert isinstance(api.get_array_director_port(variables['URL'], 'SLO', 'array_id', 'director_id', 'port_id'), dict)
+    assert isinstance(api.get_array_fastpolicies(variables['URL'], 'SLO', 'array_id'), list)
+    assert isinstance(api.get_array_fastpolicy(variables['URL'], 'SLO', 'array_id', 'policy_id'), dict)
+    assert isinstance(api.get_array_hosts(variables['URL'], 'SLO', 'array_id'), list)
+    assert isinstance(api.get_array_host(variables['URL'], 'SLO', 'array_id', 'host_id'), dict)
+    assert isinstance(api.get_array_hostgroups(variables['URL'], 'SLO', 'array_id'), list)
+    assert isinstance(api.get_array_hostgroup(variables['URL'], 'SLO', 'array_id', 'hostgroup_id'), dict)
+    assert isinstance(api.get_array_initiators(variables['URL'], 'SLO', 'array_id'), list)
+    assert isinstance(api.get_array_initiator(variables['URL'], 'SLO', 'array_id', 'initiator_id'), dict)
+    assert isinstance(api.get_array_maskingviews(variables['URL'], 'SLO', 'array_id'), list)
+    assert isinstance(api.get_array_maskingview(variables['URL'], 'SLO', 'array_id', 'maskingview_id'), dict)
+    assert isinstance(api.get_array_maskingview_connections(variables['URL'], 'SLO', 'array_id'), list)
+    assert isinstance(api.get_array_ports(variables['URL'], 'SLO', 'array_id'), list)
+    assert isinstance(api.get_array_portgoups(variables['URL'], 'SLO', 'array_id'), list)
+    assert isinstance(api.get_array_portgroup(variables['URL'], 'SLO', 'array_id', 'portgroup_id'), dict)
+    assert isinstance(api.get_array_slos(variables['URL'], 'SLO', 'array_id'), list)
+    assert isinstance(api.get_array_slo(variables['URL'], 'SLO', 'array_id', 'slo_id'), dict)
+    assert isinstance(api.get_array_srps(variables['URL'], 'SLO', 'array_id'), list)
+    assert isinstance(api.get_array_srp(variables['URL'], 'SLO', 'array_id', 'srp_id'), dict)
+    assert isinstance(api.get_array_storagegroups(variables['URL'], 'SLO', 'array_id'), list)
+    assert isinstance(api.get_array_storagegroup(variables['URL'], 'SLO', 'array_id', 'storagegroup_id'), dict)
+    assert isinstance(api.get_array_volumes(variables['URL'], 'SLO', 'array_id'), list)
 
-    ######################################
-    ## PROVISIONING Resource group
-    ######################################
-
-    ################
-    ## queries for a list of Authorized Symmetrix Ids compatible with provisioning
-    ################
-    def getProvisionableSymms(self, URL):
-        target_uri = "%s/univmax/restapi/provisioning/symmetrix" % (URL)
-        responseKey = 'symmetrixId'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey]
-        else:
-            return dict()
-
-    ################
-    ## queries for a specific Authorized Symmetrix using its ID and compatible with provisioning
-    ################
-    def getProvisionableSymm(self, URL, resourceId):
-        target_uri = "%s/univmax/restapi/provisioning/symmetrix/%s" % (URL, resourceId)
-        responseKey = 'symmetrix'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey][0]
-        else:
-            return dict()
-
-    ################
-    ## get a list of Thin Pools on a given Symmetrix
-    ################
-    def getThinPoolList(self, URL, resourceId):
-        target_uri = "%s/univmax/restapi/provisioning/symmetrix/%s/thinpool" % (URL, resourceId)
-        responseKey = 'poolId'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey]
-        else:
-            return dict()
-
-    ################
-    ## get the details of a particular Thin Pool
-    ################
-    def getThinPool(self, URL, symmId, tpId):
-        target_uri = "%s/univmax/restapi/provisioning/symmetrix/%s/thinpool/%s" % (URL, symmId, tpId)
-        responseKey = 'poolId'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey][0]
-        else:
-            return dict()
-
-    ######################################
-    ## REPLICATION Resource group
-    ######################################
+    assert isinstance(api.get_arrays(variables['URL']), 'NOTSLO', list)
+    assert isinstance(api.get_array_directors(variables['URL'], 'NOTSLO', 'array_id'), list)
+    assert isinstance(api.get_array_director(variables['URL'], 'NOTSLO', 'array_id', 'director_id'), dict)
+    assert isinstance(api.get_array_director_ports(variables['URL'], 'NOTSLO', 'array_id', 'director_id'), list)
+    assert isinstance(api.get_array_director_port(variables['URL'], 'NOTSLO', 'array_id', 'director_id', 'port_id'), dict)
+    assert isinstance(api.get_array_fastpolicies(variables['URL'], 'NOTSLO', 'array_id'), list)
+    assert isinstance(api.get_array_fastpolicy(variables['URL'], 'NOTSLO', 'array_id', 'policy_id'), dict)
+    assert isinstance(api.get_array_hosts(variables['URL'], 'NOTSLO', 'array_id'), list)
+    assert isinstance(api.get_array_host(variables['URL'], 'NOTSLO', 'array_id', 'host_id'), dict)
+    assert isinstance(api.get_array_hostgroups(variables['URL'], 'NOTSLO', 'array_id'), list)
+    assert isinstance(api.get_array_hostgroup(variables['URL'], 'NOTSLO', 'array_id', 'hostgroup_id'), dict)
+    assert isinstance(api.get_array_initiators(variables['URL'], 'NOTSLO', 'array_id'), list)
+    assert isinstance(api.get_array_initiator(variables['URL'], 'NOTSLO', 'array_id', 'initiator_id'), dict)
+    assert isinstance(api.get_array_maskingviews(variables['URL'], 'NOTSLO', 'array_id'), list)
+    assert isinstance(api.get_array_maskingview(variables['URL'], 'NOTSLO', 'array_id', 'maskingview_id'), dict)
+    assert isinstance(api.get_array_maskingview_connections(variables['URL'], 'NOTSLO', 'array_id'), list)
+    assert isinstance(api.get_array_ports(variables['URL'], 'NOTSLO', 'array_id'), list)
+    assert isinstance(api.get_array_portgoups(variables['URL'], 'NOTSLO', 'array_id'), list)
+    assert isinstance(api.get_array_portgroup(variables['URL'], 'NOTSLO', 'array_id', 'portgroup_id'), dict)
+    assert isinstance(api.get_array_storagegroups(variables['URL'], 'NOTSLO', 'array_id'), list)
+    assert isinstance(api.get_array_storagegroup(variables['URL'], 'NOTSLO', 'array_id', 'storagegroup_id'), dict)
+    assert isinstance(api.get_array_thinpools(variables['URL'], 'NOTSLO', 'array_id'), list)
+    assert isinstance(api.get_array_thinpool(variables['URL'], 'NOTSLO', 'array_id', 'thinpool_id'), dict)
+    assert isinstance(api.get_array_tiers(variables['URL'], 'NOTSLO', 'array_id'), list)
+    assert isinstance(api.get_array_tier(variables['URL'], 'NOTSLO', 'array_id', 'tier_id'), dict)
+    assert isinstance(api.get_array_volumes(variables['URL'], 'NOTSLO', 'array_id'), list)
+    assert isinstance(api.get_array_volume(variables['URL'], 'NOTSLO', 'array_id', 'volume_id'), dict)
 
 
-    ######################################
-    ## SLO PROVISIONING Resource group
-    ######################################
+######################################
+## REPLICATION Resource group
+######################################
+def test_replication(variables):
+    # in the following, 'resource_id' or similar string is a valid type string but
+    # will never be successfully found by the api
+    api = Restful(variables['URL'], variables['user'], variables['pass'])
 
-    def getSloSymms(self, URL):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix" % (URL)
-        responseKey = 'symmetrixId'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey]
-        else:
-            return dict()
+    assert isinstance(api.get_replica_abilities(variables['URL']), list)
+    assert isinstance(api.get_replica_devicegroups(variables['URL']), list)
+    assert isinstance(api.get_replica_devicegroup(variables['URL'], 'array_id', 'devicegroup_id'), dict)
+    assert isinstance(api.get_replica_devicegroup_number(variables['URL'], 'array_id', 'devicegroup_id'), dict)
+    assert isinstance(api.get_replica_arrays(variables['URL']), list)
+    assert isinstance(api.get_replica_array(variables['URL'], 'array_id'), dict)
+    assert isinstance(api.get_replica_rdfgroups(variables['URL'], 'array_id'), list)
+    assert isinstance(api.get_replica_rdfgroup(variables['URL'], 'array_id', 'rdfg_num'), dict)
+    assert isinstance(api.get_replica_storagegroups(variables['URL'], 'array_id'), list)
+    assert isinstance(api.get_replica_storagegroup(variables['URL'], 'array_id', 'storagegroup_id'), dict)
+    assert isinstance(api.get_replica_storagegroup_snaps(variables['URL'], 'array_id', 'storagegroup_id'), list)
+    assert isinstance(api.get_replica_storagegroup_snap(variables['URL'], 'array_id', 'storagegroup_id', 'snap_id'), dict)
+    assert isinstance(api.get_replica_storagegroup_snap_generations(variables['URL'], 'array_id', 'storagegroup_id', 'snap_id'), list)
+    assert isinstance(api.get_replica_storagegroup_snap_generation(variables['URL'], 'array_id', 'storagegroup_id', 'snap_id', 'generation_num'), dict)
 
-    def getSloSymm(self, URL, resourceId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s" % (URL, resourceId)
-        responseKey = 'symmetrix'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey][0]
-        else:
-            return dict()
+'''
+######################################
+## SYSTEM Resource group
+######################################
 
-    def getSloDirectors(self, URL, resourceId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/director" % (URL, resourceId)
-        responseKey = 'directorId'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey]
-        else:
-            return dict()
+def getAlerts(self, URL):
 
-    def getSloDirector(self, URL, symmId, resourceId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/director/%s" % (URL, symmId, resourceId)
-        responseKey = 'director'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey][0]
-        else:
-            return dict()
+def getAlert(self, URL, resourceId):
 
-    def getSloPorts(self, URL, symmId, resourceId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/director/%s/port" % (URL, symmId, resourceId)
-        responseKey = 'symmetrixPortKey'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey]
-        else:
-            return dict()
+def getJobs(self, URL):
 
-    def getSloPort(self, URL, symmId, directorId, portId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/director/%s/port/%s" % (URL, symmId, directorId, portId)
-        responseKey = 'symmetrixPort'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey][0]
-        else:
-            return dict()
+def getJob(self, URL, resourceId):
 
-    def getSloHosts(self, URL, resourceId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/host" % (URL, resourceId)
-        responseKey = 'hostId'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey]
-        else:
-            return dict()
+def getSymms(self, URL):
 
-    def getSloHost(self, URL, symmId, hostId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/host/%s" % (URL, symmId, hostId)
-        responseKey = 'host'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey][0]
-        else:
-            return dict()
+def getSymm(self, URL, resourceId):
 
-    def getSloHostgrps(self, URL, resourceId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/hostgroup" % (URL, resourceId)
-        responseKey = 'hostGroupId'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey]
-        else:
-            return dict()
+def getSymmAlerts(self, URL, resourceId):
 
-    def getSloHostgrp(self, URL, symmId, grpId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/hostgroup/%s" % (URL, symmId, grpId)
-        responseKey = 'hostGroup'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey][0]
-        else:
-            return dict()
+def getSymmAlert(self, URL, symId, alertId):
 
-    def getSloInitiators(self, URL, resourceId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/initiator" % (URL, resourceId)
-        responseKey = 'initiatorId'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey]
-        else:
-            return dict()
+def getSymmJobs(self, URL, resourceId):
 
-    def getSloInitator(self, URL, symmId, initiatorId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/initiator/%s" % (URL, symmId, initatorId)
-        responseKey = 'initiator'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey][0]
-        else:
-            return dict()
+def getSymmJob(self, URL, symId, jobId):
 
-    def getSloMaskingviews(self, URL, resourceId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/maskingview" % (URL, resourceId)
-        responseKey = 'maskingViewId'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey]
-        else:
-            return dict()
+def getVersion(self, URL):
 
-    def getSloMaskingview(self, URL, symmId, mvId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/maskingview/%s" % (URL, symmId, mvId)
-        responseKey = 'maskingView'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey][0]
-        else:
-            return dict()
-
-    def getSloMvConnections(self, URL, symmId, mvId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/maskingview/%s/connections" % (URL, symmId, mvId)
-        responseKey = 'maskingViewConnection'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey]
-        else:
-            return dict()
-
-    def getSloPorts(self, URL, resourceId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/port" % (URL, resourceId)
-        responseKey = 'symmetrixPortKey'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey]
-        else:
-            return dict()
-
-    def getSloPortgrps(self, URL, resourceId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/portgroup" % (URL, resourceId)
-        responseKey = 'portGroupId'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey]
-        else:
-            return dict()
-
-    def getSloPortgrp(self, URL, symmId, pgId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/portgroup/%s" % (URL, symmId, pgId)
-        responseKey = 'portGroup'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey][0]
-        else:
-            return dict()
-
-    def getSlos(self, URL, resourceId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/slo" % (URL, resourceId)
-        responseKey = 'sloId'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey]
-        else:
-            return dict()
-
-    def getSlo(self, URL, symmId, sloId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/slo/%s" % (URL, symmId, sloId)
-        responseKey = 'slo'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey][0]
-        else:
-            return dict()
-
-    def getSrps(self, URL, resourceId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/srp" % (URL, resourceId)
-        responseKey = 'srpId'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey]
-        else:
-            return dict()
-
-    def getSrp(self, URL, symmId, srpId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/srp/%s" % (URL, symmId, srpId)
-        responseKey = 'srp'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey][0]
-        else:
-            return dict()
-
-    ################
-    ## get a list of Storage Groups on a given SLO Symmetrix
-    ################
-    def getSgList(self, URL, resourceId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/storagegroup" % (URL, resourceId)
-        responseKey = 'storageGroupId'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey]
-        else:
-            return dict()
-
-    ################
-    ## get the details of a particular SLO managed Storage Group
-    ################
-    def getSg(self, URL, symmId, sgId):
-        target_uri = "%s/univmax/restapi/sloprovisioning/symmetrix/%s/storagegroup/%s" % (URL, symmId, sgId)
-        responseKey = 'storageGroup'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey][0]
-        else:
-            return dict()
-
-
-    ######################################
-    ## SYSTEM Resource group
-    ######################################
-
-    ################
-    ## get a list of All Alert ids across all symmetrix arrays
-    ################
-    def getAlerts(self, URL):
-        target_uri = "%s/univmax/restapi/system/alert" % (URL)
-        responseKey = 'alertId'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey]
-        else:
-            return dict()
-
-    ################
-    ## queries for a specified Alert
-    ################
-    def getAlert(self, URL, resourceId):
-        target_uri = "%s/univmax/restapi/system/alert/%s" % (URL, resourceId)
-        responseKey = 'alert'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey][0]
-        else:
-            return dict()
-
-    ################
-    ## queries for a list of Job ids across all symmetrix arrays
-    ################
-    def getJobs(self, URL):
-        target_uri = "%s/univmax/restapi/system/job" % (URL)
-        responseKey = 'jobId'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey]
-        else:
-            return dict()
-
-    ################
-    ## queries for a specified job
-    ################
-    def getJob(self, URL, resourceId):
-        target_uri = "%s/univmax/restapi/system/job/%s" % (URL, resourceId)
-        responseKey = 'job'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey][0]
-        else:
-            return dict()
-
-    ################
-    ## get a list of symmetrix serial #'s known by Unisphere
-    ################
-    def getSymms(self, URL):
-        target_uri = "%s/univmax/restapi/system/symmetrix" % (URL)
-        responseKey = 'symmetrixId'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey]
-        else:
-            return dict()
-
-    ################
-    ## This call queries for a specific Authorized Symmetrix Object that is compatible with slo provisioning using its ID
-    ################
-    def getSymm(self, URL, resourceId):
-        target_uri = "%s/univmax/restapi/system/symmetrix/%s" % (URL, resourceId)
-        responseKey = 'symmetrix'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey][0]
-        else:
-            return dict()
-
-    ################
-    ## get a list of All Alert ids for a specific array id
-    ################
-    def getSymmAlerts(self, URL, resourceId):
-        target_uri = "%s/univmax/restapi/system/symmetrix/%s/alert" % (URL, resourceId)
-        responseKey = 'alert'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey]
-        else:
-            return dict()
-
-    ################
-    ## queries for a specified Alert on a specified array
-    ################
-    def getSymmAlert(self, URL, symId, alertId):
-        target_uri = "%s/univmax/restapi/system/symmetrix/%s/alert/%s" % (URL, symId, alertId)
-        responseKey = 'alert'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey][0]
-        else:
-            return dict()
-
-    ################
-    ## queries for a list of Job ids on a specified array
-    ################
-    def getSymmJobs(self, URL, resourceId):
-        target_uri = "%s/univmax/restapi/system/symmetrix/%s/job" % (URL, resourceId)
-        responseKey = 'jobId'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey]
-        else:
-            return dict()
-
-    ################
-    ## queries for a specified job on a specified array
-    ################
-    def getSymmJob(self, URL, symId, jobId):
-        target_uri = "%s/univmax/restapi/system/symmetrix/%s/job/%s" % (URL, symId, jobId)
-        responseKey = 'job'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj[responseKey][0]
-        else:
-            return dict()
-
-    ################
-    ## get the version of Unisphere (the API)
-    ################
-    def getVersion(self, URL):
-        target_uri = "%s/univmax/restapi/system/version" % (URL)
-        responseKey = 'version'
-        responseObj = self.jsonGet(target_uri)
-        if responseKey in responseObj:
-            return responseObj
-        else:
-            return dict()
-
-    ######################################
-    ## WORKLOAD Resource group
-    ######################################
+######################################
+## WORKLOAD Resource group
+######################################
 '''
