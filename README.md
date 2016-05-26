@@ -39,6 +39,9 @@ from symmRestApi import Restful
 ```
 Requires the 'requests' JSON parsing package 
 
+You can download api documentation by pointing your browser to URL/univmax/restapi/docs (URL as above):
+eg: https://10.0.0.1:8443/univmax/restapi/docs
+
 TODO
 ====
 * fully implement the reporting API
