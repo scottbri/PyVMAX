@@ -1,4 +1,4 @@
-PyMAX REST API for EMC VMAX
+PyVMAX REST API for EMC VMAX
 ===========================
 
 Example implementation of a python REST client for EMC Unisphere for VMAX
@@ -15,7 +15,7 @@ pip install requests
 USAGE
 =====
 ```
-usage: symmREST.py [-h] -url URL -user USER -passwd PASSWD
+usage: example.py [-h] -url URL -user USER -passwd PASSWD
 
 Example implementation of a Python REST client for EMC Unisphere for VMAX.
 
