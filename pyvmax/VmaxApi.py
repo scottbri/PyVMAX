@@ -70,9 +70,9 @@ class VmaxApi(object):
         target_uri = "%s/common/Iterator/%s" % (self.rest.url, iterator_id)
         return self.rest.delete(target_uri)
 
-    def get_iterator_page(self, iterator_id, params_dict):
+    def get_iterator_page(self, iterator_id, params_dict=None):
         target_uri = "%s/common/Iterator/%s/page" % (self.rest.url, iterator_id)
-        return self.rest.delete(target_uri, params_dict)
+        return self.rest.get(target_uri, params_dict)
 
 
     ######################################
@@ -112,7 +112,6 @@ class VmaxApi(object):
 
     def get_prov_array_director_ports(self, array_id, director_id, params_dict=None):
         target_uri = "%s/provisioning/symmetrix/%s/director/%s/port" % (self.rest.url, array_id, director_id)
-
         return self.rest.get(target_uri, params_dict)
 
     def get_prov_array_director_port(self, array_id, director_id, port_id):
@@ -179,7 +178,7 @@ class VmaxApi(object):
         target_uri = "%s/provisioning/symmetrix/%s/hostgroup/%s" % (self.rest.url, array_id, hostgroup_id)
         return self.rest.delete(target_uri)
 
-    def get_prov_array_initiators(self, array_id, params_dict):
+    def get_prov_array_initiators(self, array_id, params_dict=None):
         target_uri = "%s/provisioning/symmetrix/%s/initiator" % (self.rest.url, array_id)
         return self.rest.get(target_uri, params_dict)
 
@@ -191,7 +190,7 @@ class VmaxApi(object):
         target_uri = "%s/provisioning/symmetrix/%s/initiator/%s" % (self.rest.url, array_id, initiator_id)
         return self.rest.put(target_uri, params_dict)
 
-    def get_prov_array_maskingviews(self, array_id, params_dict):
+    def get_prov_array_maskingviews(self, array_id, params_dict=None):
         target_uri = "%s/provisioning/symmetrix/%s/maskingview" % (self.rest.url, array_id)
         return self.rest.get(target_uri, params_dict)
 
@@ -211,15 +210,15 @@ class VmaxApi(object):
         target_uri = "%s/provisioning/symmetrix/%s/maskingview/%s" % (self.rest.url, array_id, maskingview_id)
         return self.rest.delete(target_uri)
 
-    def get_prov_array_maskingview_connections(self, array_id, maskingview_id, params_dict):
+    def get_prov_array_maskingview_connections(self, array_id, maskingview_id, params_dict=None):
         target_uri = "%s/provisioning/symmetrix/%s/maskingview/%s/connections" % (self.rest.url, array_id, maskingview_id)
         return self.rest.get(target_uri, params_dict)
 
-    def get_prov_array_ports(self, array_id, params_dict):
+    def get_prov_array_ports(self, array_id, params_dict=None):
         target_uri = "%s/provisioning/symmetrix/%s/port" % (self.rest.url, array_id)
         return self.rest.get(target_uri, params_dict)
 
-    def get_prov_array_portgoups(self, array_id, params_dict):
+    def get_prov_array_portgoups(self, array_id, params_dict=None):
         target_uri = "%s/provisioning/symmetrix/%s/portgroup" % (self.rest.url, array_id)
         return self.rest.get(target_uri, params_dict)
 
@@ -235,11 +234,11 @@ class VmaxApi(object):
         target_uri = "%s/provisioning/symmetrix/%s/portgroup/%s" % (self.rest.url, array_id, portgroup_id)
         return self.rest.put(target_uri, params_dict)
 
-    def delete_prov_array_portgroup(self, array_id, portgroup_id, params_dict):
+    def delete_prov_array_portgroup(self, array_id, portgroup_id):
         target_uri = "%s/provisioning/symmetrix/%s/portgroup/%s" % (self.rest.url, array_id, portgroup_id)
-        return self.rest.delete(target_uri, params_dict)
+        return self.rest.delete(target_uri)
 
-    def get_prov_array_storagegroups(self, array_id, params_dict):
+    def get_prov_array_storagegroups(self, array_id, params_dict=None):
         target_uri = "%s/provisioning/symmetrix/%s/storagegroup" % (self.rest.url, array_id)
         return self.rest.get(target_uri, params_dict)
 
@@ -259,11 +258,11 @@ class VmaxApi(object):
         target_uri = "%s/provisioning/symmetrix/%s/storagegroup/%s" % (self.rest.url, array_id, storagegroup_id)
         return self.rest.delete(target_uri)
 
-    def get_prov_array_thinpools(self, array_id, params_dict):
+    def get_prov_array_thinpools(self, array_id, params_dict=None):
         target_uri = "%s/provisioning/symmetrix/%s/thinpool" % (self.rest.url, array_id)
         return self.rest.get(target_uri, params_dict)
 
-    def create_prov_array_thinpools(self, array_id, params_dict):
+    def create_prov_array_thinpools(self, array_id, params_dict=None):
         target_uri = "%s/provisioning/symmetrix/%s/thinpool" % (self.rest.url, array_id)
         return self.rest.post(target_uri, params_dict)
 
@@ -279,7 +278,7 @@ class VmaxApi(object):
         target_uri = "%s/provisioning/symmetrix/%s/thinpool/%s" % (self.rest.url, array_id, thinpool_id)
         return self.rest.delete(target_uri)
 
-    def get_prov_array_tiers(self, array_id, params_dict):
+    def get_prov_array_tiers(self, array_id, params_dict=None):
         target_uri = "%s/provisioning/symmetrix/%s/tier" % (self.rest.url, array_id)
         return self.rest.get(target_uri, params_dict)
 
@@ -295,7 +294,7 @@ class VmaxApi(object):
         target_uri = "%s/provisioning/symmetrix/%s/tier/%s" % (self.rest.url, array_id, tier_id)
         return self.rest.delete(target_uri)
 
-    def get_prov_array_volumes(self, array_id, params_dict):
+    def get_prov_array_volumes(self, array_id, params_dict=None):
         target_uri = "%s/provisioning/symmetrix/%s/volume" % (self.rest.url, array_id)
         return self.rest.get(target_uri, params_dict)
 

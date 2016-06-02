@@ -21,16 +21,32 @@ vmax_api = pyvmax.vmax_connect(URL,user,password)
 
 # TODO: Do something based on the version of Unisphere
 #unisphereVersion = vmax_api.getVersion(URL)['version']
-print vmax_api.version
+vmax_api.rest.printJSON(vmax_api.version['version'])
 
 # discover the known symmetrix serial #'s
-symmIdList = vmax_api.getSymms(URL)
+symmIdList = vmax_api.get_prov_arrays()['symmetrixId']
 
 # going to build a list of dicts, each one a symmetrix
 symmList = list()
 for symmId in symmIdList:
     # get the array details
-    symmetrix = vmax_api.getSymm(URL, symmId)
+    symmetrix = vmax_api.get_prov_array(symmId)['symmetrix'][0]
+
+    # for this symmetrix, go ahead and build a list of thin pools
+    tpList = list()
+
+    for tpId in vmax_api.get_prov_array_thinpools(symmId)['poolId']:
+	tp = vmax_api.get_prov_array_thinpool(symmId, tpId)['thinPool'][0]
+	tpList.append(tp)
+
+    # add a dict entry for the thin pool list data structure we just created
+    symmetrix['thinpools'] = tpList
+
+    symmList.append(symmetrix)
+
+vmax_api.rest.printJSON(symmList)
+
+'''
 
     # now gather more details and add them to the array dict
 
@@ -73,4 +89,4 @@ for symmId in symmIdList:
 
 # do something useful with all this data, like print it out ;-)
 vmax_api.jsonPrint(symmList)
-
+'''
