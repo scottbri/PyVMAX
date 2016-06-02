@@ -21,7 +21,8 @@ vmax_api = pyvmax.vmax_connect(URL,user,password)
 
 # TODO: Do something based on the version of Unisphere
 #unisphereVersion = vmax_api.getVersion(URL)['version']
-vmax_api.rest.printJSON(vmax_api.version['version'])
+vmax_api.rest.printJSON(vmax_api.version)
+exit()
 
 # discover the known symmetrix serial #'s
 symmIdList = vmax_api.get_prov_arrays()['symmetrixId']

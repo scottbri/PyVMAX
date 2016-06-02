@@ -6,12 +6,12 @@ class VmaxApi(object):
         self.rest = Restful
         url = "%s/univmax/restapi" % (base_url)
         self.rest.setURL(url)
-        self.version = self.get_version()
-
-        supported_versions = {'V8.2.0.5' : '/82', 'V8.0.1.5' : ''}
-        if self.version in supported_versions:
-            self.url_tag = supported_versions[self.version]
-            print self.version_path
+        self.version = self.get_version()['version']
+        
+	supported_versions = {'V8.2.0.5' : '/82', 'V8.0.1.5' : ''}
+        self.version_path = ""
+	if supported_versions.has_key(self.version):
+            self.version_path = supported_versions[self.version]
 
     ######################################
     ## ADMINISTRATION Resource group
