@@ -3,7 +3,7 @@ __version__ = "0.3"
 from .Restful import Restful
 from .VmaxApi import VmaxApi
 
-def vmax_connect(url, username, password):
+def connect(url, username, password):
 
     rest_client =  Restful(url, username, password)
     return VmaxApi(rest_client, url)

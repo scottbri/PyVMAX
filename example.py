@@ -17,7 +17,7 @@ URL = args.url
 user = args.user
 password = args.passwd
 
-vmax_api = pyvmax.vmax_connect(URL,user,password)
+vmax_api = pyvmax.connect(URL,user,password)
 
 # TODO: Do something based on the version of Unisphere
 #unisphereVersion = vmax_api.getVersion(URL)['version']
@@ -25,11 +25,11 @@ vmax_api.rest.printJSON(vmax_api.version)
 exit()
 
 # discover the known symmetrix serial #'s
-symmIdList = vmax_api.get_prov_arrays()['symmetrixId']
+prov_array_ids = vmax_api.get_prov_arrays()['symmetrixId']
 
 # going to build a list of dicts, each one a symmetrix
-symmList = list()
-for symmId in symmIdList:
+prov_array_list = list()
+for symmId in prov_array_ids:
     # get the array details
     symmetrix = vmax_api.get_prov_array(symmId)['symmetrix'][0]
 
@@ -43,51 +43,43 @@ for symmId in symmIdList:
     # add a dict entry for the thin pool list data structure we just created
     symmetrix['thinpools'] = tpList
 
-    symmList.append(symmetrix)
+    prov_array_list.append(symmetrix)
 
-vmax_api.rest.printJSON(symmList)
+# do something with this great list of thin provisioned arrays
+# print it out!! (the json printer is good for lists and dicts too)
+vmax_api.rest.printJSON(prov_array_list)
 
-'''
 
+# discover the known slo symmetrix serial #'s
+slo_array_ids = vmax_api.get_slo_arrays()['symmetrixId']
+
+# going to build a list of dicts, each one a symmetrix
+slo_array_list = list()
+for symmId in slo_array_ids:
+    # get the array details
+    symmetrix = vmax_api.get_slo_array(symmId)['symmetrix'][0]
     # now gather more details and add them to the array dict
 
-    # examine first two chars of ucode
-    if symmetrix['ucode'][:2] == '59':
-	    # VMAX3 with SRP and SLO based Provisioning
+    # for this symmetrix, go ahead and build a list of SRP's
+    srpList = list()
+    for srpId in vmax_api.get_slo_array_srps(symmId):
+        srp = vmax_api.get_slo_array_srp(symmId, srpId)
+        srpList.append(srp)
 
-        # for this symmetrix, go ahead and build a list of SRP's
-        srpList = list()
-        for srpId in vmax_api.getSrps(URL, symmId):
-            srp = vmax_api.getSrp(URL, symmId, srpId)
-            srpList.append(srp)
+    # add a dict entry for the SRP list data structure we just created
+    symmetrix['srp'] = srpList
 
-        # add a dict entry for the SRP list data structure we just created
-        symmetrix['srp'] = srpList
+    # for this symmetrix, go ahead and build a list of Storage Groups
+    sgList = list()
+    for sgId in vmax_api.get_slo_array_storagegroups(symmId):
+        sg = vmax_api.get_slo_array_storagegroup(symmId, sgId)
+        sgList.append(sg)
 
-        # for this symmetrix, go ahead and build a list of Storage Groups
-        sgList = list()
-        for sgId in vmax_api.getSgList(URL, symmId):
-            sg = vmax_api.getSg(URL, symmId, sgId)
-            sgList.append(sg)
+    # add a dict entry for the Storage Group list data structure we just created
+    symmetrix['storageGroup'] = sgList
 
-        # add a dict entry for the Storage Group list data structure we just created
-        symmetrix['storageGroup'] = sgList
+    slo_array_list.append(symmetrix)
 
-    else:
-        # this is an older Symmetrix with virtual provisioning
-
-        # for this symmetrix, go ahead and build a list of Thin Pools
-        tpList = list()
-        for tpId in vmax_api.getThinPoolList(URL, symmId):
-            tp = vmax_api.getThinPool(URL, symmId, tpId)
-            tpList.append(tp)
-
-        # add a dict entry for the SRP list data structure we just created
-        symmetrix['thinpool'] = tpList
-
-    # finally add this symmetrix dict data structure to the list of arrays
-    symmList.append(symmetrix)
-
-# do something useful with all this data, like print it out ;-)
-vmax_api.jsonPrint(symmList)
-'''
+# do something with this great list of thin provisioned arrays
+# print it out!! (the json printer is good for lists and dicts too)
+vmax_api.rest.printJSON(slo_array_list)
