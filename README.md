@@ -44,10 +44,18 @@ eg: https://10.0.0.1:8443/univmax/restapi/docs
 
 TODO
 ====
-* fully implement the reporting API
+* fully implement the full API
+  * still have performance, replication, vvol, and workload resource groups to implement
   * rationalize function names between provisioning and SLO arrays
-* implement all available CRUD API calls
+  * rationalize strategy for supporting api versions ongoing and best use of newer api paths
+  * implement the latest v82 calls in SLO Resource group
 * implement additional functional examples:
-  * duplicate some reporting that happens now for performance and configuration analysis
+  * duplicate some reporting that happens now for performance and configuration analysis (examples needed)
   * incorporate FAST Pool subscription reports per http://www.scottbrightwell.org/2013/11/21/some-emc-vmax-storage-reporting-formulas/
   * example performance outputs to csv format 
+
+
+API ISSUES / WISHLIST
+=====================
+* api sometimes returns list when guaranteed only a single element returned
+* can't see how to report on subscribed capacity in thin provisioned arrays
