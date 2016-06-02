@@ -17,15 +17,11 @@ URL = args.url
 user = args.user
 password = args.passwd
 
-vmax_api = pyvmax.connect(URL,user,password)
-
-print vmax_api.user
-#api.printJSON(api.admin(getApps(api.url))
+vmax_api = pyvmax.vmax_connect(URL,user,password)
 
 # TODO: Do something based on the version of Unisphere
 #unisphereVersion = vmax_api.getVersion(URL)['version']
-test = vmax_api.getVersion()
-print test
+print vmax_api.version
 
 # discover the known symmetrix serial #'s
 symmIdList = vmax_api.getSymms(URL)
