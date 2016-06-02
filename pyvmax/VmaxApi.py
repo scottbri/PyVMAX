@@ -6,30 +6,12 @@ class VmaxApi(object):
         self.rest = Restful
         url = "%s/univmax/restapi" % (base_url)
         self.rest.setURL(url)
-        self.version = self.getVersion()
+        self.version = self.get_version()
 
-
-    #################################################################
-    ## Methods to implement Unisphere REST API
-    #################################################################
-
-    ######################################
-    ## ADMINISTRATION Resource group
-    ######################################
-
-    ################
-    ## get a list of all applications registered with the server
-    ################
-    def getApps(self):
-        target_uri = "%s/common/Application/list" % (self.rest.url)
-        return self.rest.get(target_uri)
-
-    ################
-    ## get a list of sharding info
-    ################
-    def getShards(self):
-        target_uri = "%s/common/Sharding/info" % (self.rest.url)
-        return self.rest.get(target_uri)
+        supported_versions = {'V8.2.0.5' : '/82', 'V8.0.1.5' : ''}
+        if self.version in supported_versions:
+            self.url_tag = supported_versions[self.version]
+            print self.version_path
 
     ######################################
     ## ADMINISTRATION Resource group
@@ -82,7 +64,7 @@ class VmaxApi(object):
     ################
     ## get a dump of unisphere server runtime stats
     ################
-    def getUsageStats(self):
+    def get_usage_stats(self):
         target_uri = "%s/management/RuntimeUsage/read" % (self.rest.url)
         return self.rest.get(target_uri)
 
@@ -426,77 +408,77 @@ class VmaxApi(object):
     ################
     ## get a list of All Alert ids across all symmetrix arrays
     ################
-    def getAlerts(self):
+    def get_alerts(self):
         target_uri = "%s/system/alert" % (self.rest.url)
         return self.rest.get(target_uri)
 
     ################
     ## queries for a specified Alert
     ################
-    def getAlert(self, resourceId):
+    def get_alert(self, resourceId):
         target_uri = "%s/system/alert/%s" % (self.rest.url, resourceId)
         return self.rest.get(target_uri)
 
     ################
     ## queries for a list of Job ids across all symmetrix arrays
     ################
-    def getJobs(self):
+    def get_jobs(self):
         target_uri = "%s/system/job" % (self.rest.url)
         return self.rest.get(target_uri)
 
     ################
     ## queries for a specified job
     ################
-    def getJob(self, resourceId):
+    def get_job(self, resourceId):
         target_uri = "%s/system/job/%s" % (self.rest.url, resourceId)
         return self.rest.get(target_uri)
 
     ################
     ## get a list of symmetrix serial #'s known by Unisphere
     ################
-    def getSymms(self):
+    def get_arrays(self):
         target_uri = "%s/system/symmetrix" % (self.rest.url)
         return self.rest.get(target_uri)
 
     ################
     ## This call queries for a specific Authorized Symmetrix Object that is compatible with slo provisioning using its ID
     ################
-    def getSymm(self, resourceId):
+    def get_array(self, resourceId):
         target_uri = "%s/system/symmetrix/%s" % (self.rest.url, resourceId)
         return self.rest.get(target_uri)
 
     ################
     ## get a list of All Alert ids for a specific array id
     ################
-    def getSymmAlerts(self, resourceId):
+    def get_array_alerts(self, resourceId):
         target_uri = "%s/system/symmetrix/%s/alert" % (self.rest.url, resourceId)
         return self.rest.get(target_uri)
 
     ################
     ## queries for a specified Alert on a specified array
     ################
-    def getSymmAlert(self, symId, alertId):
+    def get_array_alert(self, symId, alertId):
         target_uri = "%s/system/symmetrix/%s/alert/%s" % (self.rest.url, symId, alertId)
         return self.rest.get(target_uri)
 
     ################
     ## queries for a list of Job ids on a specified array
     ################
-    def getSymmJobs(self, resourceId):
+    def get_array_jobs(self, resourceId):
         target_uri = "%s/system/symmetrix/%s/job" % (self.rest.url, resourceId)
         return self.rest.get(target_uri)
 
     ################
     ## queries for a specified job on a specified array
     ################
-    def getSymmJob(self, symId, jobId):
+    def get_array_job(self, symId, jobId):
         target_uri = "%s/system/symmetrix/%s/job/%s" % (self.rest.url, symId, jobId)
         return self.rest.get(target_uri)
 
     ################
     ## get the version of Unisphere (the API)
     ################
-    def getVersion(self):
+    def get_version(self):
         target_uri = "%s/system/version" % (self.rest.url)
         return self.rest.get(target_uri)
 
