@@ -28,7 +28,7 @@ def generate_payload(symmetrix_id):
         "endDate": int(time.time()*1000),               # now
         "symmetrixId": symmetrix_id,
 	"dataFormat": "Average",
-        "metrics": ["CopySlotCount"]
+        "metrics": ["IO_RATE", "PERCENT_HIT", "PERCENT_READ"]
     }
 
 # Get all VMAXs for a given Unisphere Instance
@@ -36,23 +36,21 @@ try:
     symmetrix_list_response = vmax_api.get_arrays()
 
     if 'message' in symmetrix_list_response:
-        # I've seen an issue where Unisphere returns a message of "No Symmetrix's found.
         print symmetrix_list_response.get('message')
         sys.exit(1)
-
     else:
         # Assuming no messages, store the list of VMAX's into symmetrix_list
         symmetrix_list = symmetrix_list_response["symmetrixId"]
         print("VMAXs found: " + str(symmetrix_list))
+
 except Exception as e:
 	sys.exit(1)
 
 # For each VMAX in Unisphere, get the array stats
 for symmetrix_id in symmetrix_list:
-    payload = generate_payload(symmetrix_id)
-    perf_response = vmax_api.get_perf_array_metrics(payload)
-    
-    vmax_api.rest.printJSON(perf_response)
-
-    result = perf_response["resultList"]["result"]
+    perf_response = vmax_api.get_perf_array_metrics(generate_payload(symmetrix_id))
+    if 'message' in symmetrix_list_response:
+        print symmetrix_list_response.get('message')
+    else:
+	vmax_api.rest.printJSON(perf_response)
 
