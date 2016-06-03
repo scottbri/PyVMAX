@@ -580,8 +580,74 @@ class VmaxApi(object):
     ######################################
     ## VVOL Resource group
     ######################################
-    # TODO
 
+    def get_vvol_arrays(self):
+        target_uri = "%s/81/vvol/symmetrix" % (self.rest.url)
+        return self.rest.get(target_uri)
+
+    def get_vvol_array(self, symm_id):
+        target_uri = "%s/81/vvol/symmetrix/%s" % (self.rest.url, symm_id)
+        return self.rest.get(target_uri)
+
+    def get_vvol_array_protocolendpoints(self, symm_id, params_dict=None):
+        target_uri = "%s/81/vvol/symmetrix/%s/protocolendpoint" % (self.rest.url, symm_id)
+        return self.rest.get(target_uri, params_dict)
+
+    def create_vvol_array_maskingview(self, symm_id, params_dict):
+        target_uri = "%s/81/vvol/symmetrix/%s/protocolendpoint" % (self.rest.url, symm_id)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_vvol_array_protocolendpoint(self, symm_id, proto_id):
+        target_uri = "%s/81/vvol/symmetrix/%s/protocolendpoint/%s" % (self.rest.url, symm_id, proto_id)
+        return self.rest.get(target_uri)
+
+    def get_vvol_array_storagecontainers(self, symm_id, params_dict=None):
+        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer" % (self.rest.url, symm_id)
+        return self.rest.get(target_uri, params_dict)
+
+    def create_vvol_array_storagecontainer(self, symm_id, params_dict):
+        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer" % (self.rest.url, symm_id)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_vvol_array_storagecontainer(self, symm_id, storcont_id):
+        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer/%s" % (self.rest.url, symm_id, storcont_id)
+        return self.rest.get(target_uri)
+
+    def edit_vvol_array_storagecontainer(self, symm_id, storcont_id, params_dict):
+        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer/%s" % (self.rest.url, symm_id, storcont_id)
+        return self.rest.put(target_uri, params_dict)
+
+    def delete_vvol_array_storagecontainer(self, symm_id, storcont_id):
+        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer/%s" % (self.rest.url, symm_id, storcont_id)
+        return self.rest.delete(target_uri)
+
+    def get_vvol_array_storagecontainer_storageresources(self, symm_id, storcont_id, params_dict=None):
+        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer/%s/storageresource" % (self.rest.url, symm_id, storcont_id)
+        return self.rest.get(target_uri, params_dict)
+
+    def get_vvol_array_storagecontainer_storageresource(self, symm_id, storcont_id, storresource_id):
+        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer/%sstorageresource/%s" % (self.rest.url, symm_id, storcont_id, storresource_id)
+        return self.rest.get(target_uri)
+
+    def edit_vvol_array_storagecontainer_storageresource(self, symm_id, storcont_id, storresource_id, params_dict):
+        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer/%sstorageresource/%s" % (self.rest.url, symm_id, storcont_id, storresource_id)
+        return self.rest.put(target_uri, params_dict)
+
+    def get_vvol_array_vasaprovider(self, symm_id):
+        target_uri = "%s/81/vvol/symmetrix/%s/vasaprovider" % (self.rest.url, symm_id)
+        return self.rest.get(target_uri)
+
+    def create_vvol_array_vasaprovider(self, symm_id, params_dict):
+        target_uri = "%s/81/vvol/symmetrix/%s/vasaprovider" % (self.rest.url, symm_id)
+        return self.rest.post(target_uri, params_dict)
+
+    def edit_vvol_array_vasaprovider(self, symm_id, params_dict):
+        target_uri = "%s/81/vvol/symmetrix/%s/vasaprovider" % (self.rest.url, symm_id)
+        return self.rest.put(target_uri, params_dict)
+
+    def delete_vvol_array_vasaprovider(self, symm_id):
+        target_uri = "%s/81/vvol/symmetrix/%s/vasaprovider" % (self.rest.url, symm_id)
+        return self.rest.delete(target_uri)
 
     ######################################
     ## WORKLOAD Resource group
