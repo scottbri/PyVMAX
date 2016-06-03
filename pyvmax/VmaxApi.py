@@ -69,7 +69,421 @@ class VmaxApi(object):
     ## PERFORMANCE Resource group
     ######################################
 
-    # TODO
+    def get_perf_host_keys(self, params_dict):
+        target_uri = "%s/81/performance/Host/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_host_metrics(self, params_dict):
+        target_uri = "%s/81/performance/Host/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_initiator_keys(self, params_dict):
+        target_uri = "%s/81/performance/Initiator/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_initiator_metrics(self, params_dict):
+        target_uri = "%s/81/performance/Initiator/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_initiatorbyport_keys(self, params_dict):
+        target_uri = "%s/81/performance/InitiatorByPort/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_initiatorbyport_metrics(self, params_dict):
+        target_uri = "%s/81/performance/InitiatorByPort/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_iscsiclient_keys(self, params_dict):
+        target_uri = "%s/81/performance/ISCSIClient/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_scsiclient_metrics(self, params_dict):
+        target_uri = "%s/81/performance/ISCSIClient/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_iscsitarget_keys(self, params_dict):
+        target_uri = "%s/81/performance/ISCSITarget/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_scsitarget_metrics(self, params_dict):
+        target_uri = "%s/81/performance/ISCSITarget/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_storagecontainer_keys(self, params_dict):
+        target_uri = "%s/82/performance/StorageContainer/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_storagecontainer_metrics(self, params_dict):
+        target_uri = "%s/82/performance/StorageContainer/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_storageresrource_keys(self, params_dict):
+        target_uri = "%s/82/performance/StorageResource/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_storageresource_metrics(self, params_dict):
+        target_uri = "%s/82/performance/StorageResource/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_storageresrourcebypool_keys(self, params_dict):
+        target_uri = "%s/82/performance/StorageResourceByPool/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_storageresourcebypool_metrics(self, params_dict):
+        target_uri = "%s/82/performance/StorageResourceByPool/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_array_alerts(self, params_dict):
+        target_uri = "%s/performance/Array/alerts" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_array_keys(self, params_dict):
+        target_uri = "%s/performance/Array/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_array_metrics(self, params_dict):
+        target_uri = "%s/performance/Array/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_BEDirector_keys(self, params_dict):
+        target_uri = "%s/performance/BEDirector/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_BEDirector_metrics(self, params_dict):
+        target_uri = "%s/performance/BEDirector/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_beemulation_keys(self, params_dict):
+        target_uri = "%s/performance/BeEmulation/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_beemulation_metrics(self, params_dict):
+        target_uri = "%s/performance/BeEmulation/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_beport_keys(self, params_dict):
+        target_uri = "%s/performance/BEPort/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_beport_metrics(self, params_dict):
+        target_uri = "%s/performance/BEPort/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_board_keys(self, params_dict):
+        target_uri = "%s/performance/Board/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_board_metrics(self, params_dict):
+        target_uri = "%s/performance/Board/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_cachepartition_keys(self, params_dict):
+        target_uri = "%s/performance/CachePartition/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_cachepartition_metrics(self, params_dict):
+        target_uri = "%s/performance/CachePartition/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_core_keys(self, params_dict):
+        target_uri = "%s/performance/Core/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_core_metrics(self, params_dict):
+        target_uri = "%s/performance/Core/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_database_keys(self, params_dict):
+        target_uri = "%s/performance/Database/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_database_metrics(self, params_dict):
+        target_uri = "%s/performance/Database/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_databasebypool_keys(self, params_dict):
+        target_uri = "%s/performance/DatabaseByPool/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_databasebypool_metrics(self, params_dict):
+        target_uri = "%s/performance/DatabaseByPool/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_devicegroup_keys(self, params_dict):
+        target_uri = "%s/performance/DeviceGroup/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_devicegroup_metrics(self, params_dict):
+        target_uri = "%s/performance/DeviceGroup/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_disk_keys(self, params_dict):
+        target_uri = "%s/performance/Disk/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_disk_metrics(self, params_dict):
+        target_uri = "%s/performance/Disk/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_diskgroup_keys(self, params_dict):
+        target_uri = "%s/performance/DiskGroup/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_diskgroup_metrics(self, params_dict):
+        target_uri = "%s/performance/DiskGroup/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_disktechpool_keys(self, params_dict):
+        target_uri = "%s/performance/DiskTechPool/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_disktechpool_metrics(self, params_dict):
+        target_uri = "%s/performance/DiskTechPool/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_dsepool_keys(self, params_dict):
+        target_uri = "%s/performance/DSEPool/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_dsepool_metrics(self, params_dict):
+        target_uri = "%s/performance/DSEPool/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_edsdirector_keys(self, params_dict):
+        target_uri = "%s/performance/EDSDirector/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_edsdirector_metrics(self, params_dict):
+        target_uri = "%s/performance/EDSDirector/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_edsemulation_keys(self, params_dict):
+        target_uri = "%s/performance/EDSEmulation/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_edsemulation_metrics(self, params_dict):
+        target_uri = "%s/performance/EDSEmulation/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_externaldisk_keys(self, params_dict):
+        target_uri = "%s/performance/ExternalDisk/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_externaldisk_metrics(self, params_dict):
+        target_uri = "%s/performance/ExternalDisk/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_externaldiskgroup_keys(self, params_dict):
+        target_uri = "%s/performance/ExternalDiskGroup/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_externaldiskgroup_metrics(self, params_dict):
+        target_uri = "%s/performance/ExternalDiskGroup/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_fastpolicy_keys(self, params_dict):
+        target_uri = "%s/performance/FASTPolicy/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_fastpolicy_metrics(self, params_dict):
+        target_uri = "%s/performance/FASTPolicy/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_fedirector_keys(self, params_dict):
+        target_uri = "%s/performance/FEDirector/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_fedirector_metrics(self, params_dict):
+        target_uri = "%s/performance/FEDirector/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_fedirectorbyport_keys(self, params_dict):
+        target_uri = "%s/performance/FEDirectorByPort/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_fedirectorbyport_metrics(self, params_dict):
+        target_uri = "%s/performance/FEDirectorByPort/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_feemulation_keys(self, params_dict):
+        target_uri = "%s/performance/FeEmulation/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_feemulation_metrics(self, params_dict):
+        target_uri = "%s/performance/FeEmulation/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_feport_keys(self, params_dict):
+        target_uri = "%s/performance/FEPort/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_feport_metrics(self, params_dict):
+        target_uri = "%s/performance/FEPort/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_ficonemulation_keys(self, params_dict):
+        target_uri = "%s/performance/FiconEmulation/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_ficonemulation_metrics(self, params_dict):
+        target_uri = "%s/performance/FiconEmulation/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_imdirector_keys(self, params_dict):
+        target_uri = "%s/performance/IMDirector/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_imdirector_metrics(self, params_dict):
+        target_uri = "%s/performance/IMDirector/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_imemulation_keys(self, params_dict):
+        target_uri = "%s/performance/IMEmulation/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_imemulation_metrics(self, params_dict):
+        target_uri = "%s/performance/IMEmulation/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_portgroup_keys(self, params_dict):
+        target_uri = "%s/performance/PortGroup/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_portgroup_metrics(self, params_dict):
+        target_uri = "%s/performance/PortGroup/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_rdfa_keys(self, params_dict):
+        target_uri = "%s/performance/RDFA/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_rdfa_metrics(self, params_dict):
+        target_uri = "%s/performance/RDFA/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_rdfdirector_keys(self, params_dict):
+        target_uri = "%s/performance/RDFDirector/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_rdfdirector_metrics(self, params_dict):
+        target_uri = "%s/performance/RDFDirector/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_rdfemulation_keys(self, params_dict):
+        target_uri = "%s/performance/RDFEmulation/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_rdfemulation_metrics(self, params_dict):
+        target_uri = "%s/performance/RDFEmulation/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_rdfport_keys(self, params_dict):
+        target_uri = "%s/performance/RDFPort/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_rdfport_metrics(self, params_dict):
+        target_uri = "%s/performance/RDFPort/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_rdfs_keys(self, params_dict):
+        target_uri = "%s/performance/RDFS/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_rdfs_metrics(self, params_dict):
+        target_uri = "%s/performance/RDFS/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_settings_importfiles(self, params_dict):
+        target_uri = "%s/performance/Settings/importFiles" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_snappool_keys(self, params_dict):
+        target_uri = "%s/performance/SnapPool/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_snappool_metrics(self, params_dict):
+        target_uri = "%s/performance/SnapPool/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_srp_keys(self, params_dict):
+        target_uri = "%s/performance/SRP/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_srp_metrics(self, params_dict):
+        target_uri = "%s/performance/SRP/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_srpthinpool_keys(self, params_dict):
+        target_uri = "%s/performance/SRPThinPool/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_storagegroup_keys(self, params_dict):
+        target_uri = "%s/performance/StorageGroup/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_storagegroup_metrics(self, params_dict):
+        target_uri = "%s/performance/StorageGroup/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_storagegroupbypool_keys(self, params_dict):
+        target_uri = "%s/performance/StorageGroupByPool/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_storagegroupbypool_metrics(self, params_dict):
+        target_uri = "%s/performance/StorageGroupByPool/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_storagegroupbytier_keys(self, params_dict):
+        target_uri = "%s/performance/StorageGroupByTier/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_storagegroupbytier_metrics(self, params_dict):
+        target_uri = "%s/performance/StorageGroupByTier/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_storagegroupbytier_perfkeys(self, params_dict):
+        target_uri = "%s/performance/StorageGroupByTier/perf/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_storagetier_keys(self, params_dict):
+        target_uri = "%s/performance/StorageTier/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_storagetier_metrics(self, params_dict):
+        target_uri = "%s/performance/StorageTier/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_summary_keys(self, params_dict):
+        target_uri = "%s/performance/Summary/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_thinpool_keys(self, params_dict):
+        target_uri = "%s/performance/ThinPool/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_thinpool_metrics(self, params_dict):
+        target_uri = "%s/performance/ThinPool/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_thintier_keys(self, params_dict):
+        target_uri = "%s/performance/ThinTier/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_thintier_metrics(self, params_dict):
+        target_uri = "%s/performance/ThinTier/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_tierbystoragegroup_keys(self, params_dict):
+        target_uri = "%s/performance/TierByStorageGroup/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_tierbystoragegroup_metrics(self, params_dict):
+        target_uri = "%s/performance/TierByStorageGroup/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_tierbystoragegroup_perfkeys(self, params_dict):
+        target_uri = "%s/performance/TierByStorageGroup/perf/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
 
     ######################################
     ## PROVISIONING Resource group
@@ -563,8 +977,74 @@ class VmaxApi(object):
     ######################################
     ## VVOL Resource group
     ######################################
-    # TODO
 
+    def get_vvol_arrays(self):
+        target_uri = "%s/81/vvol/symmetrix" % (self.rest.url)
+        return self.rest.get(target_uri)
+
+    def get_vvol_array(self, symm_id):
+        target_uri = "%s/81/vvol/symmetrix/%s" % (self.rest.url, symm_id)
+        return self.rest.get(target_uri)
+
+    def get_vvol_array_protocolendpoints(self, symm_id, params_dict=None):
+        target_uri = "%s/81/vvol/symmetrix/%s/protocolendpoint" % (self.rest.url, symm_id)
+        return self.rest.get(target_uri, params_dict)
+
+    def create_vvol_array_maskingview(self, symm_id, params_dict):
+        target_uri = "%s/81/vvol/symmetrix/%s/protocolendpoint" % (self.rest.url, symm_id)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_vvol_array_protocolendpoint(self, symm_id, proto_id):
+        target_uri = "%s/81/vvol/symmetrix/%s/protocolendpoint/%s" % (self.rest.url, symm_id, proto_id)
+        return self.rest.get(target_uri)
+
+    def get_vvol_array_storagecontainers(self, symm_id, params_dict=None):
+        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer" % (self.rest.url, symm_id)
+        return self.rest.get(target_uri, params_dict)
+
+    def create_vvol_array_storagecontainer(self, symm_id, params_dict):
+        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer" % (self.rest.url, symm_id)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_vvol_array_storagecontainer(self, symm_id, storcont_id):
+        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer/%s" % (self.rest.url, symm_id, storcont_id)
+        return self.rest.get(target_uri)
+
+    def edit_vvol_array_storagecontainer(self, symm_id, storcont_id, params_dict):
+        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer/%s" % (self.rest.url, symm_id, storcont_id)
+        return self.rest.put(target_uri, params_dict)
+
+    def delete_vvol_array_storagecontainer(self, symm_id, storcont_id):
+        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer/%s" % (self.rest.url, symm_id, storcont_id)
+        return self.rest.delete(target_uri)
+
+    def get_vvol_array_storagecontainer_storageresources(self, symm_id, storcont_id, params_dict=None):
+        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer/%s/storageresource" % (self.rest.url, symm_id, storcont_id)
+        return self.rest.get(target_uri, params_dict)
+
+    def get_vvol_array_storagecontainer_storageresource(self, symm_id, storcont_id, storresource_id):
+        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer/%sstorageresource/%s" % (self.rest.url, symm_id, storcont_id, storresource_id)
+        return self.rest.get(target_uri)
+
+    def edit_vvol_array_storagecontainer_storageresource(self, symm_id, storcont_id, storresource_id, params_dict):
+        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer/%sstorageresource/%s" % (self.rest.url, symm_id, storcont_id, storresource_id)
+        return self.rest.put(target_uri, params_dict)
+
+    def get_vvol_array_vasaprovider(self, symm_id):
+        target_uri = "%s/81/vvol/symmetrix/%s/vasaprovider" % (self.rest.url, symm_id)
+        return self.rest.get(target_uri)
+
+    def create_vvol_array_vasaprovider(self, symm_id, params_dict):
+        target_uri = "%s/81/vvol/symmetrix/%s/vasaprovider" % (self.rest.url, symm_id)
+        return self.rest.post(target_uri, params_dict)
+
+    def edit_vvol_array_vasaprovider(self, symm_id, params_dict):
+        target_uri = "%s/81/vvol/symmetrix/%s/vasaprovider" % (self.rest.url, symm_id)
+        return self.rest.put(target_uri, params_dict)
+
+    def delete_vvol_array_vasaprovider(self, symm_id):
+        target_uri = "%s/81/vvol/symmetrix/%s/vasaprovider" % (self.rest.url, symm_id)
+        return self.rest.delete(target_uri)
 
     ######################################
     ## WORKLOAD Resource group
