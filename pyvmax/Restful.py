@@ -27,7 +27,7 @@ class Restful:
     def get(self, targetUrl, payload=None):
 
         try:
-            r = requests.get(targetUrl, params=payload, auth=(self.user, self.password), headers=self.headers, verify=self.verify_SSL)
+            r = requests.get(targetUrl, params=json.dumps(payload), auth=(self.user, self.password), headers=self.headers, verify=self.verify_SSL)
         except:
             print("Exception:  Can't connect to API server URL:  " + targetUrl)
             print("Exiting")
@@ -51,24 +51,24 @@ class Restful:
     ################
     def post(self, targetUrl, requestObj=None):
 
-        #turn this into a JSON string
-        requestJSON = json.dumps(requestObj, sort_keys=True, indent=4)
-
         #make the actual request, specifying the URL, the JSON from above, standard basic auth, the headers and not to verify the SSL cert.
         try:
-            r = requests.post(targetUrl, requestJSON, auth=(self.user, self.password), headers=self.headers, verify=verify_ssl)
+            r = requests.post(targetUrl, data=json.dumps(requestObj), auth=(self.user, self.password), headers=self.headers, verify=self.verify_SSL)
+	    
+	    #take the raw response text and deserialize it into a python object.
+	    try:
+		responseObj = json.loads(r.text)
+	    except:
+		print("Exception")
+		print(r.text)
+		return dict()
         except:
-            print("Exception:  Can't connect to API server URL:  " + targetUrl)
+            print("Exception:  Can't POST to API server URL:  " + targetUrl)
+	    self.printJSON(requestObj)
             print("Exiting")
             exit(1)
 
-        #take the raw response text and deserialize it into a python object.
-        try:
-            response = json.loads(r.text)
-        except:
-            print("Exception")
-            print(r.text)
-        return response
+        return responseObj
 
 
     ################
