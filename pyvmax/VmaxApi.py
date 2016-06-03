@@ -298,23 +298,6 @@ class VmaxApi(object):
     ## SLO PROVISIONING Resource group
     ######################################
 
-''' TODO: determine a way to manage additional API calls into the future beginning with this set as yet unimplemented
-/82/sloprovisioning/symmetrix
-/82/sloprovisioning/symmetrix/{symmetrixId}
-/82/sloprovisioning/symmetrix/{symmetrixId}/slo
-/82/sloprovisioning/symmetrix/{symmetrixId}/split
-/82/sloprovisioning/symmetrix/{symmetrixId}/split/{splitId}
-/82/sloprovisioning/symmetrix/{symmetrixId}/split/{splitId}/cuimage
-/82/sloprovisioning/symmetrix/{symmetrixId}/split/{splitId}/cuimage/{cuImageSSID}
-/82/sloprovisioning/symmetrix/{symmetrixId}/split/{splitId}/cuimage/{cuImageSSID}/volume
-/82/sloprovisioning/symmetrix/{symmetrixId}/split/{splitId}/cuimage/{cuImageSSID}/volume/{volumeId}
-/82/sloprovisioning/symmetrix/{symmetrixId}/split/{splitId}/storageProvisioningToHost
-/82/sloprovisioning/symmetrix/{symmetrixId}/srp
-/82/sloprovisioning/symmetrix/{symmetrixId}/storagegroup
-/82/sloprovisioning/symmetrix/{symmetrixId}/storagegroup/{storageGroupId}
-/82/sloprovisioning/symmetrix/{symmetrixId}/volume
-/82/sloprovisioning/symmetrix/{symmetrixId}/volume/{volumeId}
-'''
     def get_slo_arrays(self):
         target_uri = "%s/sloprovisioning/symmetrix" % (self.rest.url)
         return self.rest.get(target_uri)
@@ -331,7 +314,7 @@ class VmaxApi(object):
         target_uri = "%s/sloprovisioning/symmetrix/%s/director/%s" % (self.rest.url, symmId, resourceId)
         return self.rest.get(target_uri)
 
-    def get_slo_array_ports(self, symmId, portId, params_dict):
+    def get_slo_array_ports(self, symmId, portId, params_dict=None):
         target_uri = "%s/sloprovisioning/symmetrix/%s/director/%s/port" % (self.rest.url, symmId, portId)
         return self.rest.get(target_uri, params_dict)
 
@@ -339,7 +322,7 @@ class VmaxApi(object):
         target_uri = "%s/sloprovisioning/symmetrix/%s/director/%s/port/%s" % (self.rest.url, symmId, directorId, portId)
         return self.rest.get(target_uri)
 
-    def get_slo_array_hosts(self, resourceId, params_dict):
+    def get_slo_array_hosts(self, resourceId, params_dict=None):
         target_uri = "%s/sloprovisioning/symmetrix/%s/host" % (self.rest.url, resourceId)
         return self.rest.get(target_uri, params_dict)
 
@@ -359,7 +342,7 @@ class VmaxApi(object):
         target_uri = "%s/sloprovisioning/symmetrix/%s/host/%s" % (self.rest.url, symmId, hostId)
         return self.rest.delete(target_uri)
 
-    def get_slo_array_hostgroups(self, symm_id, params_dict):
+    def get_slo_array_hostgroups(self, symm_id, params_dict=None):
         target_uri = "%s/sloprovisioning/symmetrix/%s/hostgroup" % (self.rest.url, symm_id)
         return self.rest.get(target_uri, params_dict)
 
@@ -379,7 +362,7 @@ class VmaxApi(object):
         target_uri = "%s/sloprovisioning/symmetrix/%s/hostgroup/%s" % (self.rest.url, symmId, grpId)
         return self.rest.delete(target_uri)
 
-    def get_slo_array_initiators(self, resourceId, params_dict):
+    def get_slo_array_initiators(self, resourceId, params_dict=None):
         target_uri = "%s/sloprovisioning/symmetrix/%s/initiator" % (self.rest.url, resourceId)
         return self.rest.get(target_uri, params_dict)
 
@@ -391,7 +374,7 @@ class VmaxApi(object):
         target_uri = "%s/sloprovisioning/symmetrix/%s/initiator/%s" % (self.rest.url, symmId, initatorId)
         return self.rest.put(target_uri, params_dict)
 
-    def get_slo_array_maskingviews(self, resourceId, params_dict):
+    def get_slo_array_maskingviews(self, resourceId, params_dict=None):
         target_uri = "%s/sloprovisioning/symmetrix/%s/maskingview" % (self.rest.url, resourceId)
         return self.rest.get(target_uri, params_dict)
 
@@ -411,15 +394,15 @@ class VmaxApi(object):
         target_uri = "%s/sloprovisioning/symmetrix/%s/maskingview/%s" % (self.rest.url, symmId, mvId)
         return self.rest.delete(target_uri)
 
-    def get_slo_array_maskingview_connections(self, symmId, mvId, params_dict):
+    def get_slo_array_maskingview_connections(self, symmId, mvId, params_dict=None):
         target_uri = "%s/sloprovisioning/symmetrix/%s/maskingview/%s/connections" % (self.rest.url, symmId, mvId)
         return self.rest.get(target_uri, params_dict)
 
-    def get_slo_array_ports(self, resourceId, params_dict):
+    def get_slo_array_ports(self, resourceId, params_dict=None):
         target_uri = "%s/sloprovisioning/symmetrix/%s/port" % (self.rest.url, resourceId)
         return self.rest.get(target_uri, params_dict)
 
-    def get_slo_array_portgroups(self, resourceId, params_dict):
+    def get_slo_array_portgroups(self, resourceId, params_dict=None):
         target_uri = "%s/sloprovisioning/symmetrix/%s/portgroup" % (self.rest.url, resourceId)
         return self.rest.get(target_uri, params_dict)
 
@@ -439,7 +422,7 @@ class VmaxApi(object):
         target_uri = "%s/sloprovisioning/symmetrix/%s/portgroup/%s" % (self.rest.url, symmId, pgId)
         return self.rest.delete(target_uri)
 
-    def get_slo_array_slos(self, resourceId, params_dict):
+    def get_slo_array_slos(self, resourceId, params_dict=None):
         target_uri = "%s/sloprovisioning/symmetrix/%s/slo" % (self.rest.url, resourceId)
         return self.rest.get(target_uri, params_dict)
 
@@ -451,7 +434,7 @@ class VmaxApi(object):
         target_uri = "%s/sloprovisioning/symmetrix/%s/slo/%s" % (self.rest.url, symmId, sloId)
         return self.rest.put(target_uri, params_dict)
 
-    def get_slo_array_srps(self, resourceId, params_dict):
+    def get_slo_array_srps(self, resourceId, params_dict=None):
         target_uri = "%s/sloprovisioning/symmetrix/%s/srp" % (self.rest.url, resourceId)
         return self.rest.get(target_uri, params_dict)
 
@@ -479,7 +462,7 @@ class VmaxApi(object):
         target_uri = "%s/sloprovisioning/symmetrix/%s/storagegroup/%s" % (self.rest.url, symmId, sgId)
         return self.rest.delete(target_uri)
 
-    def get_slo_array_volumes(self, resourceId, params_dict):
+    def get_slo_array_volumes(self, resourceId, params_dict=None):
         target_uri = "%s/sloprovisioning/symmetrix/%s/volume" % (self.rest.url, resourceId)
         return self.rest.get(target_uri, params_dict)
 
