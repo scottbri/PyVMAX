@@ -8,9 +8,9 @@ class VmaxApi(object):
         self.rest.setURL(url)
         self.version = self.get_version()['version']
 
-	supported_versions = {'V8.2.0.5' : '/82', 'V8.0.1.5' : ''}
+        supported_versions = {'V8.2.0.5' : '/82', 'V8.0.1.5' : ''}
         self.version_path = ""
-	if supported_versions.has_key(self.version):
+        if supported_versions.has_key(self.version):
             self.version_path = supported_versions[self.version]
 
     ######################################

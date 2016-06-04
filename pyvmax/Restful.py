@@ -54,17 +54,17 @@ class Restful:
         #make the actual request, specifying the URL, the JSON from above, standard basic auth, the headers and not to verify the SSL cert.
         try:
             r = requests.post(targetUrl, data=json.dumps(requestObj), auth=(self.user, self.password), headers=self.headers, verify=self.verify_SSL)
-	    
-	    #take the raw response text and deserialize it into a python object.
-	    try:
-		responseObj = json.loads(r.text)
-	    except:
-		print("Exception")
-		print(r.text)
-		return dict()
+
+            #take the raw response text and deserialize it into a python object.
+            try:
+                responseObj = json.loads(r.text)
+            except:
+                print("Exception")
+                print(r.text)
+                return dict()
         except:
             print("Exception:  Can't POST to API server URL:  " + targetUrl)
-	    self.printJSON(requestObj)
+            self.printJSON(requestObj)
             print("Exiting")
             exit(1)
 

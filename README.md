@@ -45,7 +45,7 @@ eg: https://10.0.0.1:8443/univmax/restapi/docs
 TODO
 ====
 * fully implement the full API
-  * still have performance, replication, and workload resource groups to implement
+  * still have replication and workload resource groups to implement
   * rationalize function names between provisioning and SLO arrays
   * rationalize strategy for supporting api versions ongoing and best use of newer api paths
   * implement the latest v82 calls in SLO Resource group

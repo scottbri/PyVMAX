@@ -36,13 +36,13 @@ for symmId in prov_array_ids:
     # for this symmetrix, go ahead and build a list of thin pools
     tpList = list()
 
-    # make sure to check whether any list results returned.. 
+    # make sure to check whether any list results returned..
     tp_result = vmax_api.get_prov_array_thinpools(symmId)
     if tp_result.has_key('poolId'):
-	# iterate through the thin pools, get their details and build a list
-	for tpId in vmax_api.get_prov_array_thinpools(symmId)['poolId']:
-	    tp = vmax_api.get_prov_array_thinpool(symmId, tpId)['thinPool'][0]
-	    tpList.append(tp)
+        # iterate through the thin pools, get their details and build a list
+        for tpId in vmax_api.get_prov_array_thinpools(symmId)['poolId']:
+            tp = vmax_api.get_prov_array_thinpool(symmId, tpId)['thinPool'][0]
+            tpList.append(tp)
 
     # add a dict entry for the thin pool list data structure we just created
     symmetrix['thinpools'] = tpList
@@ -68,23 +68,23 @@ for symmId in slo_array_ids:
     srpList = list()
     srp_result = vmax_api.get_slo_array_srps(symmId)
     if srp_result.has_key('srpId'):
-	for srpId in vmax_api.get_slo_array_srps(symmId)['srpId']:
-	    srp = vmax_api.get_slo_array_srp(symmId, srpId)['srp']
-	    srpList.append(srp)
+        for srpId in vmax_api.get_slo_array_srps(symmId)['srpId']:
+            srp = vmax_api.get_slo_array_srp(symmId, srpId)['srp']
+            srpList.append(srp)
 
     # add a dict entry for the SRP list data structure we just created
     symmetrix['srp'] = srpList
 
     # for this symmetrix, go ahead and build a list of Storage Groups
     sgList = list()
-    
+
     # make sure to check whether any list results returned.. not every array has storage groups!
     sg_result = vmax_api.get_slo_array_storagegroups(symmId)
     if sg_result.has_key('storageGroupId'):
-	# iterate through the sg's, get their details and build a list
-	for sgId in sg_result['storageGroupId']:
-	    sg = vmax_api.get_slo_array_storagegroup(symmId, sgId)['storageGroup']
-	    sgList.append(sg)
+        # iterate through the sg's, get their details and build a list
+        for sgId in sg_result['storageGroupId']:
+            sg = vmax_api.get_slo_array_storagegroup(symmId, sgId)['storageGroup']
+            sgList.append(sg)
 
     # add a dict entry for the Storage Group list data structure we just created
     symmetrix['storageGroups'] = sgList
