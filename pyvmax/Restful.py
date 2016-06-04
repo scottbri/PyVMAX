@@ -1,4 +1,7 @@
-import requests, json, pprint, time, socket
+import requests
+import json
+
+
 
 # Disable warnings from untrusted server certificates
 try:
@@ -7,122 +10,145 @@ try:
 except Exception:
     print("Ignore messages related to insecure SSL certificates")
 
+################
+## print a json object nicely
+################
+def print_json(json_obj):
+    print(json.dumps(json_obj, sort_keys=False, indent=2))
+
+
 class Restful:
 
     def __init__(self, base_url, username, password, verifySSL=False):
         self.url = base_url
         self.user = username
         self.password = password
-        self.verify_SSL = verifySSL
+        self.verify_ssl = verifySSL
 
         # set the headers for how we want the response
-        self.headers = {'content-type': 'application/json','accept':'application/json'}
+        self.headers = {'content-type': 'application/json', 'accept':'application/json'}
 
-    def setURL(self, newUrl):
-        self.url = newUrl
+    def set_url(self, new_url):
+        self.url = new_url
 
     ################
     ## make the json GET call to the public api
     ################
-    def get(self, targetUrl, payload=None):
+    def get(self, target_url, payload=None):
 
         try:
-            r = requests.get(targetUrl, params=json.dumps(payload), auth=(self.user, self.password), headers=self.headers, verify=self.verify_SSL)
-        except:
-            print("Exception:  Can't connect to API server URL:  " + targetUrl)
+            response = requests.get(target_url,
+                                    params=json.dumps(payload),
+                                    auth=(self.user, self.password),
+                                    headers=self.headers,
+                                    verify=self.verify_ssl)
+        except Exception:
+            print("Exception:  Can't GET to API server URL:  " + target_url)
             print("Exiting")
             exit(1)
 
         #take the raw response text and deserialize it into a python object.
         try:
-            responseObj = json.loads(r.text)
-        except:
+            response_object = json.loads(response.text)
+        except Exception:
             print("Exception")
-            print(r.text)
+            print(response.text)
 
-            print(responseObj.get("message", "API failed to return expected result"))
-            self.jsonPrint(responseObj)
+            print(response_object.get("message", "API failed to return expected result"))
+            print_json(response_object)
             return dict()
 
-        return responseObj
+        return response_object
 
     ################
     ## make the json POST call to the public api
     ################
-    def post(self, targetUrl, requestObj=None):
+    def post(self, target_url, request_object=None):
 
-        #make the actual request, specifying the URL, the JSON from above, standard basic auth, the headers and not to verify the SSL cert.
+        #make the actual request, specifying the URL, the JSON from above,
+        #standard basic auth, the headers and not to verify the SSL cert.
         try:
-            r = requests.post(targetUrl, data=json.dumps(requestObj), auth=(self.user, self.password), headers=self.headers, verify=self.verify_SSL)
+            response = requests.post(target_url,
+                                     data=json.dumps(request_object),
+                                     auth=(self.user, self.password),
+                                     headers=self.headers,
+                                     verify=self.verify_ssl)
 
             #take the raw response text and deserialize it into a python object.
             try:
-                responseObj = json.loads(r.text)
-            except:
+                response_object = json.loads(response.text)
+            except Exception:
                 print("Exception")
-                print(r.text)
+                print(response.text)
                 return dict()
-        except:
-            print("Exception:  Can't POST to API server URL:  " + targetUrl)
-            self.printJSON(requestObj)
+        except Exception:
+            print("Exception:  Can't POST to API server URL:  " + target_url)
+            print_json(request_object)
             print("Exiting")
             exit(1)
 
-        return responseObj
+        return response_object
 
 
     ################
     ## make the json PUT call to the public api
     ################
-    def put(self, targetUrl, requestObj=None):
+    def put(self, target_url, request_object=None):
 
         #turn this into a JSON string
-        requestJSON = json.dumps(requestObj, sort_keys=True, indent=4)
+        request_json = json.dumps(request_object, sort_keys=True, indent=4)
 
-        #make the actual request, specifying the URL, the JSON from above, standard basic auth, the headers and not to verify the SSL cert.
+        #make the actual request, specifying the URL, the JSON from above,
+        #standard basic auth, the headers and not to verify the SSL cert.
         try:
-            r = requests.put(targetUrl, requestJSON, auth=(self.user, self.password), headers=self.headers, verify=self.verify_ssl)
-        except:
-            print("Exception:  Can't connect to API server URL:  " + targetUrl)
+            response = requests.put(target_url,
+                                    request_json,
+                                    auth=(self.user, self.password),
+                                    headers=self.headers,
+                                    verify=self.verify_ssl)
+        except Exception:
+            print("Exception:  Can't PUT to API server URL:  " + target_url)
+            print_json(request_object)
             print("Exiting")
             exit(1)
 
         #take the raw response text and deserialize it into a python object.
         try:
-            response = json.loads(r.text)
-        except:
+            response = json.loads(response.text)
+        except Exception:
             print("Exception")
-            print(r.text)
+            print(repsonse.text)
         return response
 
 
     ################
     ## make the json DELETE call to the public api
     ################
-    def delete(self, targetUrl, requestObj=None):
+    def delete(self, target_url, request_object=None):
 
         #turn this into a JSON string
-        requestJSON = json.dumps(requestObj, sort_keys=True, indent=4)
+        request_json = json.dumps(request_object, sort_keys=True, indent=4)
 
-        #make the actual request, specifying the URL, the JSON from above, standard basic auth, the headers and not to verify the SSL cert.
+        #make the actual request, specifying the URL, the JSON from above,
+        #standard basic auth, the headers and not to verify the SSL cert.
         try:
-            r = requests.delete(targetUrl, requestJSON, auth=(self.user, self.password), headers=self.headers, verify=self.verify_ssl)
-        except:
-            print("Exception:  Can't connect to API server URL:  " + targetUrl)
+            response = requests.delete(target_url,
+                                       request_json,
+                                       auth=(self.user, self.password),
+                                       headers=self.headers,
+                                       verify=self.verify_ssl)
+        except Exception:
+            print("Exception:  Can't DELETE to API server URL:  " + target_url)
+            print_json(request_object)
             print("Exiting")
             exit(1)
 
         #take the raw response text and deserialize it into a python object.
         try:
-            response = json.loads(r.text)
-        except:
+            response = json.loads(response.text)
+        except Exception:
             print("Exception")
-            print(r.text)
+            print(response.text)
         return response
 
 
-    ################
-    ## print a json object nicely
-    ################
-    def printJSON(self, jsonObj):
-    	print(json.dumps(jsonObj, sort_keys=False, indent=2))

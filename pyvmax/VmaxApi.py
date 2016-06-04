@@ -5,12 +5,12 @@ class VmaxApi(object):
 
         self.rest = Restful
         url = "%s/univmax/restapi" % (base_url)
-        self.rest.setURL(url)
+        self.rest.set_url(url)
         self.version = self.get_version()['version']
 
         supported_versions = {'V8.2.0.5' : '/82', 'V8.0.1.5' : ''}
         self.version_path = ""
-        if supported_versions.has_key(self.version):
+        if supported_versions.keys(self.version):
             self.version_path = supported_versions[self.version]
 
     ######################################
@@ -517,11 +517,11 @@ class VmaxApi(object):
         target_uri = "%s/provisioning/symmetrix/%s/fastpolicy" % (self.rest.url, array_id)
         return self.rest.get(target_uri, params_dict)
 
-    def create_fastpolicy(self, array_id, params_dict):
+    def create_fastpolicy(self, array_id, policy_name, params_dict):
         target_uri = "%s/provisioning/symmetrix%s/fastpolicy/%s" % (self.rest.url, array_id, policy_name)
         return self.rest.post(target_uri, params_dict)
 
-    def edit_fastpolicy(self, array_id, params_dict):
+    def edit_fastpolicy(self, array_id, policy_name, params_dict):
         target_uri = "%s/provisioning/symmetrix%s/fastpolicy/%s" % (self.rest.url, array_id, policy_name)
         return self.rest.put(target_uri, params_dict)
 
@@ -716,180 +716,180 @@ class VmaxApi(object):
         target_uri = "%s/sloprovisioning/symmetrix" % (self.rest.url)
         return self.rest.get(target_uri)
 
-    def get_slo_array(self, resourceId):
-        target_uri = "%s/sloprovisioning/symmetrix/%s" % (self.rest.url, resourceId)
+    def get_slo_array(self, array_id):
+        target_uri = "%s/sloprovisioning/symmetrix/%s" % (self.rest.url, array_id)
         return self.rest.get(target_uri)
 
-    def get_slo_array_directors(self, resourceId):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/director" % (self.rest.url, resourceId)
+    def get_slo_array_directors(self, array_id):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/director" % (self.rest.url, array_id)
         return self.rest.get(target_uri)
 
-    def get_slo_array_director(self, symmId, resourceId):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/director/%s" % (self.rest.url, symmId, resourceId)
+    def get_slo_array_director(self, array_id, director_id):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/director/%s" % (self.rest.url, array_id, director_id)
         return self.rest.get(target_uri)
 
-    def get_slo_array_ports(self, symmId, portId, params_dict=None):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/director/%s/port" % (self.rest.url, symmId, portId)
+    def get_slo_array_director_ports(self, array_id, director_id, params_dict=None):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/director/%s/port" % (self.rest.url, array_id, director_id)
         return self.rest.get(target_uri, params_dict)
 
-    def get_slo_array_port(self, symmId, directorId, portId):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/director/%s/port/%s" % (self.rest.url, symmId, directorId, portId)
+    def get_slo_array_port(self, array_id, director_id, port_id):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/director/%s/port/%s" % (self.rest.url, array_id, director_id, port_id)
         return self.rest.get(target_uri)
 
-    def get_slo_array_hosts(self, resourceId, params_dict=None):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/host" % (self.rest.url, resourceId)
+    def get_slo_array_hosts(self, array_id, params_dict=None):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/host" % (self.rest.url, array_id)
         return self.rest.get(target_uri, params_dict)
 
-    def create_slo_array_host(self, symm_id, params_dict):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/host" % (self.rest.url, symm_id)
+    def create_slo_array_host(self, array_id, params_dict):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/host" % (self.rest.url, array_id)
         return self.rest.post(target_uri, params_dict)
 
-    def get_slo_array_host(self, symmId, hostId):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/host/%s" % (self.rest.url, symmId, hostId)
+    def get_slo_array_host(self, array_id, host_id):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/host/%s" % (self.rest.url, array_id, host_id)
         return self.rest.get(target_uri)
 
-    def edit_slo_array_host(self, symmId, hostId, params_dict):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/host/%s" % (self.rest.url, symmId, hostId)
+    def edit_slo_array_host(self, array_id, host_id, params_dict):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/host/%s" % (self.rest.url, array_id, host_id)
         return self.rest.put(target_uri, params_dict)
 
-    def delete_slo_array_host(self, symmId, hostId):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/host/%s" % (self.rest.url, symmId, hostId)
+    def delete_slo_array_host(self, array_id, host_id):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/host/%s" % (self.rest.url, array_id, host_id)
         return self.rest.delete(target_uri)
 
-    def get_slo_array_hostgroups(self, symm_id, params_dict=None):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/hostgroup" % (self.rest.url, symm_id)
+    def get_slo_array_hostgroups(self, array_id, params_dict=None):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/hostgroup" % (self.rest.url, array_id)
         return self.rest.get(target_uri, params_dict)
 
-    def create_slo_array_hostgroup(self, symm_id, params_dict):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/hostgroup" % (self.rest.url, symm_id)
+    def create_slo_array_hostgroup(self, array_id, params_dict):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/hostgroup" % (self.rest.url, array_id)
         return self.rest.post(target_uri, params_dict)
 
-    def get_slo_array_hostgroup(self, symmId, grpId):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/hostgroup/%s" % (self.rest.url, symmId, grpId)
+    def get_slo_array_hostgroup(self, array_id, group_id):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/hostgroup/%s" % (self.rest.url, array_id, group_id)
         return self.rest.get(target_uri)
 
-    def edit_slo_array_hostgroup(self, symmId, grpId, params_dict):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/hostgroup/%s" % (self.rest.url, symmId, grpId)
+    def edit_slo_array_hostgroup(self, array_id, group_id, params_dict):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/hostgroup/%s" % (self.rest.url, array_id, group_id)
         return self.rest.put(target_uri, params_dict)
 
-    def delete_slo_array_hostgroup(self, symmId, grpId):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/hostgroup/%s" % (self.rest.url, symmId, grpId)
+    def delete_slo_array_hostgroup(self, array_id, group_id):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/hostgroup/%s" % (self.rest.url, array_id, group_id)
         return self.rest.delete(target_uri)
 
-    def get_slo_array_initiators(self, resourceId, params_dict=None):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/initiator" % (self.rest.url, resourceId)
+    def get_slo_array_initiators(self, array_id, params_dict=None):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/initiator" % (self.rest.url, array_id)
         return self.rest.get(target_uri, params_dict)
 
-    def get_slo_array_initiator(self, symmId, initiatorId):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/initiator/%s" % (self.rest.url, symmId, initatorId)
+    def get_slo_array_initiator(self, array_id, initiator_id):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/initiator/%s" % (self.rest.url, array_id, initatorId)
         return self.rest.get(target_uri)
 
-    def edit_slo_array_initiator(self, symmId, initiatorId, params_dict):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/initiator/%s" % (self.rest.url, symmId, initatorId)
+    def edit_slo_array_initiator(self, array_id, initiator_id, params_dict):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/initiator/%s" % (self.rest.url, array_id, initatorId)
         return self.rest.put(target_uri, params_dict)
 
-    def get_slo_array_maskingviews(self, resourceId, params_dict=None):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/maskingview" % (self.rest.url, resourceId)
+    def get_slo_array_maskingviews(self, array_id, params_dict=None):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/maskingview" % (self.rest.url, array_id)
         return self.rest.get(target_uri, params_dict)
 
-    def create_slo_array_maskingviews(self, symm_id, params_dict):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/maskingview" % (self.rest.url, symm_id)
+    def create_slo_array_maskingviews(self, array_id, params_dict):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/maskingview" % (self.rest.url, array_id)
         return self.rest.post(target_uri, params_dict)
 
-    def get_slo_arary_maskingview(self, symmId, mvId):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/maskingview/%s" % (self.rest.url, symmId, mvId)
+    def get_slo_arary_maskingview(self, array_id, mv_id):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/maskingview/%s" % (self.rest.url, array_id, mv_id)
         return self.rest.get(target_uri)
 
-    def edit_slo_arary_maskingview(self, symmId, mvId, params_dict):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/maskingview/%s" % (self.rest.url, symmId, mvId)
+    def edit_slo_arary_maskingview(self, array_id, mv_id, params_dict):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/maskingview/%s" % (self.rest.url, array_id, mv_id)
         return self.rest.put(target_uri, params_dict)
 
-    def delete_slo_arary_maskingview(self, symmId, mvId):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/maskingview/%s" % (self.rest.url, symmId, mvId)
+    def delete_slo_arary_maskingview(self, array_id, mv_id):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/maskingview/%s" % (self.rest.url, array_id, mv_id)
         return self.rest.delete(target_uri)
 
-    def get_slo_array_maskingview_connections(self, symmId, mvId, params_dict=None):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/maskingview/%s/connections" % (self.rest.url, symmId, mvId)
+    def get_slo_array_maskingview_connections(self, array_id, mv_id, params_dict=None):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/maskingview/%s/connections" % (self.rest.url, array_id, mv_id)
         return self.rest.get(target_uri, params_dict)
 
-    def get_slo_array_ports(self, resourceId, params_dict=None):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/port" % (self.rest.url, resourceId)
+    def get_slo_array_ports(self, array_id, params_dict=None):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/port" % (self.rest.url, array_id)
         return self.rest.get(target_uri, params_dict)
 
-    def get_slo_array_portgroups(self, resourceId, params_dict=None):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/portgroup" % (self.rest.url, resourceId)
+    def get_slo_array_portgroups(self, array_id, params_dict=None):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/portgroup" % (self.rest.url, array_id)
         return self.rest.get(target_uri, params_dict)
 
-    def create_slo_array_portgroup(self, resourceId, params_dict):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/portgroup" % (self.rest.url, resourceId)
+    def create_slo_array_portgroup(self, array_id, params_dict):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/portgroup" % (self.rest.url, array_id)
         return self.rest.post(target_uri, params_dict)
 
-    def get_slo_array_portgroup(self, symmId, pgId):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/portgroup/%s" % (self.rest.url, symmId, pgId)
+    def get_slo_array_portgroup(self, array_id, portgroup_id):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/portgroup/%s" % (self.rest.url, array_id, portgroup_id)
         return self.rest.get(target_uri)
 
-    def edit_slo_array_portgroup(self, symmId, pgId, params_dict):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/portgroup/%s" % (self.rest.url, symmId, pgId)
+    def edit_slo_array_portgroup(self, array_id, portgroup_id, params_dict):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/portgroup/%s" % (self.rest.url, array_id, portgroup_id)
         return self.rest.get(target_uri, params_dict)
 
-    def delete_slo_array_portgroup(self, symmId, pgId):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/portgroup/%s" % (self.rest.url, symmId, pgId)
+    def delete_slo_array_portgroup(self, array_id, portgroup_id):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/portgroup/%s" % (self.rest.url, array_id, portgroup_id)
         return self.rest.delete(target_uri)
 
-    def get_slo_array_slos(self, resourceId, params_dict=None):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/slo" % (self.rest.url, resourceId)
+    def get_slo_array_slos(self, array_id, params_dict=None):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/slo" % (self.rest.url, array_id)
         return self.rest.get(target_uri, params_dict)
 
-    def get_slo_array_slo(self, symmId, sloId):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/slo/%s" % (self.rest.url, symmId, sloId)
+    def get_slo_array_slo(self, array_id, slo_id):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/slo/%s" % (self.rest.url, array_id, slo_id)
         return self.rest.get(target_uri)
 
-    def edit_slo_array_slo(self, symmId, sloId, params_dict):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/slo/%s" % (self.rest.url, symmId, sloId)
+    def edit_slo_array_slo(self, array_id, slo_id, params_dict):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/slo/%s" % (self.rest.url, array_id, slo_id)
         return self.rest.put(target_uri, params_dict)
 
-    def get_slo_array_srps(self, resourceId, params_dict=None):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/srp" % (self.rest.url, resourceId)
+    def get_slo_array_srps(self, array_id, params_dict=None):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/srp" % (self.rest.url, array_id)
         return self.rest.get(target_uri, params_dict)
 
-    def get_slo_array_srp(self, symmId, srpId):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/srp/%s" % (self.rest.url, symmId, srpId)
+    def get_slo_array_srp(self, array_id, srp_id):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/srp/%s" % (self.rest.url, array_id, srp_id)
         return self.rest.get(target_uri)
 
-    def get_slo_array_storagegroups(self, resourceId):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/storagegroup" % (self.rest.url, resourceId)
+    def get_slo_array_storagegroups(self, array_id):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/storagegroup" % (self.rest.url, array_id)
         return self.rest.get(target_uri)
 
-    def create_slo_array_storagegroup(self, resourceId, params_dict):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/storagegroup" % (self.rest.url, resourceId)
+    def create_slo_array_storagegroup(self, array_id, params_dict):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/storagegroup" % (self.rest.url, array_id)
         return self.rest.post(target_uri, params_dict)
 
-    def get_slo_array_storagegroup(self, symmId, sgId):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/storagegroup/%s" % (self.rest.url, symmId, sgId)
+    def get_slo_array_storagegroup(self, array_id, sg_id):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/storagegroup/%s" % (self.rest.url, array_id, sg_id)
         return self.rest.get(target_uri)
 
-    def edit_slo_array_storagegroup(self, symmId, sgId, params_dict):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/storagegroup/%s" % (self.rest.url, symmId, sgId)
+    def edit_slo_array_storagegroup(self, array_id, sg_id, params_dict):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/storagegroup/%s" % (self.rest.url, array_id, sg_id)
         return self.rest.put(target_uri, params_dict)
 
-    def delete_slo_array_storagegroup(self, symmId, sgId):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/storagegroup/%s" % (self.rest.url, symmId, sgId)
+    def delete_slo_array_storagegroup(self, array_id, sg_id):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/storagegroup/%s" % (self.rest.url, array_id, sg_id)
         return self.rest.delete(target_uri)
 
-    def get_slo_array_volumes(self, resourceId, params_dict=None):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/volume" % (self.rest.url, resourceId)
+    def get_slo_array_volumes(self, array_id, params_dict=None):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/volume" % (self.rest.url, array_id)
         return self.rest.get(target_uri, params_dict)
 
-    def get_slo_array_volume(self, symm_id, volume_id):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/volume/%s" % (self.rest.url, symm_id, volume_id)
+    def get_slo_array_volume(self, array_id, volume_id):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/volume/%s" % (self.rest.url, array_id, volume_id)
         return self.rest.get(target_uri)
 
-    def delete_slo_array_volume(self, symm_id, volume_id):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/volume/%s" % (self.rest.url, symm_id, volume_id)
+    def delete_slo_array_volume(self, array_id, volume_id):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/volume/%s" % (self.rest.url, array_id, volume_id)
         return self.rest.delete(target_uri)
 
-    def get_slo_array_workloads(self, symm_id):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/workloadtype" % (self.rest.url, symm_id)
+    def get_slo_array_workloads(self, array_id):
+        target_uri = "%s/sloprovisioning/symmetrix/%s/workloadtype" % (self.rest.url, array_id)
         return self.rest.get(target_uri)
 
 
@@ -907,8 +907,8 @@ class VmaxApi(object):
     ################
     ## queries for a specified Alert
     ################
-    def get_alert(self, resourceId):
-        target_uri = "%s/system/alert/%s" % (self.rest.url, resourceId)
+    def get_alert(self, array_id):
+        target_uri = "%s/system/alert/%s" % (self.rest.url, array_id)
         return self.rest.get(target_uri)
 
     ################
@@ -921,8 +921,8 @@ class VmaxApi(object):
     ################
     ## queries for a specified job
     ################
-    def get_job(self, resourceId):
-        target_uri = "%s/system/job/%s" % (self.rest.url, resourceId)
+    def get_job(self, array_id):
+        target_uri = "%s/system/job/%s" % (self.rest.url, array_id)
         return self.rest.get(target_uri)
 
     ################
@@ -935,36 +935,36 @@ class VmaxApi(object):
     ################
     ## This call queries for a specific Authorized Symmetrix Object that is compatible with slo provisioning using its ID
     ################
-    def get_array(self, resourceId):
-        target_uri = "%s/system/symmetrix/%s" % (self.rest.url, resourceId)
+    def get_array(self, array_id):
+        target_uri = "%s/system/symmetrix/%s" % (self.rest.url, array_id)
         return self.rest.get(target_uri)
 
     ################
     ## get a list of All Alert ids for a specific array id
     ################
-    def get_array_alerts(self, resourceId):
-        target_uri = "%s/system/symmetrix/%s/alert" % (self.rest.url, resourceId)
+    def get_array_alerts(self, array_id):
+        target_uri = "%s/system/symmetrix/%s/alert" % (self.rest.url, array_id)
         return self.rest.get(target_uri)
 
     ################
     ## queries for a specified Alert on a specified array
     ################
-    def get_array_alert(self, symId, alertId):
-        target_uri = "%s/system/symmetrix/%s/alert/%s" % (self.rest.url, symId, alertId)
+    def get_array_alert(self, array_id, alert_id):
+        target_uri = "%s/system/symmetrix/%s/alert/%s" % (self.rest.url, array_id, alert_id)
         return self.rest.get(target_uri)
 
     ################
     ## queries for a list of Job ids on a specified array
     ################
-    def get_array_jobs(self, resourceId):
-        target_uri = "%s/system/symmetrix/%s/job" % (self.rest.url, resourceId)
+    def get_array_jobs(self, array_id):
+        target_uri = "%s/system/symmetrix/%s/job" % (self.rest.url, array_id)
         return self.rest.get(target_uri)
 
     ################
     ## queries for a specified job on a specified array
     ################
-    def get_array_job(self, symId, jobId):
-        target_uri = "%s/system/symmetrix/%s/job/%s" % (self.rest.url, symId, jobId)
+    def get_array_job(self, array_id, job_id):
+        target_uri = "%s/system/symmetrix/%s/job/%s" % (self.rest.url, array_id, job_id)
         return self.rest.get(target_uri)
 
     ################
@@ -982,68 +982,68 @@ class VmaxApi(object):
         target_uri = "%s/81/vvol/symmetrix" % (self.rest.url)
         return self.rest.get(target_uri)
 
-    def get_vvol_array(self, symm_id):
-        target_uri = "%s/81/vvol/symmetrix/%s" % (self.rest.url, symm_id)
+    def get_vvol_array(self, array_id):
+        target_uri = "%s/81/vvol/symmetrix/%s" % (self.rest.url, array_id)
         return self.rest.get(target_uri)
 
-    def get_vvol_array_protocolendpoints(self, symm_id, params_dict=None):
-        target_uri = "%s/81/vvol/symmetrix/%s/protocolendpoint" % (self.rest.url, symm_id)
+    def get_vvol_array_protocolendpoints(self, array_id, params_dict=None):
+        target_uri = "%s/81/vvol/symmetrix/%s/protocolendpoint" % (self.rest.url, array_id)
         return self.rest.get(target_uri, params_dict)
 
-    def create_vvol_array_maskingview(self, symm_id, params_dict):
-        target_uri = "%s/81/vvol/symmetrix/%s/protocolendpoint" % (self.rest.url, symm_id)
+    def create_vvol_array_maskingview(self, array_id, params_dict):
+        target_uri = "%s/81/vvol/symmetrix/%s/protocolendpoint" % (self.rest.url, array_id)
         return self.rest.post(target_uri, params_dict)
 
-    def get_vvol_array_protocolendpoint(self, symm_id, proto_id):
-        target_uri = "%s/81/vvol/symmetrix/%s/protocolendpoint/%s" % (self.rest.url, symm_id, proto_id)
+    def get_vvol_array_protocolendpoint(self, array_id, proto_id):
+        target_uri = "%s/81/vvol/symmetrix/%s/protocolendpoint/%s" % (self.rest.url, array_id, proto_id)
         return self.rest.get(target_uri)
 
-    def get_vvol_array_storagecontainers(self, symm_id, params_dict=None):
-        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer" % (self.rest.url, symm_id)
+    def get_vvol_array_storagecontainers(self, array_id, params_dict=None):
+        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer" % (self.rest.url, array_id)
         return self.rest.get(target_uri, params_dict)
 
-    def create_vvol_array_storagecontainer(self, symm_id, params_dict):
-        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer" % (self.rest.url, symm_id)
+    def create_vvol_array_storagecontainer(self, array_id, params_dict):
+        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer" % (self.rest.url, array_id)
         return self.rest.post(target_uri, params_dict)
 
-    def get_vvol_array_storagecontainer(self, symm_id, storcont_id):
-        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer/%s" % (self.rest.url, symm_id, storcont_id)
+    def get_vvol_array_storagecontainer(self, array_id, storcont_id):
+        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer/%s" % (self.rest.url, array_id, storcont_id)
         return self.rest.get(target_uri)
 
-    def edit_vvol_array_storagecontainer(self, symm_id, storcont_id, params_dict):
-        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer/%s" % (self.rest.url, symm_id, storcont_id)
+    def edit_vvol_array_storagecontainer(self, array_id, storcont_id, params_dict):
+        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer/%s" % (self.rest.url, array_id, storcont_id)
         return self.rest.put(target_uri, params_dict)
 
-    def delete_vvol_array_storagecontainer(self, symm_id, storcont_id):
-        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer/%s" % (self.rest.url, symm_id, storcont_id)
+    def delete_vvol_array_storagecontainer(self, array_id, storcont_id):
+        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer/%s" % (self.rest.url, array_id, storcont_id)
         return self.rest.delete(target_uri)
 
-    def get_vvol_array_storagecontainer_storageresources(self, symm_id, storcont_id, params_dict=None):
-        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer/%s/storageresource" % (self.rest.url, symm_id, storcont_id)
+    def get_vvol_array_storagecontainer_storageresources(self, array_id, storcont_id, params_dict=None):
+        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer/%s/storageresource" % (self.rest.url, array_id, storcont_id)
         return self.rest.get(target_uri, params_dict)
 
-    def get_vvol_array_storagecontainer_storageresource(self, symm_id, storcont_id, storresource_id):
-        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer/%sstorageresource/%s" % (self.rest.url, symm_id, storcont_id, storresource_id)
+    def get_vvol_array_storagecontainer_storageresource(self, array_id, storcont_id, storresource_id):
+        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer/%sstorageresource/%s" % (self.rest.url, array_id, storcont_id, storresource_id)
         return self.rest.get(target_uri)
 
-    def edit_vvol_array_storagecontainer_storageresource(self, symm_id, storcont_id, storresource_id, params_dict):
-        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer/%sstorageresource/%s" % (self.rest.url, symm_id, storcont_id, storresource_id)
+    def edit_vvol_array_storagecontainer_storageresource(self, array_id, storcont_id, storresource_id, params_dict):
+        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer/%sstorageresource/%s" % (self.rest.url, array_id, storcont_id, storresource_id)
         return self.rest.put(target_uri, params_dict)
 
-    def get_vvol_array_vasaprovider(self, symm_id):
-        target_uri = "%s/81/vvol/symmetrix/%s/vasaprovider" % (self.rest.url, symm_id)
+    def get_vvol_array_vasaprovider(self, array_id):
+        target_uri = "%s/81/vvol/symmetrix/%s/vasaprovider" % (self.rest.url, array_id)
         return self.rest.get(target_uri)
 
-    def create_vvol_array_vasaprovider(self, symm_id, params_dict):
-        target_uri = "%s/81/vvol/symmetrix/%s/vasaprovider" % (self.rest.url, symm_id)
+    def create_vvol_array_vasaprovider(self, array_id, params_dict):
+        target_uri = "%s/81/vvol/symmetrix/%s/vasaprovider" % (self.rest.url, array_id)
         return self.rest.post(target_uri, params_dict)
 
-    def edit_vvol_array_vasaprovider(self, symm_id, params_dict):
-        target_uri = "%s/81/vvol/symmetrix/%s/vasaprovider" % (self.rest.url, symm_id)
+    def edit_vvol_array_vasaprovider(self, array_id, params_dict):
+        target_uri = "%s/81/vvol/symmetrix/%s/vasaprovider" % (self.rest.url, array_id)
         return self.rest.put(target_uri, params_dict)
 
-    def delete_vvol_array_vasaprovider(self, symm_id):
-        target_uri = "%s/81/vvol/symmetrix/%s/vasaprovider" % (self.rest.url, symm_id)
+    def delete_vvol_array_vasaprovider(self, array_id):
+        target_uri = "%s/81/vvol/symmetrix/%s/vasaprovider" % (self.rest.url, array_id)
         return self.rest.delete(target_uri)
 
     ######################################
