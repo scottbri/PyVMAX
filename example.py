@@ -24,6 +24,7 @@ vmax_api = pyvmax.connect(URL, USER, PASSWORD)
 
 #unisphereVersion = vmax_api.getVersion(URL)['version']
 pprint.pprint(vmax_api.version)
+pprint.pprint(vmax_api.get_version())
 
 
 # discover the known symmetrix serial #'s
