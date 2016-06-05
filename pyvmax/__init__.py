@@ -17,8 +17,8 @@ def connect(url, username, password):
         from .VmaxApi_v80 import VmaxApi
     else:
         from .VmaxApi_v82 import VmaxApi
-    	print('Unsupported VMAX API Version {}'.format(univmax_version))
-    	print('Using latest VMAX API Version')
+        print('Unsupported VMAX API Version {}'.format(univmax_version))
+        print('Using latest VMAX API Version')
 
     return VmaxApi(rest_client, url)
 
