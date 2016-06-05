@@ -11,7 +11,6 @@ def connect(url, username, password):
         univmax_version = version_response.get('version')
 
 # import the correct API module for the version of Unisphere discovered
-
     if univmax_version == 'V8.2.0.5':
         from .VmaxApi_v82 import VmaxApi
     elif univmax_version == 'V8.0.1.7':
@@ -19,7 +18,7 @@ def connect(url, username, password):
     else:
         from .VmaxApi_v82 import VmaxApi
     	print('Unsupported VMAX API Version {}'.format(univmax_version))
-    	print('Using VMAX API Version {}'.format())
+    	print('Using latest VMAX API Version')
 
     return VmaxApi(rest_client, url)
 
