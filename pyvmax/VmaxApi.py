@@ -10,7 +10,7 @@ class VmaxApi(object):
 
         supported_versions = {'V8.2.0.5' : '/82', 'V8.0.1.5' : ''}
         self.version_path = ""
-        if supported_versions.keys(self.version):
+        if self.version in supported_versions.keys():
             self.version_path = supported_versions[self.version]
 
     ######################################
