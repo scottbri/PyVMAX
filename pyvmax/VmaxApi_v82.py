@@ -6,7 +6,7 @@ class VmaxApi(object):
         self.rest = Restful
         url = "%s/univmax/restapi" % (base_url)
         self.rest.set_url(url)
-        self.version = 'v80'
+        self.version = 'v82'
 
 
     ######################################
@@ -16,9 +16,26 @@ class VmaxApi(object):
         target_uri = "%s/common/Application/list" % (self.rest.url)
         return self.rest.get(target_uri)
 
+    def start_system_backup(self, backup_name):
+        target_uri = "%s/common/Application/startSystemBackup" % (self.rest.url)
+        request_data = {"systemBackupName":backup_name}
+        return self.rest.post(target_uri, request_data)
+
+    def auth_cirrus_user(self):
+        target_uri = "%s/common/authenticateCirrusUser" % (self.rest.url)
+        return self.rest.get(target_uri)
+
+    def enroll_cirrus_user(self, cirrus_id, revoke_existing=True):
+        target_uri = "%s/common/enrollWithCirrus/%s/%s" % (self.rest.url, cirrus_id, revoke_existing)
+        return self.rest.get(target_uri)
+
     def get_sharding_info(self):
         target_uri = "%s/common/Sharding/info" % (self.rest.url)
         return self.rest.get(target_uri)
+
+    def unenroll_cirrus_user(self, token):
+        target_uri = "%s/common/unenrollFromCirrus/%s" % (self.rest.url, token)
+        return self.rest.delete(target_uri)
 
     ######################################
     ## COMMON Resource group
@@ -26,6 +43,10 @@ class VmaxApi(object):
     def get_iterator(self, iterator_id):
         target_uri = "%s/common/Iterator/%s" % (self.rest.url, iterator_id)
         return self.rest.get(target_uri)
+
+    def delete_iterator(self, iterator_id):
+        target_uri = "%s/common/Iterator/%s" % (self.rest.url, iterator_id)
+        return self.rest.delete(target_uri)
 
     def get_iterator_page(self, iterator_id, params_dict=None):
         target_uri = "%s/common/Iterator/%s/page" % (self.rest.url, iterator_id)
@@ -44,6 +65,70 @@ class VmaxApi(object):
     ## PERFORMANCE Resource group
     ######################################
 
+    def get_perf_host_keys(self, params_dict):
+        target_uri = "%s/81/performance/Host/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_host_metrics(self, params_dict):
+        target_uri = "%s/81/performance/Host/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_initiator_keys(self, params_dict):
+        target_uri = "%s/81/performance/Initiator/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_initiator_metrics(self, params_dict):
+        target_uri = "%s/81/performance/Initiator/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_initiatorbyport_keys(self, params_dict):
+        target_uri = "%s/81/performance/InitiatorByPort/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_initiatorbyport_metrics(self, params_dict):
+        target_uri = "%s/81/performance/InitiatorByPort/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_iscsiclient_keys(self, params_dict):
+        target_uri = "%s/81/performance/ISCSIClient/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_scsiclient_metrics(self, params_dict):
+        target_uri = "%s/81/performance/ISCSIClient/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_iscsitarget_keys(self, params_dict):
+        target_uri = "%s/81/performance/ISCSITarget/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_scsitarget_metrics(self, params_dict):
+        target_uri = "%s/81/performance/ISCSITarget/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_storagecontainer_keys(self, params_dict):
+        target_uri = "%s/82/performance/StorageContainer/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_storagecontainer_metrics(self, params_dict):
+        target_uri = "%s/82/performance/StorageContainer/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_storageresrource_keys(self, params_dict):
+        target_uri = "%s/82/performance/StorageResource/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_storageresource_metrics(self, params_dict):
+        target_uri = "%s/82/performance/StorageResource/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_storageresrourcebypool_keys(self, params_dict):
+        target_uri = "%s/82/performance/StorageResourceByPool/keys" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_perf_storageresourcebypool_metrics(self, params_dict):
+        target_uri = "%s/82/performance/StorageResourceByPool/metrics" % (self.rest.url)
+        return self.rest.post(target_uri, params_dict)
+
     def get_perf_array_alerts(self, params_dict):
         target_uri = "%s/performance/Array/alerts" % (self.rest.url)
         return self.rest.post(target_uri, params_dict)
@@ -56,11 +141,11 @@ class VmaxApi(object):
         target_uri = "%s/performance/Array/metrics" % (self.rest.url)
         return self.rest.post(target_uri, params_dict)
 
-    def get_perf_bedirector_keys(self, params_dict):
+    def get_perf_BEDirector_keys(self, params_dict):
         target_uri = "%s/performance/BEDirector/keys" % (self.rest.url)
         return self.rest.post(target_uri, params_dict)
 
-    def get_perf_bedirector_metrics(self, params_dict):
+    def get_perf_BEDirector_metrics(self, params_dict):
         target_uri = "%s/performance/BEDirector/metrics" % (self.rest.url)
         return self.rest.post(target_uri, params_dict)
 
@@ -808,50 +893,156 @@ class VmaxApi(object):
     ## SYSTEM Resource group
     ######################################
 
+    ################
+    ## get a list of All Alert ids across all symmetrix arrays
+    ################
     def get_alerts(self):
         target_uri = "%s/system/alert" % (self.rest.url)
         return self.rest.get(target_uri)
 
+    ################
+    ## queries for a specified Alert
+    ################
     def get_alert(self, array_id):
         target_uri = "%s/system/alert/%s" % (self.rest.url, array_id)
         return self.rest.get(target_uri)
 
+    ################
+    ## queries for a list of Job ids across all symmetrix arrays
+    ################
     def get_jobs(self):
         target_uri = "%s/system/job" % (self.rest.url)
         return self.rest.get(target_uri)
 
+    ################
+    ## queries for a specified job
+    ################
     def get_job(self, array_id):
         target_uri = "%s/system/job/%s" % (self.rest.url, array_id)
         return self.rest.get(target_uri)
 
+    ################
+    ## get a list of symmetrix serial #'s known by Unisphere
+    ################
     def get_arrays(self):
         target_uri = "%s/system/symmetrix" % (self.rest.url)
         return self.rest.get(target_uri)
 
+    ################
+    ## This call queries for a specific Authorized Symmetrix Object that is compatible with slo provisioning using its ID
+    ################
     def get_array(self, array_id):
         target_uri = "%s/system/symmetrix/%s" % (self.rest.url, array_id)
         return self.rest.get(target_uri)
 
+    ################
+    ## get a list of All Alert ids for a specific array id
+    ################
     def get_array_alerts(self, array_id):
         target_uri = "%s/system/symmetrix/%s/alert" % (self.rest.url, array_id)
         return self.rest.get(target_uri)
 
+    ################
+    ## queries for a specified Alert on a specified array
+    ################
     def get_array_alert(self, array_id, alert_id):
         target_uri = "%s/system/symmetrix/%s/alert/%s" % (self.rest.url, array_id, alert_id)
         return self.rest.get(target_uri)
 
+    ################
+    ## queries for a list of Job ids on a specified array
+    ################
     def get_array_jobs(self, array_id):
         target_uri = "%s/system/symmetrix/%s/job" % (self.rest.url, array_id)
         return self.rest.get(target_uri)
 
+    ################
+    ## queries for a specified job on a specified array
+    ################
     def get_array_job(self, array_id, job_id):
         target_uri = "%s/system/symmetrix/%s/job/%s" % (self.rest.url, array_id, job_id)
         return self.rest.get(target_uri)
 
+    ################
+    ## get the version of Unisphere (the API)
+    ################
     def get_version(self):
         target_uri = "%s/system/version" % (self.rest.url)
         return self.rest.get(target_uri)
 
     ######################################
+    ## VVOL Resource group
+    ######################################
+
+    def get_vvol_arrays(self):
+        target_uri = "%s/81/vvol/symmetrix" % (self.rest.url)
+        return self.rest.get(target_uri)
+
+    def get_vvol_array(self, array_id):
+        target_uri = "%s/81/vvol/symmetrix/%s" % (self.rest.url, array_id)
+        return self.rest.get(target_uri)
+
+    def get_vvol_array_protocolendpoints(self, array_id, params_dict=None):
+        target_uri = "%s/81/vvol/symmetrix/%s/protocolendpoint" % (self.rest.url, array_id)
+        return self.rest.get(target_uri, params_dict)
+
+    def create_vvol_array_maskingview(self, array_id, params_dict):
+        target_uri = "%s/81/vvol/symmetrix/%s/protocolendpoint" % (self.rest.url, array_id)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_vvol_array_protocolendpoint(self, array_id, proto_id):
+        target_uri = "%s/81/vvol/symmetrix/%s/protocolendpoint/%s" % (self.rest.url, array_id, proto_id)
+        return self.rest.get(target_uri)
+
+    def get_vvol_array_storagecontainers(self, array_id, params_dict=None):
+        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer" % (self.rest.url, array_id)
+        return self.rest.get(target_uri, params_dict)
+
+    def create_vvol_array_storagecontainer(self, array_id, params_dict):
+        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer" % (self.rest.url, array_id)
+        return self.rest.post(target_uri, params_dict)
+
+    def get_vvol_array_storagecontainer(self, array_id, storcont_id):
+        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer/%s" % (self.rest.url, array_id, storcont_id)
+        return self.rest.get(target_uri)
+
+    def edit_vvol_array_storagecontainer(self, array_id, storcont_id, params_dict):
+        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer/%s" % (self.rest.url, array_id, storcont_id)
+        return self.rest.put(target_uri, params_dict)
+
+    def delete_vvol_array_storagecontainer(self, array_id, storcont_id):
+        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer/%s" % (self.rest.url, array_id, storcont_id)
+        return self.rest.delete(target_uri)
+
+    def get_vvol_array_storagecontainer_storageresources(self, array_id, storcont_id, params_dict=None):
+        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer/%s/storageresource" % (self.rest.url, array_id, storcont_id)
+        return self.rest.get(target_uri, params_dict)
+
+    def get_vvol_array_storagecontainer_storageresource(self, array_id, storcont_id, storresource_id):
+        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer/%sstorageresource/%s" % (self.rest.url, array_id, storcont_id, storresource_id)
+        return self.rest.get(target_uri)
+
+    def edit_vvol_array_storagecontainer_storageresource(self, array_id, storcont_id, storresource_id, params_dict):
+        target_uri = "%s/81/vvol/symmetrix/%s/storagecontainer/%sstorageresource/%s" % (self.rest.url, array_id, storcont_id, storresource_id)
+        return self.rest.put(target_uri, params_dict)
+
+    def get_vvol_array_vasaprovider(self, array_id):
+        target_uri = "%s/81/vvol/symmetrix/%s/vasaprovider" % (self.rest.url, array_id)
+        return self.rest.get(target_uri)
+
+    def create_vvol_array_vasaprovider(self, array_id, params_dict):
+        target_uri = "%s/81/vvol/symmetrix/%s/vasaprovider" % (self.rest.url, array_id)
+        return self.rest.post(target_uri, params_dict)
+
+    def edit_vvol_array_vasaprovider(self, array_id, params_dict):
+        target_uri = "%s/81/vvol/symmetrix/%s/vasaprovider" % (self.rest.url, array_id)
+        return self.rest.put(target_uri, params_dict)
+
+    def delete_vvol_array_vasaprovider(self, array_id):
+        target_uri = "%s/81/vvol/symmetrix/%s/vasaprovider" % (self.rest.url, array_id)
+        return self.rest.delete(target_uri)
+
+    ######################################
     ## WORKLOAD Resource group
     ######################################
+    # TODO
