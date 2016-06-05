@@ -19,10 +19,10 @@ def connect(url, username, password):
     target_uri = "%s/system/version" % (url)
     version_response = rest_client.get(target_uri)
     if 'version' in version_response:
-        univmax_version = version_response['version']
+        univmax_version = version_response.get('version')
 
-    SUPPORTED_VERSIONS = {'V8.2.0.5' : 'pyvmax.VmaxApi82',
-                          'V8.0.1.5' : 'pyvmax.VmaxApi80'}
+    SUPPORTED_VERSIONS = {'V8.2.0.5' : '.VmaxApi82',
+                          'V8.0.1.5' : '.VmaxApi80'}
 
     VmaxApi = getattr(importlib.import_module(SUPPORTED_VERSIONS.get(univmax_version)), "VmaxApi")
 '''
