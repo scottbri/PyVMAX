@@ -6,14 +6,15 @@ from .Restful import Restful
 
 def connect(url, username, password):
 
-    rest_client =  Restful(url, username, password)
+    rest_client = Restful(url, username, password)
 
 # potential code to solve the dilemma of multiple API versions
 # if we could query the univmax verison from REST up front, and then decide
 # which VmaxApi module or class to load dynamically, we could keep the various
 # api versions in separate files for easier management
 
-    target_uri = "%s/system/version" % (url)
+    target_uri = "%s/univmax/restapi/system/version" % (url)
+    print target_uri
     version_response = rest_client.get(target_uri)
     if 'version' in version_response:
         univmax_version = version_response.get('version')

@@ -53,9 +53,6 @@ class Restful:
         except Exception:
             print("Exception")
             print(response.text)
-
-            print(response_object.get("message", "API failed to return expected result"))
-            print_json(response_object)
             return dict()
 
         return response_object
