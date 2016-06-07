@@ -47,6 +47,21 @@ Required arguments:
 * Then for each, we gather the last hour of a few example performance metrics 
 * As before for your amusement, we merely print out the data structure, but suggest you do something more useful with it
 
+```
+usage: example_performance.py [-h] -url URL -user USER -passwd PASSWD
+
+Example implementation of a Python REST client for EMC Unisphere for VMAX
+performance statistics.
+
+optional arguments:
+  -h, --help      show this help message and exit
+
+Required arguments:
+  -url URL        Base Unisphere URL. e.g. https://10.0.0.1:8443
+  -user USER      Unisphere username. e.g. smc
+  -passwd PASSWD  Unisphere password. e.g. smc
+```
+
 URL is an https FQDN or IP address of your Unisphere server, specifying port 8443 (typically)
 for example:  https://192.168.1.1:8443
 
