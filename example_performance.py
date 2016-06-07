@@ -39,7 +39,7 @@ def time_last_midnight():
     today = datetime.date.today()
     return int(time.mktime(today.timetuple()) * 1000)
 
-def time_midnights_ago(midnight=1):
+def time_midnights_ago(midnights=1):
     return int(time_last_midnight() - (midnights * 24 * 3600 * 1000))
 
 def generate_payload(symmetrix_id):
