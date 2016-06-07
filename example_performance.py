@@ -7,7 +7,7 @@ import pprint
 import pyvmax
 #################################
 ### Define and Parse CLI arguments
-PARSER = argparse.ArgumentParser(description='Example implementation of a Python REST client for EMC Unisphere for VMAX.')
+PARSER = argparse.ArgumentParser(description='Example implementation of a Python REST client for EMC Unisphere for VMAX performance statistics.')
 RFLAGS = PARSER.add_argument_group('Required arguments')
 RFLAGS.add_argument('-url', required=True, help='Base Unisphere URL. e.g. https://10.0.0.1:8443')
 RFLAGS.add_argument('-user', required=True, help='Unisphere username. e.g. smc')
