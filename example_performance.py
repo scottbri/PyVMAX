@@ -23,19 +23,19 @@ vmax_api = pyvmax.connect(URL, USER, PASSWORD)
 vmax_api.rest.print_json(vmax_api.version)
 
 def time_now():
-    return int(time.time())
+    return int(time.time() * 1000)
 
 def time_hours_ago(hours=1):
-    return int(time_now() - (hours * 3600)
+    return int(time_now() - (hours * 3600 * 1000))
 
 def time_days_ago(days=1):
-    return int(time_now() - (days * 24 * 3600)
+    return int(time_now() - (days * 24 * 3600 * 1000))
 
 def time_weeks_ago(weeks=1):
-    return int(time_now() - (weeks * 7 * 24 * 3600)
+    return int(time_now() - (weeks * 7 * 24 * 3600 * 1000))
 
 def time_midnights_ago(midnight=0):
-    return int(time_now() - (weeks * 7 * 24 * 3600)
+    return int(time_now() - (weeks * 7 * 24 * 3600 * 1000))
 
 def generate_payload(symmetrix_id):
     return {
