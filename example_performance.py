@@ -20,7 +20,7 @@ PASSWORD = ARGS.passwd
 
 vmax_api = pyvmax.connect(URL, USER, PASSWORD)
 
-pprint.pprint(vmax_api.version)
+vmax_api.rest.print_json(vmax_api.version)
 
 
 def generate_payload(symmetrix_id):
@@ -53,4 +53,4 @@ for symm_id in symmetrix_list:
     if 'message' in symmetrix_list_response:
         print(symmetrix_list_response.get('message'))
     else:
-        pprint.pprint(perf_response)
+        vmax_api.rest.print_json(perf_response)

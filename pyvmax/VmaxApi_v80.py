@@ -8,7 +8,6 @@ class VmaxApi(object):
         self.rest.set_url(url)
         self.version = 'v80'
 
-
     ######################################
     ## ADMINISTRATION Resource group
     ######################################

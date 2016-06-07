@@ -9,11 +9,6 @@ try:
 except Exception:
     print("Ignore messages related to insecure SSL certificates")
 
-################
-## print a json object nicely
-################
-def print_json(json_obj):
-    print(json.dumps(json_obj, sort_keys=False, indent=2))
 
 class Restful:
 
@@ -28,6 +23,9 @@ class Restful:
 
     def set_url(self, new_url):
         self.url = new_url
+
+    def print_json(self, json_obj):
+        print(json.dumps(json_obj, sort_keys=False, indent=2))
 
     ################
     ## make the json GET call to the public api

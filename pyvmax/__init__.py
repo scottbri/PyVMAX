@@ -2,13 +2,12 @@ __version__ = "0.3"
 
 from .Restful import Restful
 
-
 def connect(url, username, password):
-
 
     rest_client = Restful(url, username, password)
     target_uri = "%s/univmax/restapi/system/version" % (url)
     version_response = rest_client.get(target_uri)
+    univmax_version = None
     if 'version' in version_response:
         univmax_version = version_response.get('version')
 
@@ -23,5 +22,8 @@ def connect(url, username, password):
         print('Using latest VMAX API Version')
 
     return VmaxApi(rest_client, url)
+
+def json_print(json_obj):
+	print_json(json_obj)
 
 __all__ = ['connect']

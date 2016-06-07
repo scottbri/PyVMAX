@@ -1,8 +1,6 @@
 #!/usr/bin/python
 
 import argparse
-import pprint
-
 import pyvmax
 
 
@@ -23,8 +21,8 @@ PASSWORD = ARGS.passwd
 vmax_api = pyvmax.connect(URL, USER, PASSWORD)
 
 #unisphereVersion = vmax_api.getVersion(URL)['version']
-pprint.pprint(vmax_api.version)
-pprint.pprint(vmax_api.get_version())
+vmax_api.rest.print_json(vmax_api.version)
+vmax_api.rest.print_json(vmax_api.get_version())
 
 
 # discover the known symmetrix serial #'s
@@ -54,7 +52,7 @@ for symmId in prov_array_ids:
 
 # do something with this great list of thin provisioned arrays
 # print it out!! (the json printer is good for lists and dicts too)
-pprint.pprint(prov_array_list)
+vmax_api.rest.print_json(prov_array_list)
 
 
 # discover the known slo symmetrix serial #'s
@@ -96,4 +94,4 @@ for symmId in slo_array_ids:
 
 # do something with this great list of thin provisioned arrays
 # print it out!! (the json printer is good for lists and dicts too)
-pprint.pprint(slo_array_list)
+vmax_api.rest.print_json(slo_array_list)
