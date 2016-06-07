@@ -1,19 +1,15 @@
-PyVMAX REST API for EMC VMAX
-===========================
-
+# PyVMAX REST API for EMC VMAX
 Example implementation of a python REST client for EMC Unisphere for VMAX
 
 Includes a Restful class that simplifies the consumption of EMC VMAX REST API.  The package also implements an example python client of the Unisphere REST API as a demonstration of functionality.
 
-INSTALLATION
-===========
+# INSTALLATION
 Download the python files and copy them into your working directory.  Requires the 'requests' JSON parsing package.
 ```
 pip install requests
 ```
 
-USAGE
-=====
+# USAGE
 PyVMAX is primarily a representation of the EMC Unisphere for VMAX API as a Python module.  It's very simple to use, just:
 ```
 import pyvmax
@@ -27,10 +23,10 @@ USER and PASSWD are your unisphere credentials used to login to the GUI
 
 Also included in the package are some functional example python scripts using the API described below.
 
-example.py
-1) Queries the Unisphere server and builds a list of all known VMAX arrays.  
-2) Then for each, we gather thin pool data for VMAX 2 and older, or SRP and Storage Group data for VMAX3.
-3) In the end, the data structure is merely printed out for your enjoyment.
+### example.py
+* Queries the Unisphere server and builds a list of all known VMAX arrays.  
+* Then for each, we gather thin pool data for VMAX 2 and older, or SRP and Storage Group data for VMAX3.
+* In the end, the data structure is merely printed out for your enjoyment.
 
 ```
 usage: example.py [-h] -url URL -user USER -passwd PASSWD
@@ -46,10 +42,10 @@ Required arguments:
   -passwd PASSWD  Unisphere password. e.g. smc
 ```
 
-example_performance.py
-1) Queries the Unisphere server and builds a list of all known VMAX arrays.  
-2) Then for each, we gather the last hour of a few example performance metrics 
-3) As before for your amusement, we merely print out the data structure, but suggest you do something more useful with it
+### example_performance.py
+* Queries the Unisphere server and builds a list of all known VMAX arrays.  
+* Then for each, we gather the last hour of a few example performance metrics 
+* As before for your amusement, we merely print out the data structure, but suggest you do something more useful with it
 
 URL is an https FQDN or IP address of your Unisphere server, specifying port 8443 (typically)
 for example:  https://192.168.1.1:8443
@@ -59,8 +55,7 @@ USER and PASSWD are your unisphere credentials used to login to the GUI
 You can download api documentation by pointing your browser to URL/univmax/restapi/docs (URL as above):
 eg: https://10.0.0.1:8443/univmax/restapi/docs
 
-TODO
-====
+# TODO
 * fully implement the full API
   * still have replication and workload resource groups to implement
   * rationalize function names between provisioning and SLO arrays
@@ -72,7 +67,6 @@ TODO
   * example performance outputs to csv format 
 
 
-API ISSUES / WISHLIST
-=====================
+# API ISSUES / WISHLIST
 * api sometimes returns list when guaranteed only a single element returned
 * can't see how to report on subscribed capacity in thin provisioned arrays
