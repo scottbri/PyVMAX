@@ -2,7 +2,6 @@ import requests
 import json
 
 
-
 # Disable warnings from untrusted server certificates
 try:
     from requests.packages.urllib3.exceptions import InsecureRequestWarning
@@ -15,7 +14,6 @@ except Exception:
 ################
 def print_json(json_obj):
     print(json.dumps(json_obj, sort_keys=False, indent=2))
-
 
 class Restful:
 

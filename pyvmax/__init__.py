@@ -2,7 +2,9 @@ __version__ = "0.3"
 
 from .Restful import Restful
 
+
 def connect(url, username, password):
+
 
     rest_client = Restful(url, username, password)
     target_uri = "%s/univmax/restapi/system/version" % (url)
