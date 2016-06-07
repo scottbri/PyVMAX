@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import argparse
+import datetime
 import time
 import pprint
 
@@ -34,13 +35,17 @@ def time_days_ago(days=1):
 def time_weeks_ago(weeks=1):
     return int(time_now() - (weeks * 7 * 24 * 3600 * 1000))
 
-def time_midnights_ago(midnight=0):
-    return int(time_now() - (weeks * 7 * 24 * 3600 * 1000))
+def time_last_midnight():
+    today = datetime.date.today()
+    return int(time.mktime(today.timetuple()) * 1000)
+
+def time_midnights_ago(midnight=1):
+    return int(time_last_midnight() - (midnights * 24 * 3600 * 1000))
 
 def generate_payload(symmetrix_id):
     return {
-        "startDate": time_hours_ago(1),     # 60 minutes ago
-        "endDate": time_now(),              # now
+        "startDate": time_midnights_ago(1),     # 60 minutes ago
+        "endDate": time_last_midnight(),              # now
         "symmetrixId": symmetrix_id,
         "dataFormat": "Average",
         "metrics": ["IO_RATE", "PERCENT_HIT", "PERCENT_READ"]
