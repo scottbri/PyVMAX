@@ -22,15 +22,30 @@ vmax_api = pyvmax.connect(URL, USER, PASSWORD)
 
 vmax_api.rest.print_json(vmax_api.version)
 
+def time_now():
+    return int(time.time())
+
+def time_hours_ago(hours=1):
+    return int(time_now() - (hours * 3600)
+
+def time_days_ago(days=1):
+    return int(time_now() - (days * 24 * 3600)
+
+def time_weeks_ago(weeks=1):
+    return int(time_now() - (weeks * 7 * 24 * 3600)
+
+def time_midnights_ago(midnight=0):
+    return int(time_now() - (weeks * 7 * 24 * 3600)
 
 def generate_payload(symmetrix_id):
     return {
-        "startDate": int(time.time()*1000)-(3600*1000),  # 60 minutes ago
-        "endDate": int(time.time()*1000),                # now
+        "startDate": time_hours_ago(1),     # 60 minutes ago
+        "endDate": time_now(),              # now
         "symmetrixId": symmetrix_id,
         "dataFormat": "Average",
         "metrics": ["IO_RATE", "PERCENT_HIT", "PERCENT_READ"]
     }
+
 
 # Get all VMAXs for a given Unisphere Instance
 try:
