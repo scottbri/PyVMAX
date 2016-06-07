@@ -4,10 +4,8 @@ Example implementation of a python REST client for EMC Unisphere for VMAX
 Includes a Restful class that simplifies the consumption of EMC VMAX REST API.  The package also implements an example python client of the Unisphere REST API as a demonstration of functionality.
 
 # INSTALLATION
-Download the python files and copy them into your working directory.  Requires the 'requests' JSON parsing package.
-```
-pip install requests
-```
+Download the python files and copy them into your working directory.   
+Requires the 'requests' JSON parsing package.
 
 # USAGE
 PyVMAX is primarily a representation of the EMC Unisphere for VMAX API as a Python module.  It's very simple to use, just:
