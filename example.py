@@ -95,3 +95,8 @@ for symmId in slo_array_ids:
 # do something with this great list of thin provisioned arrays
 # print it out!! (the json printer is good for lists and dicts too)
 vmax_api.rest.print_json(slo_array_list)
+
+# print out the # of api calls, total elapsed API wait time, and average time for all calls
+print(vmax_api.api_counter)
+print(vmax_api.api_timer)
+print(vmax_api.api_average_time)
