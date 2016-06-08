@@ -1,13 +1,14 @@
-
+import time
 
 def timer_counter(func):
     def wrapper(*args, **kwargs):
         start_time = int(round(time.time() * 1000))
-        result = func(*args, **kw)
+        result = func(*args, **kwargs)
         end_time = int(round(time.time() * 1000))
 
-        self.api_counter += 1
-        self.api_timer += (end_time - start_time)
+        args[0].api_counter += 1
+        args[0].api_timer += (end_time - start_time)
+        args[0].api_last_resp_time = (end_time - start_time)
         return result
     return wrapper
 
@@ -21,6 +22,7 @@ class VmaxApi(object):
         self.version = 'v82'
         self.api_counter = 0
         self.api_timer = 0
+        self.api_last_resp_time = 0
 
     def api_average_time(self):
         return self.api_timer / self.api_counter
