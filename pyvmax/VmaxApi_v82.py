@@ -851,9 +851,9 @@ class VmaxApi(object):
         target_uri = "%s/sloprovisioning/symmetrix/%s/srp/%s" % (self.rest.url, array_id, srp_id)
         return self.rest.get(target_uri)
 
-    def get_slo_array_storagegroups(self, array_id):
+    def get_slo_array_storagegroups(self, array_id, params_dict=None):
         target_uri = "%s/sloprovisioning/symmetrix/%s/storagegroup" % (self.rest.url, array_id)
-        return self.rest.get(target_uri)
+        return self.rest.get(target_uri, params_dict)
 
     def create_slo_array_storagegroup(self, array_id, params_dict):
         target_uri = "%s/sloprovisioning/symmetrix/%s/storagegroup" % (self.rest.url, array_id)

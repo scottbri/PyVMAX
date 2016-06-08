@@ -20,37 +20,6 @@ PASSWORD = ARGS.passwd
 
 vmax_api = pyvmax.connect(URL, USER, PASSWORD)
 
-
-# discover the known symmetrix serial #'s
-prov_array_ids = vmax_api.get_prov_arrays()['symmetrixId']
-
-# going to build a list of dicts, each one a symmetrix
-prov_array_list = list()
-for symmId in prov_array_ids:
-    # get the array details
-    symmetrix = vmax_api.get_prov_array(symmId)['symmetrix'][0]
-
-    # for this symmetrix, go ahead and build a list of thin pools
-    tpList = list()
-
-    # make sure to check whether any list results returned..
-    tp_result = vmax_api.get_prov_array_thinpools(symmId)
-    if 'poolId' in tp_result:
-        # iterate through the thin pools, get their details and build a list
-        for tpId in vmax_api.get_prov_array_thinpools(symmId)['poolId']:
-            tp = vmax_api.get_prov_array_thinpool(symmId, tpId)['thinPool'][0]
-            tpList.append(tp)
-
-    # add a dict entry for the thin pool list data structure we just created
-    symmetrix['thinpools'] = tpList
-
-    prov_array_list.append(symmetrix)
-
-# do something with this great list of thin provisioned arrays
-# print it out!! (the json printer is good for lists and dicts too)
-vmax_api.rest.print_json(prov_array_list)
-
-
 # discover the known slo symmetrix serial #'s
 slo_array_ids = vmax_api.get_slo_arrays()['symmetrixId']
 
@@ -58,10 +27,9 @@ slo_array_ids = vmax_api.get_slo_arrays()['symmetrixId']
 slo_array_list = list()
 for symm_id in slo_array_ids:
     # get the array details
-    symm_result = vmax_api.get_slo_array(symmId)['symmetrix'][0]
+    symm_result = vmax_api.get_slo_array(symm_id)['symmetrix'][0]
     symmetrix = {'symmetrix_id' : symm_result['symmetrixId'],
-                 'array_raw_gb' : symm_result['physicalCapacity'],
-                 'array_usable_gb' : symm_result['virtualCapacity'],
+                 'array_usable_gb' : symm_result['virtualCapacity']['total_capacity_gb'],
                  'srps_total_subscribed_gb' : 0,
                  'srps_total_usable_gb' : 0,
                  'srps_total_allocated_gb' : 0,
@@ -69,7 +37,7 @@ for symm_id in slo_array_ids:
                  'srps_total_dse_gb' : 0,
                  'srps_total_snaps_gb' : 0,
                  'srps_virtual_replica_gb' : 0}
-
+#                'array_raw_gb' : symm_result['physicalCapacity'],
 
     # for this symmetrix, go ahead and build a list of SRP's
     srp_list = list()
@@ -79,11 +47,11 @@ for symm_id in slo_array_ids:
             srp_result = vmax_api.get_slo_array_srp(symm_id, srp_id)['srp'][0]
             srp = {'srp_id' : srp_result['srpId'],
                    'srp_usable_cap_gb' : srp_result['total_usable_cap_gb'],
-                   'srp_allocated_cap_gb' : srp_result['total_alloated_cap_gb'],
+                   'srp_allocated_cap_gb' : srp_result['total_allocated_cap_gb'],
                    'srp_snapshot_allocated_cap_gb' : srp_result['total_snapshot_allocated_cap_gb'],
                    'srp_srdf_dse_allocated_cap_gb' : srp_result['total_srdf_dse_allocated_cap_gb'],
                    'srp_subscribed_cap_gb' : srp_result['total_subscribed_cap_gb'],
-                   'srp_host_allocated_cap_gb' : srp_result['total_alloated_cap_gb'] - srp_result['total_snapshot_allocated_cap_gb'] - srp_result['total_srdf_dse_allocated_cap_gb'],
+                   'srp_host_allocated_cap_gb' : srp_result['total_allocated_cap_gb'] - srp_result['total_snapshot_allocated_cap_gb'] - srp_result['total_srdf_dse_allocated_cap_gb'],
                    'sgs_cap_gb' : 0,
                    'sgs_replica_cap_gb' : 0}
 
@@ -91,19 +59,19 @@ for symm_id in slo_array_ids:
             sg_list = list()
             # make sure to check whether any sg results returned.. not every SRP has storage groups!
             result_filter = {'srp_name' : srp['srp_id']}
-            sgs_result = vmax_api.get_slo_array_storagegroups(symm_Id, result_filter)
+            sgs_result = vmax_api.get_slo_array_storagegroups(symm_id, result_filter)
             if 'storageGroupId' in sgs_result:
                 # iterate through the sg's, get their details and build a list
                 for sg_id in sgs_result['storageGroupId']:
-                    sg_result = vmax_api.get_slo_array_storagegroup(symmId, sgId)['storageGroup'][0]
+                    sg_result = vmax_api.get_slo_array_storagegroup(symm_id, sg_id)['storageGroup'][0]
                     sg = {'sg_id' : sg_result['storageGroupId'],
-                          'sg_cap_gb' : sg_restult['cap_gb'],
+                          'sg_cap_gb' : sg_result['cap_gb'],
                           'num_snapshots' : sg_result['num_of_snapshots'],
-                          'sg_replica_cap_gb' : sg_restult['cap_gb'] * sg_result['num_of_snapshots']}
+                          'sg_replica_cap_gb' : sg_result['cap_gb'] * sg_result['num_of_snapshots']}
 
                     # before we loop, update parent SRP's calculated values for this sg
                     srp['sgs_cap_gb'] += sg['sg_cap_gb']
-                    srp['sgs_replica_cap_gb'] += sg['sg_replicat_cap_gb']
+                    srp['sgs_replica_cap_gb'] += sg['sg_replica_cap_gb']
 
                     # append this sg to the running list for this SRP
                     sg_list.append(sg)
@@ -126,9 +94,20 @@ for symm_id in slo_array_ids:
     # add a dict entry for the SRP list data structure we just created
     symmetrix['srp'] = srp_list
 
-
     slo_array_list.append(symmetrix)
 
-# do something with this great list of thin provisioned arrays
+# do something with this great list of symmetrix capacities
 # print it out!! (the json printer is good for lists and dicts too)
-vmax_api.rest.print_json(slo_array_list)
+#vmax_api.rest.print_json(slo_array_list)
+print("Array Id,Array Usable GB,Array Subscribed GB,Array Total Allocated GB,Array % Used, Array % Subscribed, Host Allocated GB,Snaps Allocated GB,DSE Allocated GB,Virtual Replica GB")
+for element in slo_array_list:
+    print(element['symmetrix_id'], ",",
+          element['array_usable_gb'], ",",
+          element['srps_total_subscribed_gb'], ",",
+          element['srps_total_allocated_gb'], ",",
+          element['srps_total_allocated_gb'] / element['array_usable_gb'], ",",
+          element['srps_total_subscribed_gb'] / element['array_usable_gb'], ",",
+          element['srps_total_host_allocated_gb'], ",",
+          element['srps_total_snaps_gb'], ",",
+          element['srps_total_dse_gb'], ",",
+          element['srps_virtual_replica_gb'], sep='')
