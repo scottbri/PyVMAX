@@ -624,7 +624,7 @@ class VmaxApi(object):
 
     @timer_counter
     def get_prov_array(self, array_id):
-        target_uri = "%s/provisioning/symmetrix/%s" % (self.rest.url, array_id)
+        target_uri = "%s/82/provisioning/symmetrix/%s" % (self.rest.url, array_id)
         return self.rest.get(target_uri)
 
     @timer_counter
@@ -887,7 +887,156 @@ class VmaxApi(object):
     ## REPLICATION Resource group
     ######################################
 
-    # TODO
+    @timer_counter
+    def get_replica_devicegroup(self, group_id):
+        target_uri = "%s/81/replication/devicegroup/%s" % (self.rest.url, group_id)
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def get_replica_srdfgroup(self, symm_id, rdfg_num):
+        target_uri = "%s/82/replication/symmetrix/%s/rdf_group/%s" % (self.rest.url, symm_id, rdfg_num)
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def get_replica_storagegroups(self, symm_id, params_dict=None):
+        target_uri = "%s/82/replication/symmetrix/%s/storagegroup" % (self.rest.url, symm_id)
+        return self.rest.get(target_uri, params_dict)
+
+    @timer_counter
+    def get_replica_storagegroup(self, symm_id, group_id):
+        target_uri = "%s/82/replication/symmetrix/%s/storagegroup/%s" % (self.rest.url, symm_id, group_id)
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def get_replica_storagegroup_srdfgroups(self, symm_id, group_id):
+        target_uri = "%s/82/replication/symmetrix/%s/storagegroup/%s/rdf_group" % (self.rest.url, symm_id, group_id)
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def create_replica_storagegroup_srdf(self, symm_id, group_id, params_dict):
+        target_uri = "%s/82/replication/symmetrix/%s/storagegroup/%s/rdf_group" % (self.rest.url, symm_id, group_id)
+        return self.rest.post(target_uri, params_dict)
+
+    @timer_counter
+    def get_replica_storagegroup_srdfgroup(self, symm_id, group_id, rdfg_id):
+        target_uri = "%s/82/replication/symmetrix/%s/storagegroup/%s/rdf_group/%s" % (self.rest.url, symm_id, group_id, rdfg_id)
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def edit_replica_storagegroup_srdfgroup(self, symm_id, group_id, rdfg_id):
+        target_uri = "%s/82/replication/symmetrix/%s/storagegroup/%s/rdf_group/%s" % (self.rest.url, symm_id, group_id, rdfg_id)
+        return self.rest.put(target_uri)
+
+    @timer_counter
+    def delete_replica_storagegroup_srdfgroup(self, symm_id, group_id, rdfg_id, params_dict):
+        target_uri = "%s/82/replication/symmetrix/%s/storagegroup/%s/rdf_group/%s" % (self.rest.url, symm_id, group_id, rdfg_id)
+        return self.rest.delete(target_uri, params_dict)
+
+    @timer_counter
+    def create_replica_storagegroup_snapshot(self, symm_id, group_id, params_dict):
+        target_uri = "%s/82/replication/symmetrix/%s/storagegroup/%s/snapshot" % (self.rest.url, symm_id, group_id)
+        return self.rest.post(target_uri, params_dict)
+
+    @timer_counter
+    def recreate_replica_storagegroup_snapshot(self, symm_id, group_id, snap_id, params_dict):
+        target_uri = "%s/82/replication/symmetrix/%s/storagegroup/%s/snapshot/%s/generation" % (self.rest.url, symm_id, group_id, snap_id)
+        return self.rest.post(target_uri, params_dict)
+
+    @timer_counter
+    def get_replica_array_capabilities(self):
+        target_uri = "%s/replication/capabilities/symmetrix" % (self.rest.url)
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def get_replica_devicegroups(self):
+        target_uri = "%s/replication/devicegroup" % (self.rest.url)
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def get_replica_devicegroup(self, group_id):
+        target_uri = "%s/replication/devicegroup/%s" % (self.rest.url, group_id)
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def edit_replica_devicegroup(self, group_id, params_dict):
+        target_uri = "%s/replication/devicegroup/%s" % (self.rest.url, group_id)
+        return self.rest.put(target_uri, params_dict)
+
+    @timer_counter
+    def get_replica_devicegroup_rdfgroups(self, group_id):
+        target_uri = "%s/replication/devicegroup/%s/rdf_group" % (self.rest.url, group_id)
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def get_replica_arrays(self):
+        target_uri = "%s/replication/symmetrix" % (self.rest.url)
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def get_replica_array(self, symm_id):
+        target_uri = "%s/replication/symmetrix/%s" % (self.rest.url, symm_id)
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def get_replica_array_rdfgroups(self, symm_id):
+        target_uri = "%s/replication/symmetrix/%s/rdf_group"% (self.rest.url, symm_id)
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def get_replica_array_rdfgroup(self, symm_id, rdfg_num):
+        target_uri = "%s/replication/symmetrix/%s/rdf_group/%s" (self.rest.url, symm_id, rdfg_num)
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def get_replica_array_storagegroups(self, symm_id):
+        target_uri = "%s/replication/symmetrix/%s/storagegroup" (self.rest.url, symm_id )
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def get_replica_array_storagegroup(self, symm_id, group_id):
+        target_uri = "%s/replication/symmetrix/%s/storagegroup/%s" (self.rest.url, symm_id, group_id)
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def get_replica_array_storagegroup_snaps(self, symm_id, group_id):
+        target_uri = "%s/replication/symmetrix/%s/storagegroup/%s/snapshot" (self.rest.url, symm_id, group_id)
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def create_replica_array_storagegroup_snaps(self, symm_id, group_id, params_dict):
+        target_uri = "%s/replication/symmetrix/%s/storagegroup/%s/snapshot" (self.rest.url, symm_id, group_id)
+        return self.rest.post(target_uri, params_dict)
+
+    @timer_counter
+    def get_replica_array_storagegroup_snap(self, symm_id, group_id, snap_id):
+        target_uri = "%s/replication/symmetrix/%s/storagegroup/%s/snapshot/%s" (self.rest.url, symm_id, group_id, snap_id)
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def recreate_replica_array_storagegroup_snaps(self, symm_id, group_id, snap_id, params_dict):
+        target_uri = "%s/replication/symmetrix/%s/storagegroup/%s/snapshot/%s/generation" (self.rest.url, symm_id, group_id, snap_id)
+        return self.rest.post(target_uri, params_dict)
+
+    @timer_counter
+    def get_replica_array_storagegroup_snaps(self, symm_id, group_id, snap_id):
+        target_uri = "%s/replication/symmetrix/%s/storagegroup/%s/snapshot/%s/generation" (self.rest.url, symm_id, group_id, snap_id)
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def get_replica_array_storagegroup_snap_version(self, symm_id, group_id, snap_id, version_id):
+        target_uri = "%s/replication/symmetrix/%s/storagegroup/%s/snapshot/%s/generation/%s" (self.rest.url, symm_id, group_id, snap_id, version_id)
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def edit_replica_array_storagegroup_snap_version(self, symm_id, group_id, snap_id, version_id, params_dict):
+        target_uri = "%s/replication/symmetrix/%s/storagegroup/%s/snapshot/%s/generation/%s" (self.rest.url, symm_id, group_id, snap_id, version_id)
+        return self.rest.put(target_uri, params_dict)
+
+    @timer_counter
+    def delete_replica_array_storagegroup_snap_version(self, symm_id, group_id, snap_id, version_id):
+        target_uri = "%s/replication/symmetrix/%s/storagegroup/%s/snapshot/%s/generation/%s" (self.rest.url, symm_id, group_id, snap_id, version_id)
+        return self.rest.delete(target_uri)
+
 
     ######################################
     ## SLO PROVISIONING Resource group
@@ -895,12 +1044,12 @@ class VmaxApi(object):
 
     @timer_counter
     def get_slo_arrays(self):
-        target_uri = "%s/sloprovisioning/symmetrix" % (self.rest.url)
+        target_uri = "%s/82/sloprovisioning/symmetrix" % (self.rest.url)
         return self.rest.get(target_uri)
 
     @timer_counter
     def get_slo_array(self, array_id):
-        target_uri = "%s/sloprovisioning/symmetrix/%s" % (self.rest.url, array_id)
+        target_uri = "%s/82/sloprovisioning/symmetrix/%s" % (self.rest.url, array_id)
         return self.rest.get(target_uri)
 
     @timer_counter
@@ -1050,7 +1199,7 @@ class VmaxApi(object):
 
     @timer_counter
     def get_slo_array_slos(self, array_id, params_dict=None):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/slo" % (self.rest.url, array_id)
+        target_uri = "%s/82/sloprovisioning/symmetrix/%s/slo" % (self.rest.url, array_id)
         return self.rest.get(target_uri, params_dict)
 
     @timer_counter
@@ -1064,8 +1213,53 @@ class VmaxApi(object):
         return self.rest.put(target_uri, params_dict)
 
     @timer_counter
+    def get_slo_array_splits(self, array_id):
+        target_uri = "%s/82/sloprovisioning/symmetrix/%s/split" % (self.rest.url, array_id)
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def get_slo_array_split(self, array_id, split_id):
+        target_uri = "%s/82/sloprovisioning/symmetrix/%s/split/%s" % (self.rest.url, array_id, split_id)
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def get_slo_array_split_cuimages(self, array_id, split_id):
+        target_uri = "%s/82/sloprovisioning/symmetrix/%s/split/%s/cuimage" % (self.rest.url, array_id, split_id)
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def create_slo_array_split_cuimages(self, array_id, split_id, params_dict):
+        target_uri = "%s/82/sloprovisioning/symmetrix/%s/split/%s/cuimage" % (self.rest.url, array_id, split_id)
+        return self.rest.post(target_uri, params_dict)
+
+    @timer_counter
+    def get_slo_array_split_cuimage(self, array_id, split_id, cu_id):
+        target_uri = "%s/82/sloprovisioning/symmetrix/%s/split/%s/cuimage/%s" % (self.rest.url, array_id, split_id, cu_id)
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def edit_slo_array_split_cuimage(self, array_id, split_id, cu_id, params_dict):
+        target_uri = "%s/82/sloprovisioning/symmetrix/%s/split/%s/cuimage/%s" % (self.rest.url, array_id, split_id, cu_id)
+        return self.rest.put(target_uri, params_dict)
+
+    @timer_counter
+    def get_slo_array_split_cuimage_volumes(self, array_id, split_id, cu_id):
+        target_uri = "%s/82/sloprovisioning/symmetrix/%s/split/%s/cuimage/%s/volume" % (self.rest.url, array_id, split_id, cu_id)
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def get_slo_array_split_cuimage_volume(self, array_id, split_id, cu_id, vol_id):
+        target_uri = "%s/82/sloprovisioning/symmetrix/%s/split/%s/cuimage/%s/volume/%s" % (self.rest.url, array_id, split_id, cu_id, vol_id)
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def provision_slo_array_split(self, array_id, split_id, params_dict):
+        target_uri = "%s/82/sloprovisioning/symmetrix/%s/split/%s/storageProvisioningToHost" % (self.rest.url, array_id, split_id)
+        return self.rest.post(target_uri, params_dict)
+
+    @timer_counter
     def get_slo_array_srps(self, array_id, params_dict=None):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/srp" % (self.rest.url, array_id)
+        target_uri = "%s/82/sloprovisioning/symmetrix/%s/srp" % (self.rest.url, array_id)
         return self.rest.get(target_uri, params_dict)
 
     @timer_counter
@@ -1075,37 +1269,37 @@ class VmaxApi(object):
 
     @timer_counter
     def get_slo_array_storagegroups(self, array_id, params_dict=None):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/storagegroup" % (self.rest.url, array_id)
+        target_uri = "%s/82/sloprovisioning/symmetrix/%s/storagegroup" % (self.rest.url, array_id)
         return self.rest.get(target_uri, params_dict)
 
     @timer_counter
     def create_slo_array_storagegroup(self, array_id, params_dict):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/storagegroup" % (self.rest.url, array_id)
+        target_uri = "%s/82/sloprovisioning/symmetrix/%s/storagegroup" % (self.rest.url, array_id)
         return self.rest.post(target_uri, params_dict)
 
     @timer_counter
     def get_slo_array_storagegroup(self, array_id, sg_id):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/storagegroup/%s" % (self.rest.url, array_id, sg_id)
+        target_uri = "%s/82/sloprovisioning/symmetrix/%s/storagegroup/%s" % (self.rest.url, array_id, sg_id)
         return self.rest.get(target_uri)
 
     @timer_counter
     def edit_slo_array_storagegroup(self, array_id, sg_id, params_dict):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/storagegroup/%s" % (self.rest.url, array_id, sg_id)
+        target_uri = "%s/82/sloprovisioning/symmetrix/%s/storagegroup/%s" % (self.rest.url, array_id, sg_id)
         return self.rest.put(target_uri, params_dict)
 
     @timer_counter
     def delete_slo_array_storagegroup(self, array_id, sg_id):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/storagegroup/%s" % (self.rest.url, array_id, sg_id)
+        target_uri = "%s/82/sloprovisioning/symmetrix/%s/storagegroup/%s" % (self.rest.url, array_id, sg_id)
         return self.rest.delete(target_uri)
 
     @timer_counter
     def get_slo_array_volumes(self, array_id, params_dict=None):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/volume" % (self.rest.url, array_id)
+        target_uri = "%s/82/sloprovisioning/symmetrix/%s/volume" % (self.rest.url, array_id)
         return self.rest.get(target_uri, params_dict)
 
     @timer_counter
     def get_slo_array_volume(self, array_id, volume_id):
-        target_uri = "%s/sloprovisioning/symmetrix/%s/volume/%s" % (self.rest.url, array_id, volume_id)
+        target_uri = "%s/82/sloprovisioning/symmetrix/%s/volume/%s" % (self.rest.url, array_id, volume_id)
         return self.rest.get(target_uri)
 
     @timer_counter
@@ -1123,9 +1317,11 @@ class VmaxApi(object):
     ## SYSTEM Resource group
     ######################################
 
-    ################
-    ## get a list of All Alert ids across all symmetrix arrays
-    ################
+    @timer_counter
+    def get_alert_summary(self):
+        target_uri = "%s/82/system/alert_summary" % (self.rest.url)
+        return self.rest.get(target_uri)
+
     @timer_counter
     def get_alerts(self):
         target_uri = "%s/system/alert" % (self.rest.url)
@@ -1282,22 +1478,22 @@ class VmaxApi(object):
 
     @timer_counter
     def get_vvol_array_vasaprovider(self, array_id):
-        target_uri = "%s/81/vvol/symmetrix/%s/vasaprovider" % (self.rest.url, array_id)
+        target_uri = "%s/82/vvol/symmetrix/%s/vasaprovider" % (self.rest.url, array_id)
         return self.rest.get(target_uri)
 
     @timer_counter
     def create_vvol_array_vasaprovider(self, array_id, params_dict):
-        target_uri = "%s/81/vvol/symmetrix/%s/vasaprovider" % (self.rest.url, array_id)
+        target_uri = "%s/82/vvol/symmetrix/%s/vasaprovider" % (self.rest.url, array_id)
         return self.rest.post(target_uri, params_dict)
 
     @timer_counter
     def edit_vvol_array_vasaprovider(self, array_id, params_dict):
-        target_uri = "%s/81/vvol/symmetrix/%s/vasaprovider" % (self.rest.url, array_id)
+        target_uri = "%s/82/vvol/symmetrix/%s/vasaprovider" % (self.rest.url, array_id)
         return self.rest.put(target_uri, params_dict)
 
     @timer_counter
     def delete_vvol_array_vasaprovider(self, array_id):
-        target_uri = "%s/81/vvol/symmetrix/%s/vasaprovider" % (self.rest.url, array_id)
+        target_uri = "%s/82/vvol/symmetrix/%s/vasaprovider" % (self.rest.url, array_id)
         return self.rest.delete(target_uri)
 
     ######################################
