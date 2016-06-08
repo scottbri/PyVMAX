@@ -7,9 +7,10 @@ Includes a Restful class that simplifies the consumption of EMC VMAX REST API.  
 Download the python files and copy them into your working directory.   
 Requires the 'requests' JSON parsing package.
 ```
-$ cd <your project subdir>
-$ git clone https://github.com/scottbri/PyVMAX
 $ pip install requests
+$ git clone https://github.com/scottbri/PyVMAX
+$ cd pyvmax
+$ cp -r pyvmax /your/project/dir
 ```
 
 # USAGE
@@ -22,6 +23,7 @@ unisphere_version = vmax_api.get_version()
 
 URL is an https FQDN or IP address of your Unisphere server, specifying port 8443 (typically)
 for example:  https://192.168.1.1:8443
+
 USER and PASSWD are your unisphere credentials used to login to the GUI
 
 Also included in the package are some functional example python scripts using the API described below.
@@ -70,7 +72,7 @@ Required arguments:
 * Queries the Unisphere server and builds a list of all known VMAX3 arrays.  
 * Then for each, we gather capacity information at the array, SRP, and Storage Group levels building a big data structure
 * Finally, it reports the array level information into a simple comma delimited table 
-
+```
 usage: example_capacities.py [-h] -url URL -user USER -passwd PASSWD
 
 Example implementation of a Python REST client for EMC Unisphere for VMAX.
