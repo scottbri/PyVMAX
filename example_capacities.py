@@ -67,7 +67,7 @@ for symm_id in slo_array_ids:
                  'srps_total_allocated_gb' : 0,
                  'srps_total_host_allocated_gb' : 0,
                  'srps_total_dse_gb' : 0,
-                 'srps_total_snaps_gb' : 0
+                 'srps_total_snaps_gb' : 0,
                  'srps_virtual_replica_gb' : 0}
 
 
