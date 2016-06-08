@@ -44,8 +44,8 @@ def time_midnights_ago(midnights=1):
 
 def generate_payload(symmetrix_id):
     return {
-        "startDate": time_midnights_ago(1),     # 60 minutes ago
-        "endDate": time_last_midnight(),              # now
+        "startDate": time_hours_ago(1),     # 60 minutes ago
+        "endDate": time_now(),              # now
         "symmetrixId": symmetrix_id,
         "dataFormat": "Average",
         "metrics": ["IO_RATE", "PERCENT_HIT", "PERCENT_READ"]
