@@ -23,7 +23,4 @@ def connect(url, username, password):
 
     return VmaxApi(rest_client, url)
 
-def json_print(json_obj):
-	print_json(json_obj)
-
 __all__ = ['connect']
