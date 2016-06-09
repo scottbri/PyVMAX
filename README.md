@@ -1,7 +1,7 @@
 # PyVMAX REST API for EMC VMAX
 Implementation of a REST client python package for EMC Unisphere for VMAX
 
-Includes a VmaxApi class that simplifies the consumption of EMC VMAX REST API.  The package also implements a number of example scripts that consume REST API as a demonstration of functionality.
+Includes a VmaxApi class sitting in the pyvmax module that simplifies the consumption of EMC VMAX REST API.  The package also implements a number of example scripts that consume the module as a demonstration of functionality.
 
 # INSTALLATION
 Download the python files and copy them into your working directory.   
@@ -14,7 +14,7 @@ $ cp -r pyvmax /your/project/dir
 ```
 
 # USAGE
-PyVMAX is primarily a representation of the EMC Unisphere for VMAX API as a Python module.  It's very simple to use.  In your script just import the module, issue the connect() method and make your first API call:
+PyVMAX is an implementation of the EMC Unisphere for VMAX API as a Python package.  It's very simple to use.  In your script just import the module, issue the connect() and make your first API call:
 ```
 import pyvmax
 vmax_api = pyvmax.connect(URL, USER, PASSWORD)
