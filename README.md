@@ -91,17 +91,7 @@ for example:  https://192.168.1.1:8443
 USER and PASSWD are your unisphere credentials used to login to the GUI
 
 # DOCUMENTATION
-Meh, none yet. ;-)  peruse `pyvmax\VmaxApi_V82.py` to see all the available  methods.  Compare this with the downloadable API documentation from Unisphere.  Get the EMC documentation by pointing your browser to `URL/univmax/restapi/docs` (URL as above):   
-eg: https://10.0.0.1:8443/univmax/restapi/docs
+Meh, none yet. ;-)  peruse `pyvmax\VmaxApi_V82.py` to see all the available  methods.  Compare this with the EMC official API documentation you can get from Unisphere.  Get the EMC documentation by pointing your browser to `URL/univmax/restapi/docs` eg: `https://10.0.0.1:8443/univmax/restapi/docs`.
 
 
-You'll get a ZIP package containing all the official documentation for the API.  That's where all of the JSON request and response formats are described, and if you dig far enough where all the available performance metrics are described.
-
-# TODO
-* fully implement the full API about 90% complete
-  * still have replication and workload resource groups to implement
-  * implement the latest v82 calls in SLO Resource group
-
-# API ISSUES / WISHLIST
-* api sometimes returns list when guaranteed only a single element returned
-* can't see how to report on subscribed capacity in thin provisioned arrays
+That URL will start a download of a ZIP package containing all the official documentation for the API.  It contains descriptions of all of the REST API calls, the JSON request and response formats, and if you dig far enough all the available performance metrics are there too.
