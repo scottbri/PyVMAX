@@ -1499,4 +1499,103 @@ class VmaxApi(object):
     ######################################
     ## WORKLOAD Resource group
     ######################################
-    # TODO
+
+    @timer_counter
+    def get_workload_array(self, array_id):
+        target_uri = "%s/82/wlp/symmetrix/%s" % (self.rest.url, array_id)
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def edit_workload_array(self, array_id, params_dict):
+        target_uri = "%s/82/wlp/symmetrix/%s" % (self.rest.url, array_id)
+        return self.rest.put(target_uri, params_dict)
+
+    @timer_counter
+    def get_workload_array_admissibility(self, array_id, params_dict):
+        target_uri = "%s/82/wlp/symmetrix/%s/admissibility" % (self.rest.url, array_id)
+        return self.rest.post(target_uri, params_dict)
+
+    @timer_counter
+    def get_workload_array_sgcompliances(self, array_id):
+        target_uri = "%s/82/wlp/symmetrix/%s/compliance" % (self.rest.url, array_id)
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def get_workload_array_headroom(self, array_id, params_dict=None):
+        target_uri = "%s/82/wlp/symmetrix/%s/headroom" % (self.rest.url, array_id)
+        return self.rest.get(target_uri, params_dict)
+
+    @timer_counter
+    def get_workload_array_referenceworkloads(self, array_id):
+        target_uri = "%s/82/wlp/symmetrix/%s/referenceworkload" % (self.rest.url, array_id)
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def create_workload_array_referenceworkload(self, array_id, params_dict):
+        target_uri = "%s/82/wlp/symmetrix/%s/referenceworkload" % (self.rest.url, array_id)
+        return self.rest.post(target_uri, params_dict)
+
+    @timer_counter
+    def get_workload_array_referenceworkload(self, array_id, work_id, params_dict=None):
+        target_uri = "%s/82/wlp/symmetrix/%s/referenceworkload/%s" % (self.rest.url, array_id, work_id)
+        return self.rest.get(target_uri, params_dict)
+
+    @timer_counter
+    def delete_workload_array_referenceworkload(self, array_id, work_id):
+        target_uri = "%s/82/wlp/symmetrix/%s/referenceworkload/%s" % (self.rest.url, array_id, work_id)
+        return self.rest.delete(target_uri)
+
+    @timer_counter
+    def edit_workload_array_referenceworkload(self, array_id, work_id, params_dict):
+        target_uri = "%s/82/wlp/symmetrix/%s/referenceworkload/%s" % (self.rest.url, array_id, work_id)
+        return self.rest.put(target_uri, params_dict)
+
+    @timer_counter
+    def get_workload_array_utilization(self, array_id, params_dict=None):
+        target_uri = "%s/82/wlp/symmetrix/%s/utilization" % (self.rest.url, array_id)
+        return self.rest.get(target_uri, params_dict)
+
+    @timer_counter
+    def get_workload_array_capabilities(self):
+        target_uri = "%s/wlp/capabilities/symmetrix" % (self.rest.url)
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def get_workload_array_capability(self, symm_id):
+        target_uri = "%s/wlp/capabilities/symmetrix/%s" % (self.rest.url, symm_id)
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def get_workload_arrays(self):
+        target_uri = "%s/wlp/symmetrix" % (self.rest.url)
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def get_workload_array_characterizations(self, symm_id, params_dict):
+        target_uri = "%s/wlp/symmetrix/%s/characterize" % (self.rest.url, symm_id)
+        return self.rest.post(target_uri, params_dict)
+
+    @timer_counter
+    def get_workload_array_slo_characterize(self, symm_id, capacity_gb):
+        target_uri = "%s/wlp/symmetrix/%s/characterize_slo/capacity/%s" % (self.rest.url, symm_id, capacity_gb)
+        return self.rest.post(target_uri)
+
+    @timer_counter
+    def get_workload_characterize_slo(self, symm_id, capacity_gb, slo_id):
+        target_uri = "%s/wlp/symmetrix/%s/characterize_slo/capacity/%s/slo/%s" % (self.rest.url, symm_id, capacity_gb, slo_id)
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def get_workload_array_storagegroups(self, symm_id):
+        target_uri = "%s/wlp/symmetrix/%s/storagegroup" % (self.rest.url, symm_id)
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def get_workload_array_storagegroup(self, symm_id, group_id):
+        target_uri = "%s/wlp/symmetrix/%s/storagegroup/%s" % (self.rest.url, symm_id, group_id)
+        return self.rest.get(target_uri)
+
+    @timer_counter
+    def edit_workload_array_storagegroup(self, symm_id, group_id, params_dict):
+        target_uri = "%s/wlp/symmetrix/%s/storagegroup/%s" % (self.rest.url, symm_id, group_id)
+        return self.rest.put(target_uri, params_dict)
