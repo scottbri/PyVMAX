@@ -90,8 +90,12 @@ for example:  https://192.168.1.1:8443
 
 USER and PASSWD are your unisphere credentials used to login to the GUI
 
-You can download api documentation by pointing your browser to URL/univmax/restapi/docs (URL as above):
+# DOCUMENTATION
+Meh, none yet. ;-)  peruse `pyvmax\VmaxApi_V82.py` to see all the available  methods.  Compare this with the downloadable API documentation from Unisphere.  Get the EMC documentation by pointing your browser to `URL/univmax/restapi/docs` (URL as above):   
 eg: https://10.0.0.1:8443/univmax/restapi/docs
+
+
+You'll get a ZIP package containing all the official documentation for the API.  That's where all of the JSON request and response formats are described, and if you dig far enough where all the available performance metrics are described.
 
 # TODO
 * fully implement the full API about 90% complete
