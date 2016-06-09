@@ -1,5 +1,5 @@
 # PyVMAX REST API for EMC VMAX
-Implementation of a REST client python module for EMC Unisphere for VMAX
+Implementation of a REST client python package for EMC Unisphere for VMAX
 
 Includes a VmaxApi class that simplifies the consumption of EMC VMAX REST API.  The package also implements a number of example scripts that consume REST API as a demonstration of functionality.
 
