@@ -24,7 +24,6 @@ PASSWORD = ARGS.passwd
 
 vmax_api = pyvmax.connect(URL, USER, PASSWORD)
 
-#unisphereVersion = vmax_api.getVersion(URL)['version']
 vmax_api.rest.print_json(vmax_api.version)
 vmax_api.rest.print_json(vmax_api.get_version())
 print(vmax_api.api_last_resp_time, "resp time in ms")
@@ -39,14 +38,12 @@ prov_array_list = list()
 for symmId in prov_array_ids:
     # get the array details
     symmetrix = vmax_api.get_prov_array(symmId)['symmetrix'][0]
-    print(vmax_api.api_last_resp_time, "resp time in ms")
 
     # for this symmetrix, go ahead and build a list of thin pools
     tpList = list()
 
     # make sure to check whether any list results returned..
     tp_result = vmax_api.get_prov_array_thinpools(symmId)
-    print(vmax_api.api_last_resp_time, "resp time in ms")
     if 'poolId' in tp_result:
         # iterate through the thin pools, get their details and build a list
         for tpId in vmax_api.get_prov_array_thinpools(symmId)['poolId']:
@@ -79,7 +76,6 @@ for symmId in slo_array_ids:
     if 'srpId' in srp_result:
         for srpId in vmax_api.get_slo_array_srps(symmId)['srpId']:
             srp = vmax_api.get_slo_array_srp(symmId, srpId)['srp']
-            print(vmax_api.api_last_resp_time, "resp time in ms")
             srpList.append(srp)
 
     # add a dict entry for the SRP list data structure we just created
@@ -94,7 +90,6 @@ for symmId in slo_array_ids:
         # iterate through the sg's, get their details and build a list
         for sgId in sg_result['storageGroupId']:
             sg = vmax_api.get_slo_array_storagegroup(symmId, sgId)['storageGroup']
-            print(vmax_api.api_last_resp_time, "resp time in ms")
             sgList.append(sg)
 
     # add a dict entry for the Storage Group list data structure we just created
