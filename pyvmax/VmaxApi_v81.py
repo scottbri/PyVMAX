@@ -9,8 +9,8 @@ def timer_counter(func):
         args[0].api_counter += 1
         args[0].api_timer += (end_time - start_time)
         args[0].api_last_resp_time = (end_time - start_time)
-    return result
-return wrapper
+        return result
+    return wrapper
 
 class VmaxApi(object):
 
