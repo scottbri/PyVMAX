@@ -54,9 +54,9 @@ class Restful:
 # this is a VMAX API peculiarity, that 'message' in the JSON means
 #     the server is having issues, and the response can't be well made 
         if 'message' in response_object:
-            print("API call successful, but server only responded with:")
+            print("API call {}: server only responded with:", target_url)
             self.print_json(response_object)
-            response_object = None
+            response_object = dict()
 
         return response_object
 
