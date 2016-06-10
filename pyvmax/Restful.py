@@ -50,6 +50,13 @@ class Restful:
             print("Exception")
             print(response.text)
             return dict()
+       
+# this is a VMAX API peculiarity, that 'message' in the JSON means
+#     the server is having issues, and the response can't be well made 
+        if 'message' in response_object:
+            print("API call successful, but server only responded with:")
+            self.print_json(response_object)
+            response_object = None
 
         return response_object
 
@@ -76,7 +83,7 @@ class Restful:
                 return dict()
         except Exception:
             print("Exception:  Can't POST to API server URL:  " + target_url)
-            print_json(request_object)
+            self.print_json(request_object)
             print("Exiting")
             exit(1)
 
@@ -101,7 +108,7 @@ class Restful:
                                     verify=self.verify_ssl)
         except Exception:
             print("Exception:  Can't PUT to API server URL:  " + target_url)
-            print_json(request_object)
+            self.print_json(request_object)
             print("Exiting")
             exit(1)
 
@@ -132,7 +139,7 @@ class Restful:
                                        verify=self.verify_ssl)
         except Exception:
             print("Exception:  Can't DELETE to API server URL:  " + target_url)
-            print_json(request_object)
+            self.print_json(request_object)
             print("Exiting")
             exit(1)
 

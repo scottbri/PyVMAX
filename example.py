@@ -37,7 +37,9 @@ print(vmax_api.api_last_resp_time, "resp time in ms")
 prov_array_list = list()
 for symmId in prov_array_ids:
     # get the array details
-    symmetrix = vmax_api.get_prov_array(symmId)['symmetrix'][0]
+    symm_result = vmax_api.get_prov_array(symmId)
+    if 'symmetrix' in symm_result:
+        symmetrix = symm_result['symmetrix'][0]
 
     # for this symmetrix, go ahead and build a list of thin pools
     tpList = list()
@@ -75,8 +77,9 @@ for symmId in slo_array_ids:
     srp_result = vmax_api.get_slo_array_srps(symmId)
     if 'srpId' in srp_result:
         for srpId in vmax_api.get_slo_array_srps(symmId)['srpId']:
-            srp = vmax_api.get_slo_array_srp(symmId, srpId)['srp']
-            srpList.append(srp)
+            srp = vmax_api.get_slo_array_srp(symmId, srpId)
+            if 'srp' in srp:
+                srpList.append(srp['srp'])
 
     # add a dict entry for the SRP list data structure we just created
     symmetrix['srp'] = srpList
@@ -84,13 +87,14 @@ for symmId in slo_array_ids:
     # for this symmetrix, go ahead and build a list of Storage Groups
     sgList = list()
 
-    # make sure to check whether any list results returned.. not every array has storage groups!
     sg_result = vmax_api.get_slo_array_storagegroups(symmId)
+# make sure to check whether any list results returned.. not every array has storage groups!
     if 'storageGroupId' in sg_result:
         # iterate through the sg's, get their details and build a list
         for sgId in sg_result['storageGroupId']:
-            sg = vmax_api.get_slo_array_storagegroup(symmId, sgId)['storageGroup']
-            sgList.append(sg)
+            sg = vmax_api.get_slo_array_storagegroup(symmId, sgId)
+            if 'storageGroup' in sg:
+                sgList.append(sg['storageGroup')
 
     # add a dict entry for the Storage Group list data structure we just created
     symmetrix['storageGroups'] = sgList
