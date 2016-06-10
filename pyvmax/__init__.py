@@ -11,10 +11,11 @@ def connect(url, username, password):
         univmax_version = version_response.get('version', '')
 
 # import the correct API module for the version of Unisphere discovered
-    version_major, version_minor = ""
+    version_major = ""
+    version_minor = ""
     if '.' in univmax_version:
         _version_parts = univmax_version.split('.')
-        version_major, version_minor = '.'.join(_version_parts[:n]), '.'.join(_version_parts[n:])
+        version_major, version_minor = '.'.join(_version_parts[:2]), '.'.join(_version_parts[2:])
     if version_major == 'V8.2':
         from pyvmax.VmaxApi_v82 import VmaxApi
     elif version_major == 'V8.0':
