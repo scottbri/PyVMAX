@@ -1279,7 +1279,7 @@ class VmaxApi(object):
 
     @timer_counter
     def get_slo_array_storagegroup(self, array_id, sg_id):
-        target_uri = "%s/82/sloprovisioning/symmetrix/%s/storagegroup/%s" % (self.rest.url, array_id, sg_id)
+        target_uri = "%s/sloprovisioning/symmetrix/%s/storagegroup/%s" % (self.rest.url, array_id, sg_id)
         return self.rest.get(target_uri)
 
     @timer_counter
@@ -1289,7 +1289,7 @@ class VmaxApi(object):
 
     @timer_counter
     def delete_slo_array_storagegroup(self, array_id, sg_id):
-        target_uri = "%s/82/sloprovisioning/symmetrix/%s/storagegroup/%s" % (self.rest.url, array_id, sg_id)
+        target_uri = "%s/sloprovisioning/symmetrix/%s/storagegroup/%s" % (self.rest.url, array_id, sg_id)
         return self.rest.delete(target_uri)
 
     @timer_counter
