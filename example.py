@@ -28,7 +28,7 @@ vmax_api.rest.print_json(vmax_api.version)
 vmax_api.rest.print_json(vmax_api.get_version())
 print(vmax_api.api_last_resp_time, "resp time in ms")
 
-
+'''
 # discover the known symmetrix serial #'s
 prov_array_ids = vmax_api.get_prov_arrays()['symmetrixId']
 print(vmax_api.api_last_resp_time, "resp time in ms")
@@ -60,7 +60,7 @@ for symmId in prov_array_ids:
 # do something with this great list of thin provisioned arrays
 # print it out!! (the json printer is good for lists and dicts too)
 vmax_api.rest.print_json(prov_array_list)
-
+'''
 
 # discover the known slo symmetrix serial #'s
 slo_array_ids = vmax_api.get_slo_arrays()['symmetrixId']
@@ -93,8 +93,7 @@ for symmId in slo_array_ids:
         # iterate through the sg's, get their details and build a list
         for sgId in sg_result['storageGroupId']:
             sg = vmax_api.get_slo_array_storagegroup(symmId, sgId)
-            if 'storageGroup' in sg:
-                sgList.append(sg['storageGroup')
+            sgList.append(sg.get('storageGroup', None))
 
     # add a dict entry for the Storage Group list data structure we just created
     symmetrix['storageGroups'] = sgList
