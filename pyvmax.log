@@ -1,4 +1,0 @@
-06-10 11:59 pyvmax       INFO     beginning initial api connection
-06-10 11:59 pyvmax       DEBUG    Setting up Restful
-06-10 11:59 pyvmax       DEBUG    Importing VmaxApi_v82
-06-10 11:59 example_performance.py INFO     VMAXs found: ['000194900732', '000196700348', '000197800128', '000294901279', '000296800647', '000296800657']
