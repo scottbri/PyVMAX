@@ -3,9 +3,10 @@
 import argparse
 import datetime
 import time
+import logging
 import os
 import sys
-sys.path.insert(0, os.path.abspath('..'))
+#sys.path.insert(0, os.path.abspath('..'))
 import pyvmax
 
 #################################
@@ -21,9 +22,9 @@ URL = ARGS.url
 USER = ARGS.user
 PASSWORD = ARGS.passwd
 
-vmax_api = pyvmax.connect(URL, USER, PASSWORD)
+log = logging.getLogger('example_performance.py')
 
-vmax_api.rest.print_json(vmax_api.version)
+vmax_api = pyvmax.connect(URL, USER, PASSWORD)
 
 def time_now():
     return int(time.time() * 1000)
@@ -55,24 +56,13 @@ def generate_payload(symmetrix_id):
 
 
 # Get all VMAXs for a given Unisphere Instance
-try:
-    symmetrix_list_response = vmax_api.get_arrays()
+symmetrix_list_response = vmax_api.get_arrays()
+if 'symmetrixId' in symmetrix_list_response:
+    symmetrix_list = symmetrix_list_response["symmetrixId"]
+    log.info("VMAXs found: " + str(symmetrix_list))
 
-    if 'message' in symmetrix_list_response:
-        print(symmetrix_list_response.get('message'))
-        exit(1)
-    else:
-        # Assuming no messages, store the list of VMAX's into symmetrix_list
-        symmetrix_list = symmetrix_list_response["symmetrixId"]
-        print("VMAXs found: " + str(symmetrix_list))
-
-except Exception:
-    exit(1)
 
 # For each VMAX in Unisphere, get the array stats
 for symm_id in symmetrix_list:
     perf_response = vmax_api.get_perf_array_metrics(generate_payload(symm_id))
-    if 'message' in symmetrix_list_response:
-        print(symmetrix_list_response.get('message'))
-    else:
-        vmax_api.rest.print_json(perf_response)
+    vmax_api.rest.print_json(perf_response)
