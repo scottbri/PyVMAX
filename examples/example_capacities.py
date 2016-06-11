@@ -3,7 +3,8 @@
 import argparse
 import os
 import sys
-sys.path.insert(0, os.path.abspath('..'))
+import logging
+#sys.path.insert(0, os.path.abspath('..'))
 import pyvmax
 
 
@@ -21,15 +22,18 @@ URL = ARGS.url
 USER = ARGS.user
 PASSWORD = ARGS.passwd
 
+log = logging.getLogger('example_capacities.py')
 vmax_api = pyvmax.connect(URL, USER, PASSWORD)
 
 # discover the known slo symmetrix serial #'s
 slo_array_ids = vmax_api.get_slo_arrays()['symmetrixId']
+log.info("discovered arrays")
 
 # going to build a list of dicts, each one a symmetrix
 slo_array_list = list()
 for symm_id in slo_array_ids:
     # get the array details
+    log.info("symmetrix loop")
     symm_result = vmax_api.get_slo_array(symm_id)['symmetrix'][0]
     symmetrix = {'symmetrix_id' : symm_result['symmetrixId'],
                  'array_usable_gb' : symm_result['virtualCapacity']['total_capacity_gb'],
@@ -47,6 +51,7 @@ for symm_id in slo_array_ids:
     srps_result = vmax_api.get_slo_array_srps(symm_id)
     if 'srpId' in srps_result:
         for srp_id in vmax_api.get_slo_array_srps(symm_id)['srpId']:
+            log.info("srp loop")
             srp_result = vmax_api.get_slo_array_srp(symm_id, srp_id)['srp'][0]
             srp = {'srp_id' : srp_result['srpId'],
                    'srp_usable_cap_gb' : srp_result['total_usable_cap_gb'],
@@ -66,6 +71,7 @@ for symm_id in slo_array_ids:
             if 'storageGroupId' in sgs_result:
                 # iterate through the sg's, get their details and build a list
                 for sg_id in sgs_result['storageGroupId']:
+                    log.info("storagegroup loop")
                     sg_result = vmax_api.get_slo_array_storagegroup(symm_id, sg_id)['storageGroup'][0]
                     sg = {'sg_id' : sg_result['storageGroupId'],
                           'sg_cap_gb' : sg_result['cap_gb'],
