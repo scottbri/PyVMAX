@@ -1,6 +1,6 @@
 import requests
 import json
-
+import logging
 
 # Disable warnings from untrusted server certificates
 try:
@@ -8,6 +8,7 @@ try:
     requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 except Exception:
     print("Ignore messages related to insecure SSL certificates")
+
 
 
 class Restful:
@@ -21,6 +22,9 @@ class Restful:
         # set the headers for how we want the response
         self.headers = {'content-type': 'application/json', 'accept':'application/json'}
 
+        self.log = logging.getLogger('pyvmax')
+        self.log.debug('Setting up Restful')
+
     def set_url(self, new_url):
         self.url = new_url
 
@@ -33,29 +37,36 @@ class Restful:
     def get(self, target_url, payload=None):
 
         try:
-            response = requests.get(target_url,
-                                    params=json.dumps(payload),
-                                    auth=(self.user, self.password),
-                                    headers=self.headers,
-                                    verify=self.verify_ssl)
+            if payload == None:
+                response = requests.get(target_url,
+                                        auth=(self.user, self.password),
+                                        headers=self.headers,
+                                        verify=self.verify_ssl)
+            else: # payload is something
+                response = requests.get(target_url,
+                                        params=json.dumps(payload),
+                                        auth=(self.user, self.password),
+                                        headers=self.headers,
+                                        verify=self.verify_ssl)
+
         except Exception:
-            print("Exception:  Can't GET to API server URL:  " + target_url)
-            print("Exiting")
+            self.log.critical("Can't GET to API server URL:  " + target_url)
+            self.log.critical("Exiting get")
             exit(1)
 
         #take the raw response text and deserialize it into a python object.
         try:
             response_object = json.loads(response.text)
         except Exception:
-            print("Exception")
-            print(response.text)
+            self.log.warning("API GET did not return JSON response")
+            self.log.warning(response.text)
             return dict()
        
 # this is a VMAX API peculiarity, that 'message' in the JSON means
-#     the server is having issues, and the response can't be well made 
+# the server is having issues, and the response can't be well made 
         if 'message' in response_object:
-            print("API call {}: server only responded with:", target_url)
-            self.print_json(response_object)
+            self.log.warning("API call" + target_url + " : server only responded with:")
+            self.log.warning(self.print_json(response_object))
             response_object = dict()
 
         return response_object
@@ -78,13 +89,13 @@ class Restful:
             try:
                 response_object = json.loads(response.text)
             except Exception:
-                print("Exception")
-                print(response.text)
+                self.log.warning("API POST did not return JSON response")
+                self.log.warning(response.text)
                 return dict()
         except Exception:
-            print("Exception:  Can't POST to API server URL:  " + target_url)
-            self.print_json(request_object)
-            print("Exiting")
+            self.log.critical("Exception:  Can't POST to API server URL:  " + target_url)
+            self.log.critical(self.print_json(request_object))
+            self.log.critical("Exiting POST")
             exit(1)
 
         return response_object
@@ -107,17 +118,18 @@ class Restful:
                                     headers=self.headers,
                                     verify=self.verify_ssl)
         except Exception:
-            print("Exception:  Can't PUT to API server URL:  " + target_url)
-            self.print_json(request_object)
-            print("Exiting")
+            self.log.critical("Exception:  Can't PUT to API server URL:  " + target_url)
+            self.log.critical(self.print_json(request_object))
+            self.log.critical("Exiting PUT")
             exit(1)
 
         #take the raw response text and deserialize it into a python object.
         try:
             response = json.loads(response.text)
         except Exception:
-            print("Exception")
-            print(repsonse.text)
+            self.log.warning("API PUT did not return JSON response")
+            self.log.warning(response.text)
+            return dict()
         return response
 
 
@@ -138,17 +150,18 @@ class Restful:
                                        headers=self.headers,
                                        verify=self.verify_ssl)
         except Exception:
-            print("Exception:  Can't DELETE to API server URL:  " + target_url)
-            self.print_json(request_object)
-            print("Exiting")
+            self.log.critical("Exception:  Can't DELETE to API server URL:  " + target_url)
+            self.log.critical(self.print_json(request_object))
+            self.log.critical("Exiting DELETE")
             exit(1)
 
         #take the raw response text and deserialize it into a python object.
         try:
             response = json.loads(response.text)
         except Exception:
-            print("Exception")
-            print(response.text)
+            self.log.warning("API DELETE did not return JSON response")
+            self.log.warning(response.text)
+            return dict()
         return response
 
 
