@@ -30,10 +30,10 @@ log = logging.getLogger('example.py')
 vmax_api = pyvmax.connect(URL, USER, PASSWORD)
 
 # here's a json printer method you can use to debug the server responses
-vmax_api.rest.print_json(vmax_api.get_version())
+print(vmax_api.rest.json_to_str(vmax_api.get_version()))
 
 # Instead of printing debugging to the console, use the logger instead
-# All log messages go to the log file, and anything warning or above 
+# All log messages go to the log file, and anything warning or above
 # also goes to the console... that's why this info worthy log was issued as warning
 log.warning(str(vmax_api.api_last_resp_time) + "ms API response time")
 
@@ -52,7 +52,7 @@ for symmId in prov_array_ids:
     # for this symmetrix, go ahead and build a list of thin pools
     tpList = list()
 
-    # make sure to check whether any list results are returned before iterating 
+    # make sure to check whether any list results are returned before iterating
     tp_result = vmax_api.get_prov_array_thinpools(symmId)
     if 'poolId' in tp_result:
         # iterate through the thin pools, get their details and build a list
@@ -67,7 +67,7 @@ for symmId in prov_array_ids:
 
 # do something with this great list of thin provisioned arrays like...
 # print it out!! (the json printer is good for python lists and dicts too)
-vmax_api.rest.print_json(prov_array_list)
+print(vmax_api.rest.json_to_str(prov_array_list))
 
 #
 # that was Thin Pool arrays (aka VMAX2 and older), now onto VMAX3's
@@ -112,7 +112,7 @@ for symmId in slo_array_ids:
 
 # do something with this great list of thin provisioned arrays
 # print it out!! (the json printer is good for lists and dicts too)
-vmax_api.rest.print_json(slo_array_list)
+print(vmax_api.rest.json_to_str(slo_array_list))
 
 # log the # of api calls, total elapsed API wait time, and average time for all calls
 log.info(str(vmax_api.api_last_resp_time) + "resp time in ms")
