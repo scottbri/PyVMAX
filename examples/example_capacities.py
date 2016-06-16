@@ -107,7 +107,7 @@ for symm_id in slo_array_ids:
 
 # do something with this great list of symmetrix capacities
 # print it out!! (the json printer is good for lists and dicts too)
-#vmax_api.rest.print_json(slo_array_list)
+#print(vmax_api.rest.json_to_str(slo_array_list))
 print("Array Id,Array Usable GB,Array Subscribed GB,Array Total Allocated GB,Array % Used, Array % Subscribed, Host Allocated GB,Snaps Allocated GB,DSE Allocated GB,Virtual Replica GB")
 for element in slo_array_list:
     print(element['symmetrix_id'], ",",

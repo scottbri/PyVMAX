@@ -4,9 +4,6 @@ import argparse
 import datetime
 import time
 import logging
-import os
-import sys
-#sys.path.insert(0, os.path.abspath('..'))
 import pyvmax
 
 #################################
@@ -65,4 +62,6 @@ if 'symmetrixId' in symmetrix_list_response:
 # For each VMAX in Unisphere, get the array stats
 for symm_id in symmetrix_list:
     perf_response = vmax_api.get_perf_array_metrics(generate_payload(symm_id))
-    vmax_api.rest.print_json(perf_response)
+    print(vmax_api.rest.json_to_str(perf_response))
+
+

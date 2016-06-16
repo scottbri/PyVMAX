@@ -28,8 +28,8 @@ class Restful:
     def set_url(self, new_url):
         self.url = new_url
 
-    def print_json(self, json_obj):
-        print(json.dumps(json_obj, sort_keys=False, indent=2))
+    def json_to_str(self, json_obj):
+        return str(json.dumps(json_obj, sort_keys=False, indent=2))
 
     ################
     ## make the json GET call to the public api
@@ -61,12 +61,12 @@ class Restful:
             self.log.warning("API GET did not return JSON response")
             self.log.warning(response.text)
             return dict()
-       
+
 # this is a VMAX API peculiarity, that 'message' in the JSON means
-# the server is having issues, and the response can't be well made 
+# the server is having issues, and the response can't be well made
         if 'message' in response_object:
             self.log.warning("API call" + target_url + " : server only responded with:")
-            self.log.warning(self.print_json(response_object))
+            self.log.warning(self.json_to_str(response_object))
             response_object = dict()
 
         return response_object
@@ -94,7 +94,7 @@ class Restful:
                 return dict()
         except Exception:
             self.log.critical("Exception:  Can't POST to API server URL:  " + target_url)
-            self.log.critical(self.print_json(request_object))
+            self.log.critical(self.json_to_strn(request_object))
             self.log.critical("Exiting POST")
             exit(1)
 
@@ -119,7 +119,7 @@ class Restful:
                                     verify=self.verify_ssl)
         except Exception:
             self.log.critical("Exception:  Can't PUT to API server URL:  " + target_url)
-            self.log.critical(self.print_json(request_object))
+            self.log.critical(self.json_to_str(request_object))
             self.log.critical("Exiting PUT")
             exit(1)
 
@@ -151,7 +151,7 @@ class Restful:
                                        verify=self.verify_ssl)
         except Exception:
             self.log.critical("Exception:  Can't DELETE to API server URL:  " + target_url)
-            self.log.critical(self.print_json(request_object))
+            self.log.critical(self.json_to_str(request_object))
             self.log.critical("Exiting DELETE")
             exit(1)
 
