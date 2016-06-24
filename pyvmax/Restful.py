@@ -12,6 +12,15 @@ except Exception:
 
 
 class Restful:
+    """Restful class implements network calls to communicate with REST API server
+    Attributes:
+        log (:obj:`logging`): logger object
+    Args:
+        base_url (str):  the ip and port # of api server
+        username (str):  credentialed user of unisphere
+        password (str):  the user's password
+        verifySSL (Ture / False), optional:  verify SSL security cert or not
+    """
 
     def __init__(self, base_url, username, password, verifySSL=False):
         self.url = base_url
@@ -32,6 +41,13 @@ class Restful:
         self.url = new_url
 
     def json_to_str(self, json_obj):
+        """converts json to string
+
+        Args:
+            json_obj(any type convertable to string): esp dict, list string, requests response object
+        Returns:
+            string
+        """
         return str(json.dumps(json_obj, sort_keys=False, indent=2))
 
     def timer_counter(func):
@@ -49,10 +65,15 @@ class Restful:
     def api_average_time(self):
         return self.api_timer / self.api_counter
 
-    ################
-    ## make the json GET call to the public api
-    ################
     def get(self, target_url, payload=None):
+        """ make the REST GET call to the public api
+
+        Args:
+            target_url(str): the full REST API URL
+            payload(dict, optional): dict representing the json request payload
+        Returns:
+            dict():  could be empty
+        """
 
         try:
             if payload == None:
@@ -80,8 +101,8 @@ class Restful:
             self.log.warning(response.text)
             return dict()
 
-# this is a VMAX API peculiarity, that 'message' in the JSON means
-# the server is having issues, and the response can't be well made
+        # this is a VMAX API peculiarity, that 'message' in the JSON means
+        # the server is having issues, and the response can't be well made
         if 'message' in response_object:
             self.log.warning("API call" + target_url + " : server only responded with:")
             self.log.warning(self.json_to_str(response_object))
@@ -89,10 +110,15 @@ class Restful:
 
         return response_object
 
-    ################
-    ## make the json POST call to the public api
-    ################
     def post(self, target_url, request_object=None):
+        """ make the REST POST call to the public api
+
+        Args:
+            target_url(str): the full REST API URL
+            request_object(dict, optional): dict representing the json request payload
+        Returns:
+            dict():  could be empty
+        """
 
         #make the actual request, specifying the URL, the JSON from above,
         #standard basic auth, the headers and not to verify the SSL cert.
@@ -119,10 +145,15 @@ class Restful:
         return response_object
 
 
-    ################
-    ## make the json PUT call to the public api
-    ################
     def put(self, target_url, request_object=None):
+        """ make the REST PUT call to the public api
+
+        Args:
+            target_url(str): the full REST API URL
+            request_object(dict, optional): dict representing the json request payload
+        Returns:
+            dict():  could be empty
+        """
 
         #turn this into a JSON string
         request_json = json.dumps(request_object, sort_keys=True, indent=4)
@@ -151,10 +182,15 @@ class Restful:
         return response
 
 
-    ################
-    ## make the json DELETE call to the public api
-    ################
     def delete(self, target_url, request_object=None):
+        """ make the REST DELETE call to the public api
+
+        Args:
+            target_url(str): the full REST API URL
+            request_object(dict, optional): dict representing the json request payload
+        Returns:
+            dict():  could be empty
+        """
 
         #turn this into a JSON string
         request_json = json.dumps(request_object, sort_keys=True, indent=4)

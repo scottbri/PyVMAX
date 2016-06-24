@@ -1,4 +1,14 @@
 class VmaxApi(object):
+    """API definition class that implements one method for each REST API call
+    Attributes:
+        version (str): descripter of the API version
+        api_counter (int): number of API calls made during this python interpreter session
+        api_timer (int): sum of ms response time of all API calls made during this python interpreter session
+        api_last_resp_time (int): ms response time of last API call made during this python interpreter session
+    Args:
+        Restful (:obj:`Restful`): connection object to the API server
+        base_url (str):  the ip and port # of api server
+    """
 
     def __init__(self, Restful, base_url):
 
@@ -11,6 +21,9 @@ class VmaxApi(object):
     ## ADMINISTRATION Resource group
     ######################################
     def get_app_list(self):
+        """/common/Application/list
+        List the applications registered with this instance of EMC Unisphere for VMAX
+        """
         target_uri = "%s/common/Application/list" % (self.rest.url)
         return self.rest.get(target_uri)
 
