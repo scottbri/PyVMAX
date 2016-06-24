@@ -1,9 +1,13 @@
 #!/usr/bin/python
 
+import sys
+import os
 import argparse
 import datetime
 import time
 import logging
+
+sys.path.insert(0, os.path.abspath('..'))
 import pyvmax
 
 #################################
