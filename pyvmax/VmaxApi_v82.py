@@ -13,6 +13,16 @@ def timer_counter(func):
     return wrapper
 
 class VmaxApi(object):
+    """API definition class that implements one method for each REST API call
+    Attributes:
+        version (str): descripter of the API version
+        api_counter (int): number of API calls made during this python interpreter session
+        api_timer (int): sum of ms response time of all API calls made during this python interpreter session
+        api_last_resp_time (int): ms response time of last API call made during this python interpreter session
+    Args:
+        Restful (:obj:`Restful`): connection object to the API server
+        base_url (str):  the ip and port # of api server
+    """
 
     def __init__(self, Restful, base_url):
 
@@ -25,13 +35,20 @@ class VmaxApi(object):
         self.api_last_resp_time = 0
 
     def api_average_time(self):
-        return self.api_timer / self.api_counter
+        """calculates the average response time in ms for all API calls made during this python interpreter session
+        Returns:
+            int: response time in ms
+        """
+        return int(self.api_timer / self.api_counter)
 
     ######################################
     ## ADMINISTRATION Resource group
     ######################################
     @timer_counter
     def get_app_list(self):
+        """/common/Application/list
+        List the applications registered with this instance of EMC Unisphere for VMAX
+        """
         target_uri = "%s/common/Application/list" % (self.rest.url)
         return self.rest.get(target_uri)
 

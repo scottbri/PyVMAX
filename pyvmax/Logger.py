@@ -1,6 +1,14 @@
 import logging
 
 def logger_setup():
+    """
+    setup the style and defults of the python logger
+
+    Args:
+    Returns:
+    Raises:
+
+    """
     # set up logging everything to file with timestamp formatting
     logging.basicConfig(level=logging.DEBUG,
                         format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
@@ -21,6 +29,16 @@ def logger_setup():
     logging.getLogger("requests").setLevel(logging.WARNING)
 
 def get_logger(log_name):
+    """
+    creates a new logger object with a customized label
+
+    Args:
+        log_name: string of the name of the logger
+    Returns:
+        logging object
+    Raises:
+
+    """
     return logging.getLogger(log_name)
 
 
