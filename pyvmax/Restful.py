@@ -1,6 +1,7 @@
 import requests
 import json
 import logging
+import time
 
 # Disable warnings from untrusted server certificates
 try:
@@ -10,7 +11,6 @@ except Exception:
     print("Ignore messages related to insecure SSL certificates")
 
 
-
 class Restful:
 
     def __init__(self, base_url, username, password, verifySSL=False):
@@ -18,6 +18,9 @@ class Restful:
         self.user = username
         self.password = password
         self.verify_ssl = verifySSL
+        self.api_counter = 0
+        self.api_timer = 0
+        self.api_last_resp_time = 0
 
         # set the headers for how we want the response
         self.headers = {'content-type': 'application/json', 'accept':'application/json'}
@@ -31,6 +34,21 @@ class Restful:
     def json_to_str(self, json_obj):
         return str(json.dumps(json_obj, sort_keys=False, indent=2))
 
+    def timer_counter(func):
+        def wrapper(*args, **kwargs):
+            start_time = int(round(time.time() * 1000))
+            result = func(*args, **kwargs)
+            end_time = int(round(time.time() * 1000))
+
+            self.api_counter += 1
+            self.api_timer += (end_time - start_time)
+            self.api_last_resp_time = (end_time - start_time)
+            return result
+        return wrapper
+
+    def api_average_time(self):
+        return self.api_timer / self.api_counter
+
     ################
     ## make the json GET call to the public api
     ################
@@ -38,16 +56,16 @@ class Restful:
 
         try:
             if payload == None:
-                response = requests.get(target_url,
-                                        auth=(self.user, self.password),
-                                        headers=self.headers,
-                                        verify=self.verify_ssl)
+                response = timer_counter(requests.get(target_url,
+                                                      auth=(self.user, self.password),
+                                                      headers=self.headers,
+                                                      verify=self.verify_ssl))
             else: # payload is something
-                response = requests.get(target_url,
-                                        params=json.dumps(payload),
-                                        auth=(self.user, self.password),
-                                        headers=self.headers,
-                                        verify=self.verify_ssl)
+                response = timer_counter(requests.get(target_url,
+                                                      params=json.dumps(payload),
+                                                      auth=(self.user, self.password),
+                                                      headers=self.headers,
+                                                      verify=self.verify_ssl))
 
         except Exception:
             self.log.critical("Can't GET to API server URL:  " + target_url)
@@ -79,11 +97,11 @@ class Restful:
         #make the actual request, specifying the URL, the JSON from above,
         #standard basic auth, the headers and not to verify the SSL cert.
         try:
-            response = requests.post(target_url,
-                                     data=json.dumps(request_object),
-                                     auth=(self.user, self.password),
-                                     headers=self.headers,
-                                     verify=self.verify_ssl)
+            response = timer_counter(requests.post(target_url,
+                                                   data=json.dumps(request_object),
+                                                   auth=(self.user, self.password),
+                                                   headers=self.headers,
+                                                   verify=self.verify_ssl))
 
             #take the raw response text and deserialize it into a python object.
             try:
@@ -112,11 +130,11 @@ class Restful:
         #make the actual request, specifying the URL, the JSON from above,
         #standard basic auth, the headers and not to verify the SSL cert.
         try:
-            response = requests.put(target_url,
-                                    request_json,
-                                    auth=(self.user, self.password),
-                                    headers=self.headers,
-                                    verify=self.verify_ssl)
+            response = timer_counter(requests.put(target_url,
+                                                  request_json,
+                                                  auth=(self.user, self.password),
+                                                  headers=self.headers,
+                                                  verify=self.verify_ssl))
         except Exception:
             self.log.critical("Exception:  Can't PUT to API server URL:  " + target_url)
             self.log.critical(self.json_to_str(request_object))
@@ -144,11 +162,11 @@ class Restful:
         #make the actual request, specifying the URL, the JSON from above,
         #standard basic auth, the headers and not to verify the SSL cert.
         try:
-            response = requests.delete(target_url,
-                                       request_json,
-                                       auth=(self.user, self.password),
-                                       headers=self.headers,
-                                       verify=self.verify_ssl)
+            response = timer_counter(requests.delete(target_url,
+                                                     request_json,
+                                                     auth=(self.user, self.password),
+                                                     headers=self.headers,
+                                                     verify=self.verify_ssl))
         except Exception:
             self.log.critical("Exception:  Can't DELETE to API server URL:  " + target_url)
             self.log.critical(self.json_to_str(request_object))

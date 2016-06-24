@@ -115,7 +115,7 @@ for symmId in slo_array_ids:
 print(vmax_api.rest.json_to_str(slo_array_list))
 
 # log the # of api calls, total elapsed API wait time, and average time for all calls
-log.info(str(vmax_api.api_last_resp_time) + "resp time in ms")
-log.info(str(vmax_api.api_counter) + "API calls in this script")
-log.info(str(vmax_api.api_timer) + "total accumulated ms waiting on API")
-log.info(str(vmax_api.api_average_time()) + "API average response time in ms")
+log.info(str(vmax_api.rest.api_last_resp_time) + "resp time in ms")
+log.info(str(vmax_api.rest.api_counter) + "API calls in this script")
+log.info(str(vmax_api.rest.api_timer) + "total accumulated ms waiting on API")
+log.info(str(vmax_api.rest.api_average_time()) + "API average response time in ms")
