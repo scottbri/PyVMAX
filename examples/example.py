@@ -35,11 +35,11 @@ print(vmax_api.rest.json_to_str(vmax_api.get_version()))
 # Instead of printing debugging to the console, use the logger instead
 # All log messages go to the log file, and anything warning or above
 # also goes to the console... that's why this info worthy log was issued as warning
-log.warning(str(vmax_api.api_last_resp_time) + "ms API response time")
+log.warning(str(vmax_api.rest.api_last_resp_time) + "ms API response time")
 
 # discover the known symmetrix serial #'s
 prov_array_ids = vmax_api.get_prov_arrays()['symmetrixId']
-log.info(str(vmax_api.api_last_resp_time) + "ms API response time")
+log.info(str(vmax_api.rest.api_last_resp_time) + "ms API response time")
 
 # going to build a list of dicts, each one a symmetrix
 prov_array_list = list()
@@ -118,4 +118,4 @@ print(vmax_api.rest.json_to_str(slo_array_list))
 log.info(str(vmax_api.rest.api_last_resp_time) + "resp time in ms")
 log.info(str(vmax_api.rest.api_counter) + "API calls in this script")
 log.info(str(vmax_api.rest.api_timer) + "total accumulated ms waiting on API")
-log.info(str(vmax_api.rest.api_average_time()) + "API average response time in ms")
+log.info(str(vmax_api.rest.api_average_time) + "API average response time in ms")

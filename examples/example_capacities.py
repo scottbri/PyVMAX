@@ -106,6 +106,9 @@ for symm_id in slo_array_ids:
 
     slo_array_list.append(symmetrix)
 
+log.debug("Number of API calls: " + str(vmax_api.rest.api_counter))
+log.debug("Last API call response time: " + str(vmax_api.rest.api_last_resp_time))
+log.debug("Average API call response time: " + str(vmax_api.rest.api_average_time))
 # do something with this great list of symmetrix capacities
 # print it out!! (the json printer is good for lists and dicts too)
 #print(vmax_api.rest.json_to_str(slo_array_list))

@@ -28,6 +28,8 @@ class Restful:
         self.password = password
         self.verify_ssl = verifySSL
         self.api_counter = 0
+        self.api_start_time = 0
+        self.api_end_time = 0
         self.api_timer = 0
         self.api_last_resp_time = 0
 
@@ -50,20 +52,21 @@ class Restful:
         """
         return str(json.dumps(json_obj, sort_keys=False, indent=2))
 
-    def timer_counter(func):
-        def wrapper(*args, **kwargs):
-            start_time = int(round(time.time() * 1000))
-            result = func(*args, **kwargs)
-            end_time = int(round(time.time() * 1000))
+    def timer_start(self):
+        self.api_counter += 1
+        self.api_start_time = int(round(time.time() * 1000))
 
-            self.api_counter += 1
-            self.api_timer += (end_time - start_time)
-            self.api_last_resp_time = (end_time - start_time)
-            return result
-        return wrapper
+    def timer_stop(self):
+        self.api_end_time = int(round(time.time() * 1000))
+        self.api_last_resp_time = (self.api_end_time - self.api_start_time)
+        self.api_timer += self.api_last_resp_time
 
+    @property
     def api_average_time(self):
-        return self.api_timer / self.api_counter
+        if self.api_counter > 0:
+            return self.api_timer / self.api_counter
+        else:
+            return 0
 
     def get(self, target_url, payload=None):
         """ make the REST GET call to the public api
@@ -75,23 +78,26 @@ class Restful:
             dict():  could be empty
         """
 
+        self.timer_start()
         try:
             if payload == None:
-                response = timer_counter(requests.get(target_url,
-                                                      auth=(self.user, self.password),
-                                                      headers=self.headers,
-                                                      verify=self.verify_ssl))
+                response = requests.get(target_url,
+                                        auth=(self.user, self.password),
+                                        headers=self.headers,
+                                        verify=self.verify_ssl)
             else: # payload is something
-                response = timer_counter(requests.get(target_url,
-                                                      params=json.dumps(payload),
-                                                      auth=(self.user, self.password),
-                                                      headers=self.headers,
-                                                      verify=self.verify_ssl))
+                response = requests.get(target_url,
+                                        params=json.dumps(payload),
+                                        auth=(self.user, self.password),
+                                        headers=self.headers,
+                                        verify=self.verify_ssl)
 
         except Exception:
             self.log.critical("Can't GET to API server URL:  " + target_url)
             self.log.critical("Exiting get")
             exit(1)
+
+        self.timer_stop()
 
         #take the raw response text and deserialize it into a python object.
         try:
@@ -122,6 +128,7 @@ class Restful:
 
         #make the actual request, specifying the URL, the JSON from above,
         #standard basic auth, the headers and not to verify the SSL cert.
+        self.timer_start()
         try:
             response = timer_counter(requests.post(target_url,
                                                    data=json.dumps(request_object),
@@ -135,6 +142,7 @@ class Restful:
             except Exception:
                 self.log.warning("API POST did not return JSON response")
                 self.log.warning(response.text)
+                self.timer_stop()
                 return dict()
         except Exception:
             self.log.critical("Exception:  Can't POST to API server URL:  " + target_url)
@@ -142,6 +150,7 @@ class Restful:
             self.log.critical("Exiting POST")
             exit(1)
 
+        self.timer_stop()
         return response_object
 
 
@@ -160,6 +169,7 @@ class Restful:
 
         #make the actual request, specifying the URL, the JSON from above,
         #standard basic auth, the headers and not to verify the SSL cert.
+        self.timer_start()
         try:
             response = timer_counter(requests.put(target_url,
                                                   request_json,
@@ -171,6 +181,7 @@ class Restful:
             self.log.critical(self.json_to_str(request_object))
             self.log.critical("Exiting PUT")
             exit(1)
+        self.timer_stop()
 
         #take the raw response text and deserialize it into a python object.
         try:
@@ -197,6 +208,7 @@ class Restful:
 
         #make the actual request, specifying the URL, the JSON from above,
         #standard basic auth, the headers and not to verify the SSL cert.
+        self.timer_start()
         try:
             response = timer_counter(requests.delete(target_url,
                                                      request_json,
@@ -209,6 +221,7 @@ class Restful:
             self.log.critical("Exiting DELETE")
             exit(1)
 
+        self.timer_stop()
         #take the raw response text and deserialize it into a python object.
         try:
             response = json.loads(response.text)
